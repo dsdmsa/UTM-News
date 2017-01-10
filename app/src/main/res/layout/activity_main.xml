@@ -9,7 +9,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="dsdmsa.utm_news.MainActivity">
+    tools:context="dsdmsa.utm_news.activityes.MainActivity">
 
     <TextView
         android:layout_width="wrap_content"
