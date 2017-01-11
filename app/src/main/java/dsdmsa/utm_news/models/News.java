@@ -2,10 +2,10 @@ package dsdmsa.utm_news.models;
 
 
 public class News {
-    String name;
-    double id;
-    String url;
-    String thumbnailUrl;
-    String description;
-    double date;
+    String newsName;        // self explanatory...
+    double newsId;          // self explanatory...
+    String newsUrl;         // url of complete news html
+    String thumbnailUrl;    // url of thumbnail image of the news
+    String description;     // short description of the news
+    double date;            // creation/publication date
 }

@@ -4,7 +4,7 @@ package dsdmsa.utm_news.utils;
 import android.content.Context;
 import android.content.Intent;
 
-import dsdmsa.utm_news.activityes.MainActivity;
+import dsdmsa.utm_news.activityes.main.MainActivity;
 
 public class Navigator {
     private Context mContext;
