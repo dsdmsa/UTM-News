@@ -9,6 +9,7 @@ import dagger.Module;
 import dagger.Provides;
 import dsdmsa.utm_news.This;
 import dsdmsa.utm_news.utils.Navigator;
+import dsdmsa.utm_news.utils.SharedPrefs;
 
 @Module
 public class AppModule {
@@ -27,5 +28,10 @@ public class AppModule {
     @Singleton
     Navigator privideNavigator(Context context){
         return new Navigator(context);
+    }
+
+    @Provides
+    SharedPrefs provideSharedPrefs(Context context){
+        return new SharedPrefs(context);
     }
 }
