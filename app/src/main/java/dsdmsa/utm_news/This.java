@@ -19,7 +19,7 @@ public class This extends Application {
     public void onCreate() {
         super.onCreate();
         appComponent = DaggerAppComponent.builder().appModule(new AppModule(this)).build();
-        networkComponent = DaggerNetworkComponent.builder().networkModule(new NetworkModule("asds")).build();
+        networkComponent = DaggerNetworkComponent.builder().networkModule(new NetworkModule("https://http://utm.md/")).build();
 
     }
 }
