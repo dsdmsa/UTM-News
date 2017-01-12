@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import dsdmsa.utm_news.models.Category;
 import dsdmsa.utm_news.models.News;
 import dsdmsa.utm_news.network.OnDataLoaded;
 import dsdmsa.utm_news.network.services.UtmServices;
@@ -22,6 +23,7 @@ public class UtmController {
     }
 
     public void getNews(OnDataLoaded<List<News>> dataLoaded){
+        dataLoaded.onError("error");
 //        services.getNews().enqueue(new Callback<List<News>>() {
 //            @Override
 //            public void onResponse(Call<List<News>> call, Response<List<News>> response) {
@@ -35,4 +37,7 @@ public class UtmController {
 //        });
     }
 
+    public void getCategories(OnDataLoaded<List<Category>> dataLoaded) {
+        dataLoaded.onError("error");
+    }
 }

@@ -5,6 +5,7 @@ import javax.inject.Singleton;
 
 import dagger.Component;
 import dsdmsa.utm_news.fragments.LatestNewsFragment;
+import dsdmsa.utm_news.fragments.presenter.CategoryPresenter;
 import dsdmsa.utm_news.fragments.presenter.NewsPresenter;
 import dsdmsa.utm_news.injection.modules.NetworkModule;
 import dsdmsa.utm_news.network.controlers.UtmController;
@@ -17,4 +18,6 @@ public interface NetworkComponent {
     void inject(UtmController __);
 
     void inject(NewsPresenter __);
+
+    void inject(CategoryPresenter __);
 }
