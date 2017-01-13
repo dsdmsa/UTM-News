@@ -41,7 +41,39 @@
 
         </android.support.design.widget.CoordinatorLayout>
 
-        <dsdmsa.utm_news.views.navigator.HomeWidget
+        <!--<dsdmsa.utm_news.views.navigator.HomeWidget-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="40dp"-->
+            <!--android:layout_margin="10dp"/>-->
+
+        <dsdmsa.utm_news.views.navigator.SearchWidget
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_margin="10dp"/>
+
+
+        <dsdmsa.utm_news.views.navigator.CategoryWidget
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_margin="10dp"/>
+
+        <dsdmsa.utm_news.views.navigator.CollectionsBookmarkWidget
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_margin="10dp"/>
+
+        <dsdmsa.utm_news.views.navigator.SettingsWidget
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_margin="10dp"/>
+
+        <dsdmsa.utm_news.views.navigator.FeedbackWidget
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_margin="10dp"/>
+
+
+        <dsdmsa.utm_news.views.navigator.AboutWidget
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_margin="10dp"/>

@@ -1,7 +1,8 @@
-package dsdmsa.utm_news.activityes;
+package dsdmsa.utm_news.activityes.search;
 
 
 import dsdmsa.utm_news.R;
+import dsdmsa.utm_news.activityes.BaseActivity;
 
 public class SearchActivity extends BaseActivity {
     @Override

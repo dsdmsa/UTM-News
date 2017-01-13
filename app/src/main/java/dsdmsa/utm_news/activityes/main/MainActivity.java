@@ -41,7 +41,7 @@ public class MainActivity extends BaseActivity {
     @BindView(R.id.activity_main)
     DrawerLayout drawerLayout;
 
-    private MainViewPagerAdapter pagerAdapter;
+    private MainViewPagerAdapter mMainViewPagerAdapter;
     private ActionBarDrawerToggle mDrawerToggle;
 
 
@@ -65,13 +65,13 @@ public class MainActivity extends BaseActivity {
         mDrawerToggle.syncState();
         toolbarTitle.setText("Main Activity");
         toolbarTitle.setTextSize(30f);
-        pagerAdapter = new MainViewPagerAdapter(getSupportFragmentManager(), this);
-        viewPager.setAdapter(pagerAdapter);
+        mMainViewPagerAdapter = new MainViewPagerAdapter(getSupportFragmentManager(), this);
+        viewPager.setAdapter(mMainViewPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
         searchImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                navigator.openSearchActivity();
+                navigator.startSearchActivity();
             }
         });
     }

@@ -19,7 +19,8 @@
         </activity>
         <activity android:name=".activityes.main.MainActivity"/>
         <activity android:name=".activityes.categories.CategoriesActivity"/>
-        <activity android:name=".activityes.SearchActivity"/>
+        <activity android:name=".activityes.search.SearchActivity"/>
+        <activity android:name=".activityes.about.AboutActivity"/>
     </application>
 
 </manifest>
