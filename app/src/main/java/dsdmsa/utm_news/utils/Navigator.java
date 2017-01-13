@@ -4,25 +4,33 @@ package dsdmsa.utm_news.utils;
 import android.content.Context;
 import android.content.Intent;
 
+import dsdmsa.utm_news.activityes.SearchActivity;
 import dsdmsa.utm_news.activityes.categories.CategoriesActivity;
 import dsdmsa.utm_news.activityes.main.MainActivity;
 
 public class Navigator {
     private Context mContext;
 
+    private Intent getIntent(Class aClass) {
+        Intent intent = new Intent(mContext, aClass);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        return intent;
+    }
+
     public Navigator(Context context) {
         mContext = context;
     }
 
     public void startMainActivity() {
-        Intent intent = new Intent(mContext, MainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        mContext.startActivity(intent);
+        mContext.startActivity(getIntent(MainActivity.class));
     }
 
     public void startCategoryActivity() {
-        Intent intent = new Intent(mContext, CategoriesActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        mContext.startActivity(intent);
+        mContext.startActivity(getIntent(CategoriesActivity.class));
     }
+
+    public void openSearchActivity() {
+        mContext.startActivity(getIntent(SearchActivity.class));
+    }
+
 }

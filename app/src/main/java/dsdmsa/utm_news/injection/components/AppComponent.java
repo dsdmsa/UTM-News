@@ -4,6 +4,7 @@ import javax.inject.Singleton;
 
 import dagger.Component;
 import dsdmsa.utm_news.activityes.SplashScreenActivity;
+import dsdmsa.utm_news.activityes.main.MainActivity;
 import dsdmsa.utm_news.injection.modules.AppModule;
 import dsdmsa.utm_news.views.navigator.HomeWidget;
 
@@ -11,6 +12,8 @@ import dsdmsa.utm_news.views.navigator.HomeWidget;
 @Component(modules = {AppModule.class})
 public interface AppComponent {
     void inject(SplashScreenActivity __);
+
+    void inject(MainActivity __);
 
     void inject(HomeWidget __);
 }

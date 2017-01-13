@@ -11,15 +11,22 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import dsdmsa.utm_news.R;
 import dsdmsa.utm_news.activityes.BaseActivity;
+import dsdmsa.utm_news.utils.Navigator;
 import dsdmsa.utm_news.views.adapters.MainViewPagerAdapter;
 
+import static dsdmsa.utm_news.This.appComponent;
+
 public class MainActivity extends BaseActivity {
+
+    @Inject
+    Navigator navigator;
 
     @BindView(R.id.toolbar_title)
     TextView toolbarTitle;
@@ -47,6 +54,7 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
+        appComponent.inject(this);
         setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(R.mipmap.ic_launcher);
         mDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.hello_world, R.string.hello_world2);
@@ -63,7 +71,7 @@ public class MainActivity extends BaseActivity {
         searchImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(MainActivity.this, "search", Toast.LENGTH_SHORT).show();
+                navigator.openSearchActivity();
             }
         });
     }
@@ -78,6 +86,14 @@ public class MainActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onBackPressed() {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
 }
 
 
