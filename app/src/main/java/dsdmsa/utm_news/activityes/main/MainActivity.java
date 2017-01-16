@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import javax.inject.Inject;
 
@@ -43,6 +44,7 @@ public class MainActivity extends BaseActivity {
 
     private MainViewPagerAdapter mMainViewPagerAdapter;
     private ActionBarDrawerToggle mDrawerToggle;
+    private long back_pressed = 0;
 
 
     @Override
@@ -91,7 +93,12 @@ public class MainActivity extends BaseActivity {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            if (back_pressed + 2000 > System.currentTimeMillis()) {
+                super.onBackPressed();
+            } else {
+                Toast.makeText(getBaseContext(), "Press once again to exit!", Toast.LENGTH_SHORT).show();
+                back_pressed = System.currentTimeMillis();
+            }
         }
     }
 }

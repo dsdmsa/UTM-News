@@ -23,10 +23,8 @@ import static dsdmsa.utm_news.This.appComponent;
 
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
-
     @Inject
     Navigator navigator;
-
     private Context mContext;
     private List<News> newsList = new ArrayList<>();
 
