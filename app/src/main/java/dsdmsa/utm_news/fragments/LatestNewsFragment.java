@@ -48,7 +48,8 @@ public class LatestNewsFragment extends BaseFragment implements NewsView,SwipeRe
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, rootView);
         presenter = new NewsPresenter(this);
-        newsAdapter = new NewsAdapter();
+        newsAdapter = new NewsAdapter(getContext());
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(newsAdapter);
         recyclerView.setOnScrollListener(new EndlessRecyclerOnScrollListener(new LinearLayoutManager
                 (LatestNewsFragment.this.getContext())) {

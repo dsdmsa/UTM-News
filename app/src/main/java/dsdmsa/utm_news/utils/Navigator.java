@@ -8,7 +8,9 @@ import dsdmsa.utm_news.activityes.PreferenceActivity;
 import dsdmsa.utm_news.activityes.about.AboutActivity;
 import dsdmsa.utm_news.activityes.categories.CategoriesActivity;
 import dsdmsa.utm_news.activityes.main.MainActivity;
+import dsdmsa.utm_news.activityes.news.NewsActivity;
 import dsdmsa.utm_news.activityes.search.SearchActivity;
+import dsdmsa.utm_news.models.News;
 
 import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 
@@ -58,5 +60,10 @@ public class Navigator {
         Intent mailer = Intent.createChooser(intent, null);
         mailer.addFlags(FLAG_ACTIVITY_NEW_TASK);
         mContext.startActivity(mailer);
+    }
+
+    public void startNewsActivity(News news) {
+        // TODO: 1/16/17 open specific intent
+        mContext.startActivity(getIntent(NewsActivity.class));
     }
 }

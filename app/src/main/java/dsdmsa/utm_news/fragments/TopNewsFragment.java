@@ -4,6 +4,7 @@ package dsdmsa.utm_news.fragments;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Toast;
@@ -41,7 +42,8 @@ public class TopNewsFragment extends BaseFragment  implements NewsView,SwipeRefr
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, rootView);
         presenter = new NewsPresenter(this);
-        newsAdapter = new NewsAdapter();
+        newsAdapter = new NewsAdapter(getContext());
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(newsAdapter);
         presenter.getNews();
         refreshLayout.setOnRefreshListener(this);
