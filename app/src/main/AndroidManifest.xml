@@ -22,6 +22,8 @@
         <activity android:name=".activityes.search.SearchActivity"/>
         <activity android:name=".activityes.about.AboutActivity"/>
         <activity android:name=".activityes.PreferenceActivity"/>
+        <activity android:name=".activityes.news.NewsListActivity"/>
+        <activity android:name=".activityes.news.NewsActivity"/>
     </application>
 
 </manifest>

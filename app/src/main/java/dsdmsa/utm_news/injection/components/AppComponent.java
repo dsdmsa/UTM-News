@@ -6,6 +6,7 @@ import dagger.Component;
 import dsdmsa.utm_news.activityes.SplashScreenActivity;
 import dsdmsa.utm_news.activityes.main.MainActivity;
 import dsdmsa.utm_news.injection.modules.AppModule;
+import dsdmsa.utm_news.views.adapters.NewsAdapter;
 import dsdmsa.utm_news.views.navigator.AboutWidget;
 import dsdmsa.utm_news.views.navigator.CategoryWidget;
 import dsdmsa.utm_news.views.navigator.CollectionsBookmarkWidget;
@@ -34,4 +35,6 @@ public interface AppComponent {
     void inject(SettingsWidget __);
 
     void inject(FeedbackWidget __);
+
+    void inject(NewsAdapter __);
 }
