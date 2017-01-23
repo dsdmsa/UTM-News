@@ -67,6 +67,7 @@ public class MainActivity extends BaseActivity {
         mDrawerToggle.syncState();
         toolbarTitle.setText("Main Activity");
         toolbarTitle.setTextSize(30f);
+
         mMainViewPagerAdapter = new MainViewPagerAdapter(getSupportFragmentManager(), this);
         viewPager.setAdapter(mMainViewPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);

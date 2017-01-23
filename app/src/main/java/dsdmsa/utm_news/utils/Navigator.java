@@ -4,7 +4,7 @@ package dsdmsa.utm_news.utils;
 import android.content.Context;
 import android.content.Intent;
 
-import dsdmsa.utm_news.activityes.PreferenceActivity;
+import dsdmsa.utm_news.activityes.PrefActivity;
 import dsdmsa.utm_news.activityes.about.AboutActivity;
 import dsdmsa.utm_news.activityes.categories.CategoriesActivity;
 import dsdmsa.utm_news.activityes.main.MainActivity;
@@ -48,7 +48,7 @@ public class Navigator {
     }
 
     public void startSettings() {
-        mContext.startActivity(getIntent(PreferenceActivity.class));
+        mContext.startActivity(getIntent(PrefActivity.class));
     }
 
     public void startFeedBack() {
