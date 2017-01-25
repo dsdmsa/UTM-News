@@ -8,6 +8,7 @@ import dsdmsa.utm_news.activityes.main.MainActivity;
 import dsdmsa.utm_news.injection.modules.AppModule;
 import dsdmsa.utm_news.views.adapters.NewsAdapter;
 import dsdmsa.utm_news.views.navigator.AboutWidget;
+import dsdmsa.utm_news.views.navigator.BaseWidget;
 import dsdmsa.utm_news.views.navigator.CategoryWidget;
 import dsdmsa.utm_news.views.navigator.CollectionsBookmarkWidget;
 import dsdmsa.utm_news.views.navigator.FeedbackWidget;
@@ -37,4 +38,6 @@ public interface AppComponent {
     void inject(FeedbackWidget __);
 
     void inject(NewsAdapter __);
+
+    void inject(BaseWidget __);
 }
