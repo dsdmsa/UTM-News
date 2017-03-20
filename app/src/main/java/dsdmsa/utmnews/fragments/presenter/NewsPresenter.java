@@ -5,7 +5,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import dsdmsa.utmnews.models.News;
+import dsdmsa.utmnews.models.Post;
 import dsdmsa.utmnews.network.OnDataLoaded;
 import dsdmsa.utmnews.network.controlers.UtmController;
 import dsdmsa.utmnews.views.NewsView;
@@ -19,9 +19,9 @@ public class NewsPresenter implements GetNewsPresenter {
 
     private NewsView view;
 
-    private OnDataLoaded<List<News>> getNews = new OnDataLoaded<List<News>>() {
+    private OnDataLoaded<List<Post>> getNews = new OnDataLoaded<List<Post>>() {
         @Override
-        public void onDatatLoaddedSuccesfull(List<News> response) {
+        public void onDatatLoaddedSuccesfull(List<Post> response) {
             view.hideProgressDialog();
             view.showNews(response);
         }
@@ -33,9 +33,9 @@ public class NewsPresenter implements GetNewsPresenter {
         }
     };
 
-    private OnDataLoaded<List<News>> addNews = new OnDataLoaded<List<News>>() {
+    private OnDataLoaded<List<Post>> addNews = new OnDataLoaded<List<Post>>() {
         @Override
-        public void onDatatLoaddedSuccesfull(List<News> response) {
+        public void onDatatLoaddedSuccesfull(List<Post> response) {
             view.hideProgressDialog();
             view.addNewses(response);
         }

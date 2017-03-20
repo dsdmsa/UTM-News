@@ -18,8 +18,8 @@ public class This extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        appComponent = DaggerAppComponent.builder().appModule(new AppModule(this)).build();
-        networkComponent = DaggerNetworkComponent.builder().networkModule(new NetworkModule("https://http://utm.md/")).build();
+        appComponent = DaggerAppComponent.builder().appModule(new AppModule(this)).build();//http://utm.md/wp-json/wp/v2/posts
+        networkComponent = DaggerNetworkComponent.builder().networkModule(new NetworkModule("http://utm.md/")).build();
 
     }
 }

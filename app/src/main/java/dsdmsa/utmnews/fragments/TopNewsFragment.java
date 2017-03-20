@@ -16,7 +16,7 @@ import butterknife.ButterKnife;
 import dsdmsa.utmnews.R;
 import dsdmsa.utmnews.fragments.presenter.GetNewsPresenter;
 import dsdmsa.utmnews.fragments.presenter.NewsPresenter;
-import dsdmsa.utmnews.models.News;
+import dsdmsa.utmnews.models.Post;
 import dsdmsa.utmnews.views.NewsView;
 import dsdmsa.utmnews.views.adapters.NewsAdapter;
 
@@ -59,15 +59,15 @@ public class TopNewsFragment extends BaseFragment  implements NewsView,SwipeRefr
         presenter.getNews();
     }
 
-    @Override
-    public void showNews(List<News> newses) {
-        newsAdapter.setNewses(newses);
-    }
-
-    @Override
-    public void addNewses(List<News> newses) {
-
-    }
+//    @Override
+//    public void showNews(List<News> newses) {
+//        newsAdapter.setNewses(newses);
+//    }
+//
+//    @Override
+//    public void addNewses(List<News> newses) {
+//
+//    }
 
     @Override
     public void showPregressDialog() {
@@ -82,5 +82,15 @@ public class TopNewsFragment extends BaseFragment  implements NewsView,SwipeRefr
     @Override
     public void showErrorMessage(String errorMsg) {
         Toast.makeText(this.getContext(), errorMsg, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showNews(List<Post> newses) {
+        newsAdapter.addNewses(newses);
+    }
+
+    @Override
+    public void addNewses(List<Post> newses) {
+
     }
 }

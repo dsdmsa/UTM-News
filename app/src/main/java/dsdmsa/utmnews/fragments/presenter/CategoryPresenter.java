@@ -1,12 +1,8 @@
 package dsdmsa.utmnews.fragments.presenter;
 
 
-import java.util.List;
-
 import javax.inject.Inject;
 
-import dsdmsa.utmnews.models.Category;
-import dsdmsa.utmnews.network.OnDataLoaded;
 import dsdmsa.utmnews.network.controlers.UtmController;
 import dsdmsa.utmnews.views.CategoryView;
 
@@ -18,19 +14,19 @@ public class CategoryPresenter implements GetCategoryPresenter {
     UtmController controller;
 
     private CategoryView view;
-    private OnDataLoaded<List<Category>> onDataArrived = new OnDataLoaded<List<Category>>() {
-        @Override
-        public void onDatatLoaddedSuccesfull(List<Category> response) {
-            view.showCategories(response);
-            view.hideProgressDialog();
-        }
-
-        @Override
-        public void onError(String errorMsg) {
-            view.showErrorMessage(errorMsg);
-            view.hideProgressDialog();
-        }
-    };
+//    private OnDataLoaded<List<Category>> onDataArrived = new OnDataLoaded<List<Category>>() {
+//        @Override
+//        public void onDatatLoaddedSuccesfull(List<Category> response) {
+//            view.showCategories(response);
+//            view.hideProgressDialog();
+//        }
+//
+//        @Override
+//        public void onError(String errorMsg) {
+//            view.showErrorMessage(errorMsg);
+//            view.hideProgressDialog();
+//        }
+//    };
 
     public CategoryPresenter(CategoryView view) {
         this.view = view;
@@ -40,6 +36,6 @@ public class CategoryPresenter implements GetCategoryPresenter {
     @Override
     public void getcategorys() {
         view.showPregressDialog();
-        controller.getCategories(onDataArrived);
+//        controller.getCategories(onDataArrived);
     }
 }

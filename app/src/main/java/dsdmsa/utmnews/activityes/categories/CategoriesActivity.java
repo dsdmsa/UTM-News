@@ -7,15 +7,12 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
 
-import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import dsdmsa.utmnews.R;
 import dsdmsa.utmnews.activityes.BaseActivity;
 import dsdmsa.utmnews.fragments.presenter.CategoryPresenter;
 import dsdmsa.utmnews.fragments.presenter.GetCategoryPresenter;
-import dsdmsa.utmnews.models.Category;
 import dsdmsa.utmnews.views.CategoryView;
 
 public class CategoriesActivity extends BaseActivity implements CategoryView,SwipeRefreshLayout.OnRefreshListener {
@@ -62,8 +59,8 @@ public class CategoriesActivity extends BaseActivity implements CategoryView,Swi
         Toast.makeText(this, errorMsg, Toast.LENGTH_SHORT).show();
     }
 
-    @Override
-    public void showCategories(List<Category> categories) {
-
-    }
+//    @Override
+//    public void showCategories(List<Category> categories) {
+//
+//    }
 }

@@ -15,7 +15,7 @@ import dsdmsa.utmnews.R;
 import dsdmsa.utmnews.activityes.BaseActivity;
 import dsdmsa.utmnews.fragments.presenter.GetNewsPresenter;
 import dsdmsa.utmnews.fragments.presenter.NewsPresenter;
-import dsdmsa.utmnews.models.News;
+import dsdmsa.utmnews.models.Post;
 import dsdmsa.utmnews.views.NewsView;
 
 public class NewsListActivity extends BaseActivity implements NewsView,SwipeRefreshLayout.OnRefreshListener {
@@ -43,12 +43,12 @@ public class NewsListActivity extends BaseActivity implements NewsView,SwipeRefr
     }
 
     @Override
-    public void showNews(List<News> newses) {
+    public void showNews(List<Post> newses) {
 
     }
 
     @Override
-    public void addNewses(List<News> newses) {
+    public void addNewses(List<Post> newses) {
 
     }
 

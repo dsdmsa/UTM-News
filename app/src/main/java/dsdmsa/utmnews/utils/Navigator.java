@@ -10,7 +10,7 @@ import dsdmsa.utmnews.activityes.categories.CategoriesActivity;
 import dsdmsa.utmnews.activityes.main.MainActivity;
 import dsdmsa.utmnews.activityes.news.NewsActivity;
 import dsdmsa.utmnews.activityes.search.SearchActivity;
-import dsdmsa.utmnews.models.News;
+import dsdmsa.utmnews.models.Post;
 
 import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 
@@ -57,14 +57,15 @@ public class Navigator {
         intent.addFlags(FLAG_ACTIVITY_NEW_TASK);
         intent.setType("text/plain");
         intent.putExtra(Intent.EXTRA_SUBJECT, "utm-news feedback");
-        intent.putExtra(android.content.Intent.EXTRA_EMAIL,new String[] { "urmanschi.mihail@ati.utm.md" });
+        intent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{"urmanschi.mihail@ati.utm.md"});
         Intent mailer = Intent.createChooser(intent, null);
         mailer.addFlags(FLAG_ACTIVITY_NEW_TASK);
         mContext.startActivity(mailer);
     }
 
-    public void startNewsActivity(News news) {
-        // TODO: 1/16/17 open specific intent
-        mContext.startActivity(getIntent(NewsActivity.class));
+    public void startNewsActivity(Post post) {
+        Intent intent = getIntent(NewsActivity.class);
+        intent.putExtra("POST", post.getContent().rendered );
+        mContext.startActivity(intent);
     }
 }

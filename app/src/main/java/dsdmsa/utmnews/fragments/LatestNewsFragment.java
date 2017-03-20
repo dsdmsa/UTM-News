@@ -16,12 +16,12 @@ import butterknife.ButterKnife;
 import dsdmsa.utmnews.R;
 import dsdmsa.utmnews.fragments.presenter.GetNewsPresenter;
 import dsdmsa.utmnews.fragments.presenter.NewsPresenter;
-import dsdmsa.utmnews.models.News;
+import dsdmsa.utmnews.models.Post;
 import dsdmsa.utmnews.views.NewsView;
 import dsdmsa.utmnews.views.adapters.EndlessRecyclerOnScrollListener;
 import dsdmsa.utmnews.views.adapters.NewsAdapter;
 
-public class LatestNewsFragment extends BaseFragment implements NewsView,SwipeRefreshLayout.OnRefreshListener {
+public class LatestNewsFragment extends BaseFragment implements NewsView, SwipeRefreshLayout.OnRefreshListener {
 
     @BindView(R.id.recycle_view)
     RecyclerView recyclerView;
@@ -63,12 +63,12 @@ public class LatestNewsFragment extends BaseFragment implements NewsView,SwipeRe
     }
 
     @Override
-    public void showNews(List<News> newses) {
+    public void showNews(List<Post> newses) {
         newsAdapter.setNewses(newses);
     }
 
     @Override
-    public void addNewses(List<News> newses) {
+    public void addNewses(List<Post> newses) {
         newsAdapter.addNewses(newses);
     }
 

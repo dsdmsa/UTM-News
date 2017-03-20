@@ -5,10 +5,12 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import dsdmsa.utmnews.models.Category;
-import dsdmsa.utmnews.models.News;
+import dsdmsa.utmnews.models.Post;
 import dsdmsa.utmnews.network.OnDataLoaded;
 import dsdmsa.utmnews.network.services.UtmServices;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import static dsdmsa.utmnews.This.networkComponent;
 
@@ -22,22 +24,17 @@ public class UtmController {
         networkComponent.inject(this);
     }
 
-    public void getNews(OnDataLoaded<List<News>> dataLoaded){
-        dataLoaded.onError("error");
-//        services.getNews().enqueue(new Callback<List<News>>() {
-//            @Override
-//            public void onResponse(Call<List<News>> call, Response<List<News>> response) {
-//
-//            }
-//
-//            @Override
-//            public void onFailure(Call<List<News>> call, Throwable t) {
-//
-//            }
-//        });
-    }
+    public void getNews(final OnDataLoaded<List<Post>> dataLoaded){
+        services.getPosts().enqueue(new Callback<List<Post>>() {
+            @Override
+            public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
+                dataLoaded.onDatatLoaddedSuccesfull(response.body());
+            }
 
-    public void getCategories(OnDataLoaded<List<Category>> dataLoaded) {
-        dataLoaded.onError("error");
+            @Override
+            public void onFailure(Call<List<Post>> call, Throwable t) {
+                dataLoaded.onError(t.getMessage());
+            }
+        });
     }
 }
