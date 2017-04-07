@@ -82,6 +82,8 @@ dependencies {
 
     compile 'me.zhanghai.android.customtabshelper:library:1.0.3'
 
+    compile 'com.yayandroid:ParallaxRecyclerView:1.1'
+
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })

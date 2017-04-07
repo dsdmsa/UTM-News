@@ -5,9 +5,10 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Toast;
+
+import com.yayandroid.parallaxrecyclerview.ParallaxRecyclerView;
 
 import java.util.List;
 
@@ -24,7 +25,7 @@ import dsdmsa.utmnews.views.adapters.NewsAdapter;
 public class LatestNewsFragment extends BaseFragment implements NewsView, SwipeRefreshLayout.OnRefreshListener {
 
     @BindView(R.id.recycle_view)
-    RecyclerView recyclerView;
+    ParallaxRecyclerView recyclerView;
     @BindView(R.id.swipe_refresh)
     SwipeRefreshLayout refreshLayout;
 

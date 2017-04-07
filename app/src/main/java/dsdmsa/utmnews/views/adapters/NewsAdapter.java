@@ -8,7 +8,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.yayandroid.parallaxrecyclerview.ParallaxViewHolder;
+
 import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,8 +57,14 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-//        Glide.with(mContext).load("http://utm.md/wp-content/uploads/2017/01/VBostan_Omul-anului-2016.jpg").into
-//                (holder.thumbnail);
+
+        Document document = Jsoup.parse(newsList.get(position).getContent().rendered);
+        Element image = document.select("img").first();
+        String url = "http://utm.md/wp-content/uploads/2016/08/utm2.png";
+        if (image != null) {
+            url = image.absUrl("src");
+        }
+        Glide.with(mContext).load(url).centerCrop().into(holder.getBackgroundImage());
         holder.title.setText(newsList.get(position).getTitle().rendered);
         String description;
 
@@ -64,6 +75,9 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
             description = text;
         }
         holder.description.setText(description);
+
+        holder.getBackgroundImage().reuse();
+
     }
 
     @Override
@@ -71,14 +85,14 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         return newsList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends ParallaxViewHolder {
         ImageView thumbnail;
         TextView title;
         TextView description;
 
-        public ViewHolder(View itemView) {
+        ViewHolder(View itemView) {
             super(itemView);
-//            thumbnail = (ImageView) itemView.findViewById(R.id.news_thombnail);
+            thumbnail = (ImageView) itemView.findViewById(R.id.news_thombnail);
             title = (TextView) itemView.findViewById(R.id.name_time);
             description = (TextView) itemView.findViewById(R.id.description);
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -87,6 +101,11 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
                     navigator.startNewsActivity(newsList.get(getAdapterPosition()));
                 }
             });
+        }
+
+        @Override
+        public int getParallaxImageId() {
+            return R.id.news_thombnail;
         }
     }
 
