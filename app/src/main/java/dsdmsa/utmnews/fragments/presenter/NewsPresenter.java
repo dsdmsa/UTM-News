@@ -11,6 +11,8 @@ import dsdmsa.utmnews.network.controlers.UtmController;
 import dsdmsa.utmnews.views.NewsView;
 
 import static dsdmsa.utmnews.This.networkComponent;
+import static dsdmsa.utmnews.utils.Constants.INITIAL_PAGE;
+import static dsdmsa.utmnews.utils.Constants.PAGE_ITEMS;
 
 public class NewsPresenter implements GetNewsPresenter {
 
@@ -56,12 +58,12 @@ public class NewsPresenter implements GetNewsPresenter {
     @Override
     public void getNews() {
         view.showPregressDialog();
-        controller.getNews(getNews);
+        controller.getNews(INITIAL_PAGE, PAGE_ITEMS, getNews);
     }
 
     @Override
     public void loarMoreNews(int page) {
         view.showPregressDialog();
-        controller.getNews(addNews);
+        controller.getNews(page, PAGE_ITEMS, addNews);
     }
 }

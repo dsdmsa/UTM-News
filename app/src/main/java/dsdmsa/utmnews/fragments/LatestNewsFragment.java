@@ -30,6 +30,7 @@ public class LatestNewsFragment extends BaseFragment implements NewsView, SwipeR
 
     private NewsAdapter newsAdapter;
     private GetNewsPresenter presenter;
+    private LinearLayoutManager layoutManager;
 
     public static LatestNewsFragment newInstance() {
         Bundle args = new Bundle();
@@ -47,17 +48,20 @@ public class LatestNewsFragment extends BaseFragment implements NewsView, SwipeR
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, rootView);
+        layoutManager = new LinearLayoutManager(getContext());
+
         presenter = new NewsPresenter(this);
         newsAdapter = new NewsAdapter(getContext());
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(newsAdapter);
-        recyclerView.setOnScrollListener(new EndlessRecyclerOnScrollListener(new LinearLayoutManager
-                (LatestNewsFragment.this.getContext())) {
+
+        recyclerView.addOnScrollListener(new EndlessRecyclerOnScrollListener(layoutManager) {
             @Override
             public void onLoadMore(int currentPage) {
                 presenter.loarMoreNews(currentPage);
             }
         });
+
         presenter.getNews();
         refreshLayout.setOnRefreshListener(this);
     }

@@ -24,8 +24,8 @@ public class UtmController {
         networkComponent.inject(this);
     }
 
-    public void getNews(final OnDataLoaded<List<Post>> dataLoaded){
-        services.getPosts().enqueue(new Callback<List<Post>>() {
+    public void getNews(int page, int pageItems, final OnDataLoaded<List<Post>> dataLoaded) {
+        services.getPosts(pageItems, page).enqueue(new Callback<List<Post>>() {
             @Override
             public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
                 dataLoaded.onDatatLoaddedSuccesfull(response.body());

@@ -1,8 +1,6 @@
 package dsdmsa.utmnews.models;
 
 public class Content {
-
-public String rendered;
-public Boolean _protected;
-
+    public String rendered;
+    public Boolean _protected;
 }

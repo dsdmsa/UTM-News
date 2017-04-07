@@ -1,17 +1,23 @@
+import java.text.SimpleDateFormat
+
 apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'android-apt'
 apply plugin: 'com.neenbedankt.android-apt'
 
+def final DEV = "dsdmsa.utm_news.dev"
+def final PROD = "dsdmsa.utm_news.prod"
+def final VERSION_NAME = "v0.0.1.${buildTime()}"
+
 android {
     compileSdkVersion 25
-    buildToolsVersion "25.0.1"
+    buildToolsVersion "25.0.2"
     defaultConfig {
         applicationId "dsdmsa.utm_news"
-        minSdkVersion 14
+        minSdkVersion 15
         targetSdkVersion 25
         versionCode 1
-        versionName "1.0"
+        versionName VERSION_NAME
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
@@ -22,10 +28,25 @@ android {
         }
     }
 
+//    productFlavors {
+//        dev {
+//            applicationId DEV
+//            signingConfig signingConfigs.debug
+//            versionName "dev.$VERSION_NAME"
+//        }
+//
+//        prod {
+//            applicationId PROD
+//            versionName "prod.$VERSION_NAME"
+//            signingConfig signingConfigs.debug
+//        }
+//
+//    }
+
 
 }
 
-ext.supportLibVersion = '25.1.0'
+ext.supportLibVersion = "25.3.1"
 ext.retrofitVersion = '2.1.0'
 ext.okHttpVersion = '3.5.0'
 ext.daggerVersion = '2.8'
@@ -59,8 +80,16 @@ dependencies {
     compile 'com.github.bumptech.glide:glide:3.7.0'
     compile 'org.jsoup:jsoup:1.10.2'
 
+    compile 'me.zhanghai.android.customtabshelper:library:1.0.3'
+
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     testCompile 'junit:junit:4.12'
+}
+
+def buildTime() {
+    def df = new SimpleDateFormat("yyyyMMdd")
+    df.setTimeZone(TimeZone.getTimeZone("GMT"))
+    return df.format(new Date())
 }
