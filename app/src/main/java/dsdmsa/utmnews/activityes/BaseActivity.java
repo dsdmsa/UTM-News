@@ -3,11 +3,13 @@ package dsdmsa.utmnews.activityes;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 
+import com.arellomobile.mvp.MvpAppCompatActivity;
+
+import butterknife.ButterKnife;
 import dsdmsa.utmnews.R;
 
-public abstract class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity extends MvpAppCompatActivity {
 
     protected abstract int getLayout();
 
@@ -15,7 +17,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getLayout());
-//        ButterKnife.bind(this);
+        ButterKnife.bind(this);
         setTheme(R.style.NoActionBar);
     }
 

@@ -1,6 +1,7 @@
 package dsdmsa.utmnews.views.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,33 +10,21 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.yayandroid.parallaxrecyclerview.ParallaxViewHolder;
-
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.inject.Inject;
-
 import dsdmsa.utmnews.R;
 import dsdmsa.utmnews.models.Post;
-import dsdmsa.utmnews.utils.Navigator;
+import dsdmsa.utmnews.utils.Constants;
 
-import static dsdmsa.utmnews.This.appComponent;
+public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> implements NewsInteract {
 
-public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
-
-    @Inject
-    Navigator navigator;
-    private Context mContext;
     private List<Post> newsList = new ArrayList<>();
+    private Context mContext;
 
     public NewsAdapter(Context mContext) {
         this.mContext = mContext;
-        appComponent.inject(this);
     }
 
     public void setNewses(List<Post> orderDTOs) {
@@ -46,7 +35,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
     public void addNewses(List<Post> orderDTOs) {
         newsList.addAll(orderDTOs);
-        notifyDataSetChanged();
+        notifyItemRangeInserted(newsList.size() - Constants.PAGE_ITEMS + 1, newsList.size());
     }
 
     @Override
@@ -57,27 +46,14 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-
-        Document document = Jsoup.parse(newsList.get(position).getContent().rendered);
-        Element image = document.select("img").first();
-        String url = "http://utm.md/wp-content/uploads/2016/08/utm2.png";
-        if (image != null) {
-            url = image.absUrl("src");
-        }
-        Glide.with(mContext).load(url).centerCrop().into(holder.getBackgroundImage());
+        Glide.with(holder.imageView.getContext())
+                .load(newsList.get(position).getContent().getImageUrl())
+                .centerCrop()
+                .into(holder.imageView);
         holder.title.setText(newsList.get(position).getTitle().rendered);
-        String description;
-
-        String text = Jsoup.parse(newsList.get(position).getContent().rendered).text();
-        if (text.length() > 200) {
-            description = text.substring(0, 200) + "...";
-        } else {
-            description = text;
-        }
-        holder.description.setText(description);
-
-        holder.getBackgroundImage().reuse();
-
+//        holder.description.setText(newsList.get(position).getContent().getDescription());
+//        holder.bookmark.setOnClickListener(new BookmarkClick(newsList.get(position), this));
+//        holder.share.setOnClickListener(new ShareClick(newsList.get(position), this));
     }
 
     @Override
@@ -85,28 +61,66 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         return newsList.size();
     }
 
-    class ViewHolder extends ParallaxViewHolder {
-        ImageView thumbnail;
-        TextView title;
-        TextView description;
+    @Override
+    public void onShareCLick(Post post) {
+        Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_SEND);
+        sendIntent.putExtra(Intent.EXTRA_TEXT, post.getLink());
+        sendIntent.setType(Constants.TEXT_PLAIN);
+        mContext.startActivity(Intent.createChooser(sendIntent, "News"));
+    }
+
+    @Override
+    public void onBookmarkCLick(Post post) {
+// save on repository
+    }
+
+    static class ViewHolder extends RecyclerView.ViewHolder {
+        private final TextView title;
+        //        private final TextView description;
+        private final ImageView imageView;
+//        private final ImageView bookmark;
+//        private final ImageView share;
 
         ViewHolder(View itemView) {
             super(itemView);
-            thumbnail = (ImageView) itemView.findViewById(R.id.news_thombnail);
-            title = (TextView) itemView.findViewById(R.id.name_time);
-            description = (TextView) itemView.findViewById(R.id.description);
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    navigator.startNewsActivity(newsList.get(getAdapterPosition()));
-                }
-            });
-        }
-
-        @Override
-        public int getParallaxImageId() {
-            return R.id.news_thombnail;
+            title = (TextView) itemView.findViewById(R.id.tv_title);
+//            description = (TextView) itemView.findViewById(R.id.tv_description);
+            imageView = (ImageView) itemView.findViewById(R.id.news_thombnail);
+//            bookmark = (ImageView) itemView.findViewById(R.id.iv_bookmarc);
+//            share = (ImageView) itemView.findViewById(R.id.iv_share);
         }
     }
 
+    static class ShareClick implements View.OnClickListener {
+        private Post post;
+        private NewsInteract newsInteract;
+
+        public ShareClick(Post post, NewsInteract newsInteract) {
+            this.post = post;
+            this.newsInteract = newsInteract;
+        }
+
+        @Override
+        public void onClick(View v) {
+            newsInteract.onShareCLick(post);
+        }
+    }
+
+    static class BookmarkClick implements View.OnClickListener {
+        private Post post;
+        private NewsInteract newsInteract;
+
+        public BookmarkClick(Post post, NewsInteract newsInteract) {
+            this.post = post;
+            this.newsInteract = newsInteract;
+        }
+
+        @Override
+        public void onClick(View v) {
+            newsInteract.onBookmarkCLick(post);
+        }
+    }
 }
+
+

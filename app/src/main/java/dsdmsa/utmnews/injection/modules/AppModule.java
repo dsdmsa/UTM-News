@@ -2,36 +2,29 @@ package dsdmsa.utmnews.injection.modules;
 
 
 import android.content.Context;
-
-import javax.inject.Singleton;
+import android.content.SharedPreferences;
 
 import dagger.Module;
 import dagger.Provides;
-import dsdmsa.utmnews.This;
-import dsdmsa.utmnews.utils.Navigator;
-import dsdmsa.utmnews.utils.SharedPrefs;
+import dsdmsa.utmnews.App;
+
+import static dsdmsa.utmnews.utils.Constants.UTM_SHARED_PRESFS;
 
 @Module
 public class AppModule {
-    private This mThis;
+    private App mApp;
 
-    public AppModule(This mAThis) {
-        this.mThis = mAThis;
+    public AppModule(App mAApp) {
+        this.mApp = mAApp;
     }
 
     @Provides
-    Context provideContext(){
-        return mThis;
+    Context provideContext() {
+        return mApp;
     }
 
     @Provides
-    @Singleton
-    Navigator privideNavigator(Context context){
-        return new Navigator(context);
-    }
-
-    @Provides
-    SharedPrefs provideSharedPrefs(Context context){
-        return new SharedPrefs(context);
+    SharedPreferences provideSharedPrefs(Context context) {
+        return context.getSharedPreferences(UTM_SHARED_PRESFS, Context.MODE_PRIVATE);
     }
 }

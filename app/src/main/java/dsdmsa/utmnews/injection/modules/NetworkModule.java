@@ -9,8 +9,8 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 import dsdmsa.utmnews.BuildConfig;
-import dsdmsa.utmnews.network.controlers.UtmController;
-import dsdmsa.utmnews.network.services.UtmServices;
+import dsdmsa.utmnews.network.controlers.UtmServices;
+import dsdmsa.utmnews.network.services.UtmApi;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -39,7 +39,7 @@ public class NetworkModule {
 
     @Singleton
     @Provides
-    public UtmServices provideUtmServices(Gson gson, OkHttpClient okHttpClient) {
+    public UtmApi provideUtmServices(Gson gson, OkHttpClient okHttpClient) {
         OkHttpClient.Builder httpClientBuilder = okHttpClient.newBuilder();
 
         if (BuildConfig.DEBUG) {
@@ -52,13 +52,13 @@ public class NetworkModule {
                 .baseUrl(endPoint)
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .callFactory(httpClientBuilder.build())
-                .build().create(UtmServices.class);
+                .build().create(UtmApi.class);
     }
 
     @Singleton
     @Provides
-    public UtmController providesUtmController(UtmServices services){
-        return new UtmController(services);
+    public UtmServices providesUtmController(UtmApi utmApi){
+        return new UtmServices(utmApi);
     }
 
 }

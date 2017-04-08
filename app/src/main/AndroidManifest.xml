@@ -7,7 +7,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:name="dsdmsa.utmnews.This"
+        android:name="dsdmsa.utmnews.App"
         android:theme="@style/AppTheme">
         <activity android:name="dsdmsa.utmnews.activityes.SplashScreenActivity"
             android:theme="@style/SplashTheme">
@@ -17,13 +17,7 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name="dsdmsa.utmnews.activityes.main.MainActivity"/>
-        <activity android:name="dsdmsa.utmnews.activityes.categories.CategoriesActivity"/>
-        <activity android:name="dsdmsa.utmnews.activityes.search.SearchActivity"/>
-        <activity android:name="dsdmsa.utmnews.activityes.about.AboutActivity"/>
-        <activity android:name="dsdmsa.utmnews.activityes.PrefActivity"/>
-        <activity android:name="dsdmsa.utmnews.activityes.news.NewsListActivity"/>
-        <activity android:name="dsdmsa.utmnews.activityes.news.NewsActivity"/>
+        <activity android:name="dsdmsa.utmnews.activityes.MainActivity"/>
     </application>
 
 </manifest>

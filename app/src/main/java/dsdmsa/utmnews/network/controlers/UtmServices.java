@@ -7,28 +7,28 @@ import javax.inject.Inject;
 
 import dsdmsa.utmnews.models.Post;
 import dsdmsa.utmnews.network.OnDataLoaded;
-import dsdmsa.utmnews.network.services.UtmServices;
+import dsdmsa.utmnews.network.services.UtmApi;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static dsdmsa.utmnews.This.networkComponent;
+import static dsdmsa.utmnews.App.networkComponent;
 
-public class UtmController {
+public class UtmServices {
 
     @Inject
-    UtmServices services;
+    UtmApi api;
 
-    public UtmController(UtmServices services) {
-        this.services = services;
+    public UtmServices(UtmApi api) {
+        this.api = api;
         networkComponent.inject(this);
     }
 
     public void getNews(int page, int pageItems, final OnDataLoaded<List<Post>> dataLoaded) {
-        services.getPosts(pageItems, page).enqueue(new Callback<List<Post>>() {
+        api.getPosts(pageItems, page).enqueue(new Callback<List<Post>>() {
             @Override
             public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
-                dataLoaded.onDatatLoaddedSuccesfull(response.body());
+                dataLoaded.onSuccess(response.body());
             }
 
             @Override

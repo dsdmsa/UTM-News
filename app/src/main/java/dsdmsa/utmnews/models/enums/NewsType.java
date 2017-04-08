@@ -4,11 +4,10 @@ package dsdmsa.utmnews.models.enums;
 import android.support.v4.app.Fragment;
 
 import dsdmsa.utmnews.fragments.LatestNewsFragment;
-import dsdmsa.utmnews.fragments.TopNewsFragment;
 
 public enum NewsType {
     LATEST("Latest", LatestNewsFragment.newInstance()),
-    TOP("Top", TopNewsFragment.newInstance());
+    TOP("Top", LatestNewsFragment.newInstance());
 
     private CharSequence name;
     private Fragment fragment;

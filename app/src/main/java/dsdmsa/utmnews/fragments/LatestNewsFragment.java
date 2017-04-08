@@ -5,32 +5,37 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Toast;
 
-import com.yayandroid.parallaxrecyclerview.ParallaxRecyclerView;
+import com.arellomobile.mvp.presenter.InjectPresenter;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import dsdmsa.utmnews.R;
-import dsdmsa.utmnews.fragments.presenter.GetNewsPresenter;
-import dsdmsa.utmnews.fragments.presenter.NewsPresenter;
 import dsdmsa.utmnews.models.Post;
-import dsdmsa.utmnews.views.NewsView;
+import dsdmsa.utmnews.mvp.LatestNewsFragmentVP;
+import dsdmsa.utmnews.presenters.LatestNewsPresenter;
 import dsdmsa.utmnews.views.adapters.EndlessRecyclerOnScrollListener;
 import dsdmsa.utmnews.views.adapters.NewsAdapter;
 
-public class LatestNewsFragment extends BaseFragment implements NewsView, SwipeRefreshLayout.OnRefreshListener {
+public class LatestNewsFragment extends BaseFragment implements
+        LatestNewsFragmentVP.View,
+        SwipeRefreshLayout.OnRefreshListener {
 
     @BindView(R.id.recycle_view)
-    ParallaxRecyclerView recyclerView;
+    RecyclerView recyclerView;
+
     @BindView(R.id.swipe_refresh)
     SwipeRefreshLayout refreshLayout;
 
+    @InjectPresenter
+    LatestNewsPresenter presenter;
+
     private NewsAdapter newsAdapter;
-    private GetNewsPresenter presenter;
     private LinearLayoutManager layoutManager;
 
     public static LatestNewsFragment newInstance() {
@@ -50,16 +55,15 @@ public class LatestNewsFragment extends BaseFragment implements NewsView, SwipeR
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, rootView);
         layoutManager = new LinearLayoutManager(getContext());
-
-        presenter = new NewsPresenter(this);
         newsAdapter = new NewsAdapter(getContext());
         recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(newsAdapter);
 
         recyclerView.addOnScrollListener(new EndlessRecyclerOnScrollListener(layoutManager) {
             @Override
             public void onLoadMore(int currentPage) {
-                presenter.loarMoreNews(currentPage);
+                presenter.loadMoreNews(currentPage);
             }
         });
 
@@ -83,7 +87,7 @@ public class LatestNewsFragment extends BaseFragment implements NewsView, SwipeR
     }
 
     @Override
-    public void showPregressDialog() {
+    public void showProgressDialog() {
         refreshLayout.setRefreshing(true);
     }
 
@@ -93,7 +97,7 @@ public class LatestNewsFragment extends BaseFragment implements NewsView, SwipeR
     }
 
     @Override
-    public void showErrorMessage(String errorMsg) {
+    public void showInfoMessage(String errorMsg) {
         Toast.makeText(this.getContext(), errorMsg, Toast.LENGTH_SHORT).show();
     }
 }

@@ -1,39 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="3dp"
-    android:orientation="vertical">
+    android:layout_height="160dp">
 
-    <com.yayandroid.parallaxrecyclerview.ParallaxImageView
+
+    <ImageView
         android:id="@+id/news_thombnail"
-        android:layout_width="100dp"
-        android:layout_height="match_parent" />
-
-    <LinearLayout
         android:layout_width="match_parent"
+        android:layout_height="match_parent"  />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_gravity="bottom"
+        android:background="@drawable/gradient" />
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="110dp"
-        android:orientation="vertical">
+        android:layout_margin="6dp"
+        android:gravity="right"
+        android:layout_gravity="bottom|right"
+        android:shadowColor="@color/primary_text"
+        android:shadowDx="1"
+        android:shadowDy="1"
+        android:shadowRadius="2"
+        android:textColor="@color/primary_text"
+        android:textSize="20sp"
+        android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/name_time"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="3dp"
-            android:layout_weight="2"/>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#c1c1c1"/>
+</FrameLayout>
+    <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="bottom"-->
+        <!--android:orientation="vertical">-->
 
-        <TextView
-            android:id="@+id/description"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="3dp"/>
+        <!--<TextView-->
+            <!--android:id="@+id/tv_title"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginRight="90dp"-->
+            <!--android:gravity="bottom"-->
+            <!--android:shadowColor="@color/primary_text"-->
+            <!--android:shadowDx="1"-->
+            <!--android:shadowDy="1"-->
+            <!--android:shadowRadius="2"-->
+            <!--android:textColor="@color/primary_text"-->
+            <!--android:textSize="20sp"-->
+            <!--android:textStyle="bold" />-->
 
-    </LinearLayout>
-</RelativeLayout>
+
+        <!--<TextView-->
+            <!--android:id="@+id/tv_description"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:shadowColor="@color/primary_text"-->
+            <!--android:shadowDx="1"-->
+            <!--android:gravity="right"-->
+            <!--android:shadowDy="1"-->
+            <!--android:shadowRadius="2"-->
+            <!--android:textColor="@color/primary_text"-->
+            <!--android:visibility="gone" />-->
+    <!--</LinearLayout>-->
+
+    <!--<ImageView-->
+        <!--android:id="@+id/iv_bookmarc"-->
+        <!--android:layout_width="24dp"-->
+        <!--android:layout_height="24dp"-->
+        <!--android:layout_gravity="bottom|end"-->
+        <!--android:layout_marginBottom="16dp"-->
+        <!--android:layout_marginRight="56dp"-->
+        <!--android:visibility="gone"-->
+        <!--app:srcCompat="@drawable/ic_bookmarcs" />-->
+
+    <!--<ImageView-->
+        <!--android:id="@+id/iv_share"-->
+        <!--android:layout_width="24dp"-->
+        <!--android:layout_height="24dp"-->
+        <!--android:layout_gravity="bottom|end"-->
+        <!--android:layout_margin="16dp"-->
+        <!--android:visibility="gone"-->
+        <!--app:srcCompat="@drawable/ic_share" />-->
