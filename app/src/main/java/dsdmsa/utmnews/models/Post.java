@@ -1,7 +1,6 @@
 package dsdmsa.utmnews.models;
 
 import java.io.Serializable;
-import java.util.List;
 
 public class Post implements Serializable{
 
@@ -24,9 +23,6 @@ public class Post implements Serializable{
     private String pingStatus;
     private Boolean sticky;
     private String format;
-    private List<Object> meta = null;
-    private List<Integer> categories = null;
-    private List<Object> tags = null;
     private Links links;
 
     private boolean isExpanded = false;
@@ -189,30 +185,6 @@ public class Post implements Serializable{
 
     public void setFormat(String format) {
         this.format = format;
-    }
-
-    public List<Object> getMeta() {
-        return meta;
-    }
-
-    public void setMeta(List<Object> meta) {
-        this.meta = meta;
-    }
-
-    public List<Integer> getCategories() {
-        return categories;
-    }
-
-    public void setCategories(List<Integer> categories) {
-        this.categories = categories;
-    }
-
-    public List<Object> getTags() {
-        return tags;
-    }
-
-    public void setTags(List<Object> tags) {
-        this.tags = tags;
     }
 
     public Links getLinks() {

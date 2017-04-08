@@ -15,6 +15,9 @@ import android.widget.TextView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
 import butterknife.BindView;
 import dsdmsa.utmnews.App;
 import dsdmsa.utmnews.R;
@@ -94,7 +97,8 @@ public class MainActivity extends BaseActivity
         return true;
     }
 
-    private void addFragment(Fragment fragment) {
+    @Subscribe
+    public void addFragment(Fragment fragment) {
         getSupportFragmentManager()
                 .beginTransaction()
                 .add(R.id.fragment_container, fragment)
@@ -136,6 +140,18 @@ public class MainActivity extends BaseActivity
                 break;
         }
         return true;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
     }
 }
 

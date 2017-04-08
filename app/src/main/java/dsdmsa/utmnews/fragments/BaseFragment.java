@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 
 import com.arellomobile.mvp.MvpAppCompatFragment;
 
+import butterknife.ButterKnife;
+
 public abstract class BaseFragment extends MvpAppCompatFragment {
 
     protected View rootView;
@@ -18,6 +20,7 @@ public abstract class BaseFragment extends MvpAppCompatFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle
             savedInstanceState) {
         rootView = inflater.inflate(getLayout(), container, false);
+        ButterKnife.bind(this, rootView);
         return rootView;
     }
 

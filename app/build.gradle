@@ -80,6 +80,11 @@ dependencies {
     testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
     //logger
     compile 'com.jakewharton.timber:timber:4.5.1'
+    //bus
+    compile 'org.greenrobot:eventbus:3.0.0'
+    //costum chrome tab
+    compile 'me.zhanghai.android.customtabshelper:library:1.0.3'
+
     //testing
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'

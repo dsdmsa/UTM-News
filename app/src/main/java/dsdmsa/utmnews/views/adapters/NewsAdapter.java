@@ -1,5 +1,6 @@
 package dsdmsa.utmnews.views.adapters;
 
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,9 +40,11 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        if ( newsList.get(position).isExpanded()){
+        if (newsList.get(position).isExpanded()) {
+            holder.gradient.setBackgroundDrawable(ContextCompat.getDrawable(holder.imageView.getContext(), R.drawable.gradient_primary_dark));
             holder.details.setVisibility(View.VISIBLE);
-        }else {
+        } else {
+            holder.gradient.setBackgroundDrawable(ContextCompat.getDrawable(holder.imageView.getContext(), R.drawable.gradient_primary_d));
             holder.details.setVisibility(View.GONE);
         }
 
@@ -49,7 +52,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
                 .load(newsList.get(position).getContent().getImageUrl())
                 .centerCrop()
                 .into(holder.imageView);
-        holder.title.setText(newsList.get(position).getTitle().rendered);
+        holder.title.setText(newsList.get(position).getTitle().getRendered());
         holder.description.setText(newsList.get(position).getContent().getDescription());
         holder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,6 +99,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         private final ImageView share;
         private final ImageView bookmark;
         private final ImageView newsDetail;
+        private final View gradient;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -106,10 +110,11 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
             share = (ImageView) itemView.findViewById(R.id.iv_share);
             bookmark = (ImageView) itemView.findViewById(R.id.iv_bookmark);
             newsDetail = (ImageView) itemView.findViewById(R.id.iv_details);
+            gradient = itemView.findViewById(R.id.gradient);
         }
     }
 
-   public interface NewsInteract {
+    public interface NewsInteract {
         void onShareClick(String url);
 
         void onBookmarkClick(Post post);

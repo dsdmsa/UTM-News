@@ -10,4 +10,5 @@ public class Constants {
     public static final String END_POINT = "http://utm.md/";
     public static final int TIME_TO_WHAIT_TO_EXIT = 2000;
     public static final String UTM_SHARED_PRESFS = "UtmSharedPresfs";
+    public static final String NEWS_DETAILS_KEY = "NewsDetails";
 }
