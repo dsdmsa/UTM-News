@@ -1,11 +1,10 @@
 package dsdmsa.utmnews.views.adapters;
 
-import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,13 +17,13 @@ import dsdmsa.utmnews.R;
 import dsdmsa.utmnews.models.Post;
 import dsdmsa.utmnews.utils.Constants;
 
-public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> implements NewsInteract {
+public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
     private List<Post> newsList = new ArrayList<>();
-    private Context mContext;
+    private NewsInteract interact;
 
-    public NewsAdapter(Context mContext) {
-        this.mContext = mContext;
+    public NewsAdapter(NewsInteract interact) {
+        this.interact = interact;
     }
 
     public void addNewses(List<Post> orderDTOs) {
@@ -39,34 +38,49 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> im
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
+        if ( newsList.get(position).isExpanded()){
+            holder.details.setVisibility(View.VISIBLE);
+        }else {
+            holder.details.setVisibility(View.GONE);
+        }
+
         Glide.with(holder.imageView.getContext())
                 .load(newsList.get(position).getContent().getImageUrl())
                 .centerCrop()
                 .into(holder.imageView);
         holder.title.setText(newsList.get(position).getTitle().rendered);
-//        holder.description.setText(newsList.get(position).getContent().getDescription());
-//        holder.bookmark.setOnClickListener(new BookmarkClick(newsList.get(position), this));
-//        holder.share.setOnClickListener(new ShareClick(newsList.get(position), this));
+        holder.description.setText(newsList.get(position).getContent().getDescription());
+        holder.imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                newsList.get(position).setExpanded(!newsList.get(position).isExpanded());
+                notifyItemChanged(position);
+            }
+        });
+        holder.bookmark.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                interact.onBookmarkClick(newsList.get(position));
+            }
+        });
+        holder.share.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                interact.onShareClick(newsList.get(position).getLink());
+            }
+        });
+        holder.newsDetail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                interact.onDetailsClick(newsList.get(position));
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
         return newsList.size();
-    }
-
-    @Override
-    public void onShareCLick(Post post) {
-        Intent sendIntent = new Intent();
-        sendIntent.setAction(Intent.ACTION_SEND);
-        sendIntent.putExtra(Intent.EXTRA_TEXT, post.getLink());
-        sendIntent.setType(Constants.TEXT_PLAIN);
-        mContext.startActivity(Intent.createChooser(sendIntent, "News"));
-    }
-
-    @Override
-    public void onBookmarkCLick(Post post) {
-// save on repository
     }
 
     public void clearData() {
@@ -76,50 +90,33 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> im
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         private final TextView title;
-        //        private final TextView description;
+        private final TextView description;
+        private final FrameLayout details;
         private final ImageView imageView;
-//        private final ImageView bookmark;
-//        private final ImageView share;
+        private final ImageView share;
+        private final ImageView bookmark;
+        private final ImageView newsDetail;
 
         ViewHolder(View itemView) {
             super(itemView);
             title = (TextView) itemView.findViewById(R.id.tv_title);
-//            description = (TextView) itemView.findViewById(R.id.tv_description);
+            description = (TextView) itemView.findViewById(R.id.tv_description);
+            details = (FrameLayout) itemView.findViewById(R.id.view_details);
             imageView = (ImageView) itemView.findViewById(R.id.news_thombnail);
-//            bookmark = (ImageView) itemView.findViewById(R.id.iv_bookmarc);
-//            share = (ImageView) itemView.findViewById(R.id.iv_share);
+            share = (ImageView) itemView.findViewById(R.id.iv_share);
+            bookmark = (ImageView) itemView.findViewById(R.id.iv_bookmark);
+            newsDetail = (ImageView) itemView.findViewById(R.id.iv_details);
         }
     }
 
-    static class ShareClick implements View.OnClickListener {
-        private Post post;
-        private NewsInteract newsInteract;
+   public interface NewsInteract {
+        void onShareClick(String url);
 
-        public ShareClick(Post post, NewsInteract newsInteract) {
-            this.post = post;
-            this.newsInteract = newsInteract;
-        }
+        void onBookmarkClick(Post post);
 
-        @Override
-        public void onClick(View v) {
-            newsInteract.onShareCLick(post);
-        }
+        void onDetailsClick(Post post);
     }
 
-    static class BookmarkClick implements View.OnClickListener {
-        private Post post;
-        private NewsInteract newsInteract;
-
-        public BookmarkClick(Post post, NewsInteract newsInteract) {
-            this.post = post;
-            this.newsInteract = newsInteract;
-        }
-
-        @Override
-        public void onClick(View v) {
-            newsInteract.onBookmarkCLick(post);
-        }
-    }
 }
 
 

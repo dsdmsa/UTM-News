@@ -29,6 +29,16 @@ public class Post implements Serializable{
     private List<Object> tags = null;
     private Links links;
 
+    private boolean isExpanded = false;
+
+    public boolean isExpanded() {
+        return isExpanded;
+    }
+
+    public void setExpanded(boolean expanded) {
+        isExpanded = expanded;
+    }
+
     public Integer getId() {
         return id;
     }

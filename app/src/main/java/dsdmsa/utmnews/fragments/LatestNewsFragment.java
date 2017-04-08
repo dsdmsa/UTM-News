@@ -1,6 +1,7 @@
 package dsdmsa.utmnews.fragments;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -25,7 +26,8 @@ import dsdmsa.utmnews.views.adapters.NewsAdapter;
 
 public class LatestNewsFragment extends BaseFragment implements
         LatestNewsFragmentVP.View,
-        SwipeRefreshLayout.OnRefreshListener {
+        SwipeRefreshLayout.OnRefreshListener,
+        NewsAdapter.NewsInteract {
 
     @BindView(R.id.recycle_view)
     RecyclerView recyclerView;
@@ -56,7 +58,7 @@ public class LatestNewsFragment extends BaseFragment implements
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, rootView);
         layoutManager = new LinearLayoutManager(getContext());
-        newsAdapter = new NewsAdapter(getContext());
+        newsAdapter = new NewsAdapter(this);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(newsAdapter);
@@ -96,5 +98,25 @@ public class LatestNewsFragment extends BaseFragment implements
     @Override
     public void showInfoMessage(String errorMsg) {
         Toast.makeText(this.getContext(), errorMsg, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onShareClick(String url) {
+        Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_SEND);
+        sendIntent.putExtra(Intent.EXTRA_TEXT, url);
+        sendIntent.setType(Constants.TEXT_PLAIN);
+        startActivity(Intent.createChooser(sendIntent, getString(R.string.share_title)));
+    }
+
+    @Override
+    public void onBookmarkClick(Post post) {
+        Toast.makeText(getContext(), "bokm", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onDetailsClick(Post post) {
+        Toast.makeText(getContext(), "detaisl", Toast.LENGTH_SHORT).show();
+
     }
 }
