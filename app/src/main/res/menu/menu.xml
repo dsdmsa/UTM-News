@@ -1,23 +1,33 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <group
-        android:checkableBehavior="single">
+    <group >
+        <item
+            android:id="@+id/menu_home"
+            android:icon="@drawable/ic_home_black"
+            android:title="@string/home"/>
 
         <item
-            android:id="@+id/drawer_home"
-            android:checked="true"
-            android:icon="@drawable/ic_bookmarcs_white"
-            android:title="asdsd"/>
-
-        <item
-            android:id="@+id/drawer_favourite"
+            android:id="@+id/menu_search"
             android:icon="@drawable/ic_search"
-            android:title="asdsdasd"/>
+            android:title="@string/search"/>
 
         <item
-            android:id="@+id/drawer_settings"
+            android:id="@+id/menu_bookmarks"
+            android:icon="@drawable/ic_bookmarcs_white"
+            android:title="Bookmarks"/>
+    </group>
+
+    <group >
+        <item
+            android:id="@+id/menu_info"
             android:icon="@drawable/ic_about"
-            android:title="ssddsfsd"/>
+            android:title="@string/about"/>
+
+        <item
+            android:id="@+id/menu_settings"
+            android:icon="@drawable/ic_settings"
+            android:title="@string/settings"/>
+
 
     </group>
 </menu>

@@ -7,58 +7,64 @@
     android:layout_height="match_parent"
     tools:context="dsdmsa.utmnews.activityes.MainActivity">
 
-    <LinearLayout
+    <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
+        <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@color/primary_dark">
+            android:layout_height="wrap_content">
 
-            <LinearLayout
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
+                android:layout_height="?attr/actionBarSize"
+                android:background="@color/primary_dark"
+                app:layout_scrollFlags="scroll|enterAlways">
 
-                <TextView
-                    android:id="@+id/toolbar_title"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="9"
-                    android:gravity="center|left"
-                    android:padding="10dp"
-                    tools:text="SOME TEXT" />
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
-                <ImageView
-                    android:id="@+id/search_ic"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_margin="16dp"
-                    android:layout_weight="1"
-                    android:foregroundGravity="right"
-                    app:srcCompat="@drawable/ic_search" />
-            </LinearLayout>
+                    <TextView
+                        android:id="@+id/toolbar_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:padding="10dp"
+                        android:textSize="20sp"
+                        tools:text="SOME TEXT" />
 
-        </android.support.v7.widget.Toolbar>
+                </FrameLayout>
+
+            </android.support.v7.widget.Toolbar>
 
 
-        <android.support.design.widget.TabLayout
-            android:id="@+id/tab_layout"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@color/primary_dark" />
+            <android.support.design.widget.TabLayout
+                android:id="@+id/tab_layout"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@color/primary_dark" />
+
+        </android.support.design.widget.AppBarLayout>
 
         <android.support.v4.view.ViewPager
             android:id="@+id/pager"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         </android.support.v4.view.ViewPager>
 
-    </LinearLayout>
+        <FrameLayout
+            android:id="@+id/fragment_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="?attr/actionBarSize" />
+
+    </android.support.design.widget.CoordinatorLayout>
 
     <include layout="@layout/navigation_view" />
 

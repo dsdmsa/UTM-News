@@ -3,4 +3,9 @@
     <string name="hello_world">hei</string>
     <string name="hello_world2">hi2</string>
     <string name="press_to_exit">Press once again to exit!</string>
+    <string name="start_title">UTM-News</string>
+    <string name="home">Home</string>
+    <string name="search">Search</string>
+    <string name="about">About</string>
+    <string name="settings">Settings</string>
 </resources>
