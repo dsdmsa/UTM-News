@@ -10,4 +10,7 @@ import dsdmsa.utmnews.mvp.MainActivityVP;
  */
 @InjectViewState
 public class MainActivityPresenter extends MvpPresenter<MainActivityVP.View> implements MainActivityVP.Presenter {
+    public void doSomething() {
+
+    }
 }

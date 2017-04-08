@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 
 import com.arellomobile.mvp.MvpAppCompatFragment;
 
-public abstract class BaseFragment extends MvpAppCompatFragment{
+public abstract class BaseFragment extends MvpAppCompatFragment {
 
     protected View rootView;
 
@@ -17,7 +17,7 @@ public abstract class BaseFragment extends MvpAppCompatFragment{
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle
             savedInstanceState) {
-        rootView = inflater.inflate(getLayout(),container,false);
+        rootView = inflater.inflate(getLayout(), container, false);
         return rootView;
     }
 

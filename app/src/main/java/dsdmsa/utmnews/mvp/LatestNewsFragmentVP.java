@@ -11,12 +11,11 @@ import dsdmsa.utmnews.models.Post;
  */
 
 public interface LatestNewsFragmentVP {
-    interface View extends MvpView,LoadingView {
-        void showNews(List<Post> newses);
+    interface View extends MvpView, LoadingView {
         void addNewses(List<Post> newses);
     }
-    interface Presenter{
-        void getNews();
-        void loadMoreNews(int page);
+
+    interface Presenter {
+        void loadNewsOnPage(int page);
     }
 }

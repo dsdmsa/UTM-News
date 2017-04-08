@@ -27,12 +27,6 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> im
         this.mContext = mContext;
     }
 
-    public void setNewses(List<Post> orderDTOs) {
-        newsList.clear();
-        newsList.addAll(orderDTOs);
-        notifyDataSetChanged();
-    }
-
     public void addNewses(List<Post> orderDTOs) {
         newsList.addAll(orderDTOs);
         notifyItemRangeInserted(newsList.size() - Constants.PAGE_ITEMS + 1, newsList.size());
@@ -73,6 +67,11 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> im
     @Override
     public void onBookmarkCLick(Post post) {
 // save on repository
+    }
+
+    public void clearData() {
+        newsList.clear();
+        notifyDataSetChanged();
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {

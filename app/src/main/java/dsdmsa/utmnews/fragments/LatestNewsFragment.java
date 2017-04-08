@@ -19,6 +19,7 @@ import dsdmsa.utmnews.R;
 import dsdmsa.utmnews.models.Post;
 import dsdmsa.utmnews.mvp.LatestNewsFragmentVP;
 import dsdmsa.utmnews.presenters.LatestNewsPresenter;
+import dsdmsa.utmnews.utils.Constants;
 import dsdmsa.utmnews.views.adapters.EndlessRecyclerOnScrollListener;
 import dsdmsa.utmnews.views.adapters.NewsAdapter;
 
@@ -63,17 +64,12 @@ public class LatestNewsFragment extends BaseFragment implements
         recyclerView.addOnScrollListener(new EndlessRecyclerOnScrollListener(layoutManager) {
             @Override
             public void onLoadMore(int currentPage) {
-                presenter.loadMoreNews(currentPage);
+                presenter.loadNewsOnPage(currentPage);
             }
         });
 
-        presenter.getNews();
         refreshLayout.setOnRefreshListener(this);
-    }
-
-    @Override
-    public void showNews(List<Post> newses) {
-        newsAdapter.setNewses(newses);
+        presenter.loadNewsOnPage(Constants.INITIAL_PAGE);
     }
 
     @Override
@@ -83,7 +79,8 @@ public class LatestNewsFragment extends BaseFragment implements
 
     @Override
     public void onRefresh() {
-        presenter.getNews();
+        newsAdapter.clearData();
+        presenter.loadNewsOnPage(Constants.INITIAL_PAGE);
     }
 
     @Override

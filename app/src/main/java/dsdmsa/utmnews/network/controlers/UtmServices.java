@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import dsdmsa.utmnews.App;
 import dsdmsa.utmnews.models.Post;
 import dsdmsa.utmnews.network.OnDataLoaded;
 import dsdmsa.utmnews.network.services.UtmApi;
@@ -12,7 +13,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static dsdmsa.utmnews.App.networkComponent;
 
 public class UtmServices {
 
@@ -21,7 +21,7 @@ public class UtmServices {
 
     public UtmServices(UtmApi api) {
         this.api = api;
-        networkComponent.inject(this);
+        App.getAppComponent().inject(this);
     }
 
     public void getNews(int page, int pageItems, final OnDataLoaded<List<Post>> dataLoaded) {
