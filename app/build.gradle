@@ -4,7 +4,7 @@ apply plugin: 'com.android.application'
 
 def final DEV = "dsdmsa.utm_news.dev"
 def final PROD = "dsdmsa.utm_news.prod"
-def final VERSION_NAME = "v0.0.1.${buildTime()}"
+def final VERSION_NAME = "v0.0.2.${buildTime()}"
 
 android {
     compileSdkVersion 25
@@ -86,6 +86,8 @@ dependencies {
     compile 'me.zhanghai.android.customtabshelper:library:1.0.3'
     //costum toasts
     compile 'com.github.GrenderG:Toasty:1.1.4'
+    //keyboard control
+    compile 'com.github.Commit451:Teleprinter:1.0.1'
 
 
     //testing

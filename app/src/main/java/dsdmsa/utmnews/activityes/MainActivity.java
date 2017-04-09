@@ -2,17 +2,21 @@ package dsdmsa.utmnews.activityes;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
-import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.commit451.teleprinter.Teleprinter;
 
 import butterknife.BindView;
 import dsdmsa.utmnews.App;
@@ -21,15 +25,18 @@ import dsdmsa.utmnews.fragments.AboutFragment;
 import dsdmsa.utmnews.fragments.BaseFragment;
 import dsdmsa.utmnews.fragments.BookmarksFragment;
 import dsdmsa.utmnews.fragments.CategoryListFragment;
+import dsdmsa.utmnews.fragments.LatestNewsFragment;
 import dsdmsa.utmnews.fragments.SearchFragment;
 import dsdmsa.utmnews.fragments.SettingsFragment;
+import dsdmsa.utmnews.fragments.TagListFragment;
 import dsdmsa.utmnews.mvp.MainActivityVP;
 import dsdmsa.utmnews.presenters.MainActivityPresenter;
-import dsdmsa.utmnews.views.adapters.MainViewPagerAdapter;
 
-public class MainActivity extends BaseActivity
-        implements MainActivityVP.View,
-        NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends BaseActivity implements
+        MainActivityVP.View,
+        NavigationView.OnNavigationItemSelectedListener,
+        View.OnClickListener,
+        TextView.OnEditorActionListener {
 
     @InjectPresenter
     MainActivityPresenter presenter;
@@ -40,11 +47,11 @@ public class MainActivity extends BaseActivity
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
-    @BindView(R.id.tab_layout)
-    TabLayout tabLayout;
+    @BindView(R.id.fab)
+    FloatingActionButton fab;
 
-    @BindView(R.id.pager)
-    ViewPager viewPager;
+    @BindView(R.id.et_search)
+    EditText searchEditText;
 
     @BindView(R.id.activity_main)
     DrawerLayout drawerLayout;
@@ -53,8 +60,7 @@ public class MainActivity extends BaseActivity
     NavigationView navigationView;
 
     private ActionBarDrawerToggle mDrawerToggle;
-    private MainViewPagerAdapter mMainViewPagerAdapter;
-
+    private Teleprinter teleprinter;
 
     @Override
     protected int getLayout() {
@@ -65,11 +71,15 @@ public class MainActivity extends BaseActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         App.getAppComponent().inject(this);
+        teleprinter = new Teleprinter(this);
         navigationView.setNavigationItemSelectedListener(this);
+        searchEditText.setOnEditorActionListener(this);
+        fab.setOnClickListener(this);
         setupToolbar();
-        mMainViewPagerAdapter = new MainViewPagerAdapter(getSupportFragmentManager(), this);
-        viewPager.setAdapter(mMainViewPagerAdapter);
-        tabLayout.setupWithViewPager(viewPager);
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.fragment_container, LatestNewsFragment.newInstance())
+                .commit();
     }
 
     private void setupToolbar() {
@@ -82,7 +92,6 @@ public class MainActivity extends BaseActivity
         mDrawerToggle.syncState();
         toolbarTitle.setText(R.string.start_title);
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -97,9 +106,7 @@ public class MainActivity extends BaseActivity
 
     @Override
     public void addFragment(BaseFragment fragment) {
-
         fragment.atachPresenter(presenter);
-
         getSupportFragmentManager()
                 .beginTransaction()
                 .add(R.id.fragment_container, fragment)
@@ -109,11 +116,18 @@ public class MainActivity extends BaseActivity
 
     @Override
     public void onBackPressed() {
+        searchEditText.setVisibility(View.GONE);
+        if (searchEditText.getVisibility() == View.VISIBLE) {
+            teleprinter.hideKeyboard();
+            searchEditText.clearFocus();
+            searchEditText.setVisibility(View.GONE);
+            return;
+        }
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
+            return;
         }
+        super.onBackPressed();
     }
 
     @Override
@@ -127,9 +141,9 @@ public class MainActivity extends BaseActivity
                 drawerLayout.closeDrawer(GravityCompat.START);
                 addFragment(new CategoryListFragment());
                 break;
-            case R.id.menu_search:
+            case R.id.menu_tags:
                 drawerLayout.closeDrawer(GravityCompat.START);
-                addFragment(new SearchFragment());
+                addFragment(new TagListFragment());
                 break;
             case R.id.menu_bookmarks:
                 drawerLayout.closeDrawer(GravityCompat.START);
@@ -147,6 +161,33 @@ public class MainActivity extends BaseActivity
         return true;
     }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.fab:
+                if (searchEditText.getVisibility() == View.GONE) {
+                    searchEditText.setVisibility(View.VISIBLE);
+                    searchEditText.requestFocus();
+                    teleprinter.showKeyboard(searchEditText);
+                } else {
+                    teleprinter.hideKeyboard();
+                    searchEditText.setVisibility(View.GONE);
+                    addFragment(SearchFragment.newInstance(searchEditText.getText().toString()));
+                }
+                break;
+        }
+    }
+
+    @Override
+    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+        if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+            teleprinter.hideKeyboard();
+            searchEditText.setVisibility(View.GONE);
+            addFragment(SearchFragment.newInstance(searchEditText.getText().toString()));
+            return true;
+        }
+        return false;
+    }
 }
 
 

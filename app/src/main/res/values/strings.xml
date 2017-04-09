@@ -12,4 +12,5 @@
     <string name="bookmarks">Bookmarks</string>
     <string name="categories">Categories</string>
     <string name="no_mer_data_info">data ended</string>
+    <string name="tags">Tags</string>
 </resources>

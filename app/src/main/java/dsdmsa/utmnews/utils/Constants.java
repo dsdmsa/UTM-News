@@ -11,4 +11,6 @@ public class Constants {
     public static final String UTM_SHARED_PRESFS = "UtmSharedPresfs";
     public static final String NEWS_DETAILS_KEY = "NewsDetails";
     public static final String CATEGORY_ID = "CATEGORY_ID";
+    public static final String TAG_ID = "Tag_id";
+    public static final String SEARCH_KEY = "search_key";
 }

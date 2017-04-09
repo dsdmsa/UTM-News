@@ -122,6 +122,7 @@ public class LatestNewsFragment extends BaseFragment implements
     @Override
     public void showInfoMessage(String errorMsg) {
         Toasty.info(getContext(), errorMsg, Toast.LENGTH_SHORT).show();
+        layoutManager.setScrollEnabled(true);
     }
 
     @Override

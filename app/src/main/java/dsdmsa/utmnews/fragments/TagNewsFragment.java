@@ -24,7 +24,7 @@ import butterknife.BindView;
 import dsdmsa.utmnews.R;
 import dsdmsa.utmnews.models.Post;
 import dsdmsa.utmnews.mvp.CategoryNewsFragmentVP;
-import dsdmsa.utmnews.presenters.CategoryNewsFragmentPresenter;
+import dsdmsa.utmnews.presenters.TagNewsFragmentPresenter;
 import dsdmsa.utmnews.utils.Constants;
 import dsdmsa.utmnews.views.MyLinearLayout;
 import dsdmsa.utmnews.views.adapters.EndlessRecyclerOnScrollListener;
@@ -36,14 +36,14 @@ import me.zhanghai.android.customtabshelper.CustomTabsHelperFragment;
  * Created by dsdmsa on 4/8/17.
  */
 
-public class CategoryNewsFragment extends BaseFragment implements
+public class TagNewsFragment extends BaseFragment implements
         CategoryNewsFragmentVP.View,
         NewsAdapter.NewsInteract,
         SwipeRefreshLayout.OnRefreshListener,
         CustomTabsActivityHelper.CustomTabsFallback {
 
     @InjectPresenter
-    CategoryNewsFragmentPresenter presenter;
+    TagNewsFragmentPresenter presenter;
 
     @BindView(R.id.progress_bar)
     ProgressBar progressBar;
@@ -60,10 +60,10 @@ public class CategoryNewsFragment extends BaseFragment implements
     private CustomTabsHelperFragment customTabsHelperFragment;
     private CustomTabsIntent customTabsIntent;
 
-    public static CategoryNewsFragment newInstance(int categoryId) {
+    public static TagNewsFragment newInstance(int tagId) {
         Bundle args = new Bundle();
-        args.putInt(Constants.CATEGORY_ID, categoryId);
-        CategoryNewsFragment fragment = new CategoryNewsFragment();
+        args.putInt(Constants.TAG_ID, tagId);
+        TagNewsFragment fragment = new TagNewsFragment();
         fragment.setArguments(args);
         return fragment;
     }
@@ -89,7 +89,7 @@ public class CategoryNewsFragment extends BaseFragment implements
                 .build();
 
         presenter.getCategoryNewses(
-                getArguments().getInt(Constants.CATEGORY_ID),
+                getArguments().getInt(Constants.TAG_ID),
                 Constants.ITEMS_PER_PAGE,
                 Constants.INITIAL_PAGE
         );

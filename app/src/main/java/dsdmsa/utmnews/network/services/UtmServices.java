@@ -17,13 +17,15 @@ import retrofit2.Response;
 
 public class UtmServices {
 
-    UtmApi api;
+    private UtmApi api;
 
     public UtmServices(UtmApi api) {
         this.api = api;
     }
 
-    public void getNews(int page, int pageItems, final OnDataLoaded<List<Post>> dataLoaded) {
+    public void getNews(int page,
+                        int pageItems,
+                        final OnDataLoaded<List<Post>> dataLoaded) {
         api.getPosts(pageItems, page).enqueue(new Callback<List<Post>>() {
             @Override
             public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
@@ -68,6 +70,7 @@ public class UtmServices {
                     dataLoaded.onError(App.getAppComponent().getContext().getString(R.string.no_mer_data_info));
                 }
             }
+
             @Override
             public void onFailure(Call<List<Post>> call, Throwable t) {
                 dataLoaded.onError(t.getMessage());
@@ -90,9 +93,9 @@ public class UtmServices {
     }
 
     public void getNewsByTag(int tagId,
-                                  int page,
-                                  int pageItems,
-                                  final OnDataLoaded<List<Post>> dataLoaded) {
+                             int page,
+                             int pageItems,
+                             final OnDataLoaded<List<Post>> dataLoaded) {
         api.getPostsByTags(tagId, pageItems, page).enqueue(new Callback<List<Post>>() {
             @Override
             public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
@@ -102,6 +105,7 @@ public class UtmServices {
                     dataLoaded.onError(App.getAppComponent().getContext().getString(R.string.no_mer_data_info));
                 }
             }
+
             @Override
             public void onFailure(Call<List<Post>> call, Throwable t) {
                 dataLoaded.onError(t.getMessage());
@@ -110,9 +114,9 @@ public class UtmServices {
     }
 
     public void searchposts(String kay,
-                             int page,
-                             int pageItems,
-                             final OnDataLoaded<List<Post>> dataLoaded) {
+                            int page,
+                            int pageItems,
+                            final OnDataLoaded<List<Post>> dataLoaded) {
         api.getSearchPosts(kay, pageItems, page).enqueue(new Callback<List<Post>>() {
             @Override
             public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
@@ -122,6 +126,7 @@ public class UtmServices {
                     dataLoaded.onError(App.getAppComponent().getContext().getString(R.string.no_mer_data_info));
                 }
             }
+
             @Override
             public void onFailure(Call<List<Post>> call, Throwable t) {
                 dataLoaded.onError(t.getMessage());
