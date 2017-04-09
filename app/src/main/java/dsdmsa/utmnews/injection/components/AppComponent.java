@@ -11,7 +11,9 @@ import dsdmsa.utmnews.activityes.SplashScreenActivity;
 import dsdmsa.utmnews.fragments.LatestNewsFragment;
 import dsdmsa.utmnews.injection.modules.AppModule;
 import dsdmsa.utmnews.injection.modules.NetworkModule;
-import dsdmsa.utmnews.network.controlers.UtmServices;
+import dsdmsa.utmnews.network.services.UtmServices;
+import dsdmsa.utmnews.presenters.CategoriesFragmentPresenter;
+import dsdmsa.utmnews.presenters.CategoryNewsFragmentPresenter;
 import dsdmsa.utmnews.presenters.LatestNewsPresenter;
 import dsdmsa.utmnews.views.adapters.NewsAdapter;
 
@@ -35,4 +37,7 @@ public interface AppComponent {
 
     void inject(NewsAdapter __);
 
+    void inject(CategoriesFragmentPresenter __);
+
+    void inject(CategoryNewsFragmentPresenter __);
 }

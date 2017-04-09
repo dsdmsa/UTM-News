@@ -10,10 +10,12 @@ import android.view.ViewGroup;
 import com.arellomobile.mvp.MvpAppCompatFragment;
 
 import butterknife.ButterKnife;
+import dsdmsa.utmnews.FragmentNavigation;
 
-public abstract class BaseFragment extends MvpAppCompatFragment {
+public abstract class BaseFragment extends MvpAppCompatFragment implements FragmentNavigation.View {
 
     protected View rootView;
+    protected FragmentNavigation.Presenter navigationPresenter;
 
     @Nullable
     @Override
@@ -25,4 +27,14 @@ public abstract class BaseFragment extends MvpAppCompatFragment {
     }
 
     protected abstract int getLayout();
+
+    @Override
+    public void atachPresenter(FragmentNavigation.Presenter presenter) {
+        navigationPresenter = presenter;
+    }
+
+    @Override
+    public void addFragment(BaseFragment fragment) {
+        navigationPresenter.addFragment(fragment);
+    }
 }

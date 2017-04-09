@@ -9,4 +9,7 @@
     <string name="about">About</string>
     <string name="settings">Settings</string>
     <string name="share_title">News</string>
+    <string name="bookmarks">Bookmarks</string>
+    <string name="categories">Categories</string>
+    <string name="no_mer_data_info">data ended</string>
 </resources>

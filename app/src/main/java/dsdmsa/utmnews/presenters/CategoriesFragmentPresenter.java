@@ -1,6 +1,5 @@
 package dsdmsa.utmnews.presenters;
 
-
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 
@@ -9,35 +8,33 @@ import java.util.List;
 import javax.inject.Inject;
 
 import dsdmsa.utmnews.App;
-import dsdmsa.utmnews.models.Post;
-import dsdmsa.utmnews.mvp.LatestNewsFragmentVP;
+import dsdmsa.utmnews.models.Category;
+import dsdmsa.utmnews.mvp.CategoriesFragmentVP;
 import dsdmsa.utmnews.network.OnDataLoaded;
 import dsdmsa.utmnews.network.services.UtmServices;
 
-import static dsdmsa.utmnews.utils.Constants.ITEMS_PER_PAGE;
+/**
+ * Created by dsdmsa on 4/8/17.
+ */
 
 @InjectViewState
-public class LatestNewsPresenter extends MvpPresenter<LatestNewsFragmentVP.View> implements
-        LatestNewsFragmentVP.Presenter,
-        OnDataLoaded<List<Post>> {
+public class CategoriesFragmentPresenter extends MvpPresenter<CategoriesFragmentVP.View> implements
+        CategoriesFragmentVP.Presenter,
+        OnDataLoaded<List<Category>> {
 
     @Inject
     UtmServices services;
 
-    public LatestNewsPresenter() {
+    public CategoriesFragmentPresenter() {
         App.getAppComponent().inject(this);
-    }
-
-    @Override
-    public void loadNewsOnPage(int page) {
+        services.getCategories(this);
         getViewState().showProgressDialog();
-        services.getNews(page, ITEMS_PER_PAGE, this);
     }
 
     @Override
-    public void onSuccess(List<Post> response) {
+    public void onSuccess(List<Category> response) {
         getViewState().hideProgressDialog();
-        getViewState().addNewses(response);
+        getViewState().showCategories(response);
     }
 
     @Override
@@ -45,4 +42,5 @@ public class LatestNewsPresenter extends MvpPresenter<LatestNewsFragmentVP.View>
         getViewState().hideProgressDialog();
         getViewState().showInfoMessage(errorMsg);
     }
+
 }

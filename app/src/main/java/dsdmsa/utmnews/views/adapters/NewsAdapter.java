@@ -29,7 +29,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
     public void addNewses(List<Post> orderDTOs) {
         newsList.addAll(orderDTOs);
-        notifyItemRangeInserted(newsList.size() - Constants.PAGE_ITEMS + 1, newsList.size());
+        notifyItemRangeInserted(newsList.size() - Constants.ITEMS_PER_PAGE + 1, newsList.size());
     }
 
     @Override

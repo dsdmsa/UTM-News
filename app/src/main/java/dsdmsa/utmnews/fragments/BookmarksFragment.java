@@ -11,4 +11,7 @@ public class BookmarksFragment extends BaseFragment {
     protected int getLayout() {
         return R.layout.fragment_about;
     }
+
+
+
 }

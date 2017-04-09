@@ -84,6 +84,9 @@ dependencies {
     compile 'org.greenrobot:eventbus:3.0.0'
     //costum chrome tab
     compile 'me.zhanghai.android.customtabshelper:library:1.0.3'
+    //costum toasts
+    compile 'com.github.GrenderG:Toasty:1.1.4'
+
 
     //testing
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {

@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -15,14 +14,13 @@ import android.widget.TextView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-
 import butterknife.BindView;
 import dsdmsa.utmnews.App;
 import dsdmsa.utmnews.R;
 import dsdmsa.utmnews.fragments.AboutFragment;
+import dsdmsa.utmnews.fragments.BaseFragment;
 import dsdmsa.utmnews.fragments.BookmarksFragment;
+import dsdmsa.utmnews.fragments.CategoryListFragment;
 import dsdmsa.utmnews.fragments.SearchFragment;
 import dsdmsa.utmnews.fragments.SettingsFragment;
 import dsdmsa.utmnews.mvp.MainActivityVP;
@@ -97,8 +95,11 @@ public class MainActivity extends BaseActivity
         return true;
     }
 
-    @Subscribe
-    public void addFragment(Fragment fragment) {
+    @Override
+    public void addFragment(BaseFragment fragment) {
+
+        fragment.atachPresenter(presenter);
+
         getSupportFragmentManager()
                 .beginTransaction()
                 .add(R.id.fragment_container, fragment)
@@ -122,6 +123,10 @@ public class MainActivity extends BaseActivity
                 getSupportFragmentManager().popBackStack();
                 drawerLayout.closeDrawer(GravityCompat.START);
                 break;
+            case R.id.menu_categories:
+                drawerLayout.closeDrawer(GravityCompat.START);
+                addFragment(new CategoryListFragment());
+                break;
             case R.id.menu_search:
                 drawerLayout.closeDrawer(GravityCompat.START);
                 addFragment(new SearchFragment());
@@ -142,17 +147,6 @@ public class MainActivity extends BaseActivity
         return true;
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        EventBus.getDefault().register(this);
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        EventBus.getDefault().unregister(this);
-    }
 }
 
 

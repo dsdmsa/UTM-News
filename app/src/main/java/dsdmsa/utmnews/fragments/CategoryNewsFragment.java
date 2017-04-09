@@ -1,6 +1,5 @@
 package dsdmsa.utmnews.fragments;
 
-
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
@@ -12,6 +11,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -23,8 +23,8 @@ import java.util.List;
 import butterknife.BindView;
 import dsdmsa.utmnews.R;
 import dsdmsa.utmnews.models.Post;
-import dsdmsa.utmnews.mvp.LatestNewsFragmentVP;
-import dsdmsa.utmnews.presenters.LatestNewsPresenter;
+import dsdmsa.utmnews.mvp.CategoryNewsFragmentVP;
+import dsdmsa.utmnews.presenters.CategoryNewsFragmentPresenter;
 import dsdmsa.utmnews.utils.Constants;
 import dsdmsa.utmnews.views.MyLinearLayout;
 import dsdmsa.utmnews.views.adapters.EndlessRecyclerOnScrollListener;
@@ -32,11 +32,21 @@ import dsdmsa.utmnews.views.adapters.NewsAdapter;
 import es.dmoral.toasty.Toasty;
 import me.zhanghai.android.customtabshelper.CustomTabsHelperFragment;
 
-public class LatestNewsFragment extends BaseFragment implements
-        LatestNewsFragmentVP.View,
-        SwipeRefreshLayout.OnRefreshListener,
+/**
+ * Created by dsdmsa on 4/8/17.
+ */
+
+public class CategoryNewsFragment extends BaseFragment implements
+        CategoryNewsFragmentVP.View,
         NewsAdapter.NewsInteract,
+        SwipeRefreshLayout.OnRefreshListener,
         CustomTabsActivityHelper.CustomTabsFallback {
+
+    @InjectPresenter
+    CategoryNewsFragmentPresenter presenter;
+
+    @BindView(R.id.progress_bar)
+    ProgressBar progressBar;
 
     @BindView(R.id.recycle_view)
     RecyclerView recyclerView;
@@ -44,18 +54,16 @@ public class LatestNewsFragment extends BaseFragment implements
     @BindView(R.id.swipe_refresh)
     SwipeRefreshLayout refreshLayout;
 
-    @InjectPresenter
-    LatestNewsPresenter presenter;
-
     private NewsAdapter newsAdapter;
     private MyLinearLayout layoutManager;
 
-    CustomTabsHelperFragment customTabsHelperFragment;
-    CustomTabsIntent customTabsIntent;
+    private CustomTabsHelperFragment customTabsHelperFragment;
+    private CustomTabsIntent customTabsIntent;
 
-    public static LatestNewsFragment newInstance() {
+    public static CategoryNewsFragment newInstance(int categoryId) {
         Bundle args = new Bundle();
-        LatestNewsFragment fragment = new LatestNewsFragment();
+        args.putInt(Constants.CATEGORY_ID, categoryId);
+        CategoryNewsFragment fragment = new CategoryNewsFragment();
         fragment.setArguments(args);
         return fragment;
     }
@@ -68,12 +76,10 @@ public class LatestNewsFragment extends BaseFragment implements
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        refreshLayout.setOnRefreshListener(this);
         layoutManager = new MyLinearLayout(getContext());
         newsAdapter = new NewsAdapter(this);
         setupRecyclerView();
-
-        refreshLayout.setOnRefreshListener(this);
-        presenter.loadNewsOnPage(Constants.INITIAL_PAGE);
 
         customTabsHelperFragment = CustomTabsHelperFragment.attachTo(this);
         customTabsIntent = new CustomTabsIntent.Builder()
@@ -81,6 +87,12 @@ public class LatestNewsFragment extends BaseFragment implements
                 .setToolbarColor(ContextCompat.getColor(getContext(), R.color.primary_dark))
                 .setShowTitle(true)
                 .build();
+
+        presenter.getCategoryNewses(
+                getArguments().getInt(Constants.CATEGORY_ID),
+                Constants.ITEMS_PER_PAGE,
+                Constants.INITIAL_PAGE
+        );
     }
 
     private void setupRecyclerView() {
@@ -91,37 +103,35 @@ public class LatestNewsFragment extends BaseFragment implements
             @Override
             public void onLoadMore(int currentPage) {
                 layoutManager.setScrollEnabled(false);
-                presenter.loadNewsOnPage(currentPage);
+                presenter.getCategoryNewses(
+                        getArguments().getInt(Constants.CATEGORY_ID),
+                        Constants.ITEMS_PER_PAGE,
+                        currentPage
+                );
             }
         });
     }
 
     @Override
-    public void addNewses(List<Post> newses) {
-        newsAdapter.addNewses(newses);
-        layoutManager.setScrollEnabled(true);
-    }
-
-    @Override
-    public void onRefresh() {
-        newsAdapter.clearData();
-        setupRecyclerView();
-        presenter.loadNewsOnPage(Constants.INITIAL_PAGE);
-    }
-
-    @Override
     public void showProgressDialog() {
-        refreshLayout.setRefreshing(true);
+        progressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideProgressDialog() {
+        progressBar.setVisibility(View.GONE);
         refreshLayout.setRefreshing(false);
     }
 
     @Override
     public void showInfoMessage(String errorMsg) {
         Toasty.info(getContext(), errorMsg, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showNewses(List<Post> response) {
+        newsAdapter.addNewses(response);
+        layoutManager.setScrollEnabled(true);
     }
 
     @Override
@@ -135,11 +145,11 @@ public class LatestNewsFragment extends BaseFragment implements
 
     @Override
     public void onBookmarkClick(Post post) {
-        Toast.makeText(getContext(), "bokm", Toast.LENGTH_SHORT).show();
+
     }
 
     @Override
-    public void onDetailsClick(final Post post) {
+    public void onDetailsClick(Post post) {
         CustomTabsHelperFragment.open(
                 getActivity(),
                 customTabsIntent,
@@ -147,7 +157,6 @@ public class LatestNewsFragment extends BaseFragment implements
                 this
         );
     }
-
 
     @Override
     public void openUri(Activity activity, Uri uri) {
@@ -159,4 +168,18 @@ public class LatestNewsFragment extends BaseFragment implements
             Toast.makeText(activity, "activity_not_found", Toast.LENGTH_SHORT).show();
         }
     }
+
+    @Override
+    public void onRefresh() {
+        newsAdapter.clearData();
+        setupRecyclerView();
+        presenter.getCategoryNewses(
+                getArguments().getInt(Constants.CATEGORY_ID),
+                Constants.ITEMS_PER_PAGE,
+                Constants.INITIAL_PAGE
+        );
+    }
+
+
+
 }
