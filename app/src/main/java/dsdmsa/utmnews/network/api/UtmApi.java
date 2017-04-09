@@ -5,6 +5,7 @@ import java.util.List;
 
 import dsdmsa.utmnews.models.Category;
 import dsdmsa.utmnews.models.Post;
+import dsdmsa.utmnews.models.Tag;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
@@ -20,6 +21,8 @@ public interface UtmApi {
     @GET("/wp-json/wp/v2/categories")
     Call<List<Category>> getCategories();
 
+    @GET("/wp-json/wp/v2/tags")
+    Call<List<Tag>> getTags();
 
     @GET("/wp-json/wp/v2/posts")
     Call<List<Post>> getPostsByCategories(
@@ -27,5 +30,20 @@ public interface UtmApi {
             @Query("per_page") int per_page,
             @Query("page") int page
     );
+
+    @GET("/wp-json/wp/v2/posts")
+    Call<List<Post>> getSearchPosts(
+            @Query("search") String searchKey,
+            @Query("per_page") int perPage,
+            @Query("page") int page
+    );
+
+    @GET("/wp-json/wp/v2/posts")
+    Call<List<Post>> getPostsByTags(
+            @Query("tags") int tagId,
+            @Query("per_page") int per_page,
+            @Query("page") int page
+    );
+
 
 }
