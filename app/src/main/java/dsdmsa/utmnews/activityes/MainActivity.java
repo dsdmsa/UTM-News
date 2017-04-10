@@ -29,7 +29,6 @@ import dsdmsa.utmnews.fragments.BookmarksFragment;
 import dsdmsa.utmnews.fragments.CategoryListFragment;
 import dsdmsa.utmnews.fragments.LatestNewsFragment;
 import dsdmsa.utmnews.fragments.SearchFragment;
-import dsdmsa.utmnews.fragments.SettingsFragment;
 import dsdmsa.utmnews.fragments.TagListFragment;
 import dsdmsa.utmnews.mvp.MainActivityVP;
 import dsdmsa.utmnews.presenters.MainActivityPresenter;
@@ -158,10 +157,10 @@ public class MainActivity extends BaseActivity implements
                 drawerLayout.closeDrawer(GravityCompat.START);
                 addFragment(new AboutFragment());
                 break;
-            case R.id.menu_settings:
-                drawerLayout.closeDrawer(GravityCompat.START);
-                addFragment(new SettingsFragment());
-                break;
+//            case R.id.menu_settings:
+//                drawerLayout.closeDrawer(GravityCompat.START);
+//                addFragment(new SettingsFragment());
+//                break;
         }
         return true;
     }
