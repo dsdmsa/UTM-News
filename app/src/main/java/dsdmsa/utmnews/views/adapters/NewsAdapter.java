@@ -1,6 +1,7 @@
 package dsdmsa.utmnews.views.adapters;
 
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,7 +17,9 @@ import java.util.List;
 
 import dsdmsa.utmnews.R;
 import dsdmsa.utmnews.models.Post;
+import dsdmsa.utmnews.repository.Specification;
 import dsdmsa.utmnews.utils.Constants;
+import io.realm.Realm;
 
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
@@ -40,25 +43,45 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
+
+        if (newsList.get(position).isBookmarked()) {
+            holder.bookmark.setImageResource(R.drawable.ic_bookmarcs);
+//            holder.bookmark.setImageDrawable(ContextCompat.getDrawable(holder.bookmark.getContext(), R.drawable
+//                    .ic_bookmarcs));
+        } else {
+            holder.bookmark.setImageResource(R.drawable.ic_bookmarcs_white);
+//            holder.bookmark.setImageDrawable(ContextCompat.getDrawable(holder.bookmark.getContext(), R.drawable
+//                    .ic_bookmarcs_white));
+        }
+
         if (newsList.get(position).isExpanded()) {
-            holder.gradient.setBackgroundDrawable(ContextCompat.getDrawable(holder.imageView.getContext(), R.drawable.gradient_primary_dark));
+            holder.gradient.setBackgroundDrawable(ContextCompat.getDrawable(holder.imageView.getContext(), R.drawable
+                    .gradient_primary_dark));
             holder.details.setVisibility(View.VISIBLE);
         } else {
-            holder.gradient.setBackgroundDrawable(ContextCompat.getDrawable(holder.imageView.getContext(), R.drawable.gradient_primary_d));
+            holder.gradient.setBackgroundDrawable(ContextCompat.getDrawable(holder.imageView.getContext(), R.drawable
+                    .gradient_primary_d));
             holder.details.setVisibility(View.GONE);
         }
 
         Glide.with(holder.imageView.getContext())
-                .load(newsList.get(position).getContent().getImageUrl())
+                .load(newsList.get(position).getContent().getUrl())
+                .asBitmap()
                 .centerCrop()
                 .into(holder.imageView);
+
         holder.title.setText(newsList.get(position).getTitle().getRendered());
         holder.description.setText(newsList.get(position).getContent().getDescription());
         holder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                newsList.get(position).setExpanded(!newsList.get(position).isExpanded());
-                notifyItemChanged(position);
+                Specification.DATABASE.executeTransaction(new Realm.Transaction() {
+                    @Override
+                    public void execute(Realm realm) {
+                        newsList.get(position).setExpanded(!newsList.get(position).isExpanded());
+                        notifyItemChanged(position);
+                    }
+                });
             }
         });
         holder.bookmark.setOnClickListener(new View.OnClickListener() {
@@ -91,11 +114,24 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         notifyDataSetChanged();
     }
 
+    public void removeItem(Post post) {
+        newsList.remove(post);
+        notifyDataSetChanged();
+    }
+
+    public interface NewsInteract {
+        void onShareClick(String url);
+
+        void onBookmarkClick(Post post);
+
+        void onDetailsClick(Post post);
+    }
+
     static class ViewHolder extends RecyclerView.ViewHolder {
         private final TextView title;
         private final TextView description;
         private final FrameLayout details;
-        private final ImageView imageView;
+        private final AppCompatImageView imageView;
         private final ImageView share;
         private final ImageView bookmark;
         private final ImageView newsDetail;
@@ -106,20 +142,12 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
             title = (TextView) itemView.findViewById(R.id.tv_title);
             description = (TextView) itemView.findViewById(R.id.tv_description);
             details = (FrameLayout) itemView.findViewById(R.id.view_details);
-            imageView = (ImageView) itemView.findViewById(R.id.news_thombnail);
+            imageView = (AppCompatImageView) itemView.findViewById(R.id.news_thombnail);
             share = (ImageView) itemView.findViewById(R.id.iv_share);
             bookmark = (ImageView) itemView.findViewById(R.id.iv_bookmark);
             newsDetail = (ImageView) itemView.findViewById(R.id.iv_details);
             gradient = itemView.findViewById(R.id.gradient);
         }
-    }
-
-    public interface NewsInteract {
-        void onShareClick(String url);
-
-        void onBookmarkClick(Post post);
-
-        void onDetailsClick(Post post);
     }
 
 }

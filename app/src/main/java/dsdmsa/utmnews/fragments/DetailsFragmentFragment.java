@@ -53,7 +53,7 @@ public class DetailsFragmentFragment extends BaseFragment implements DetailsFrag
         post = (Post) getArguments().getSerializable(Constants.NEWS_DETAILS_KEY);
 
         Glide.with(getContext())
-                .load(post.getContent().getImageUrl())
+                .load(post.getContent().getUrl())
                 .centerCrop()
                 .into(imageView);
 

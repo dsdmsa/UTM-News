@@ -2,7 +2,7 @@ package dsdmsa.utmnews.models;
 
 import java.util.List;
 
-public class Links {
+public class Links  {
 
 public List<Self> self = null;
 public List<Collection> collection = null;

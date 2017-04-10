@@ -1,8 +1,16 @@
 package dsdmsa.utmnews.models;
 
-public class Excerpt {
+import io.realm.RealmObject;
 
-public String rendered;
-public Boolean _protected;
+public class Excerpt extends RealmObject {
 
+private String rendered;
+
+    public String getRendered() {
+        return rendered;
+    }
+
+    public void setRendered(String rendered) {
+        this.rendered = rendered;
+    }
 }

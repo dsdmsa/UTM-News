@@ -2,8 +2,12 @@ package dsdmsa.utmnews.models;
 
 import java.io.Serializable;
 
-public class Post implements Serializable{
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
+public class Post extends RealmObject implements Serializable {
+
+    @PrimaryKey
     private Integer id;
     private String date;
     private String dateGmt;
@@ -23,7 +27,17 @@ public class Post implements Serializable{
     private String pingStatus;
     private Boolean sticky;
     private String format;
-    private Links links;
+//    private Links links;
+
+    private boolean isBookmarked = false;
+
+    public boolean isBookmarked() {
+        return isBookmarked;
+    }
+
+    public void setBookmarked(boolean bookmarked) {
+        isBookmarked = bookmarked;
+    }
 
     private boolean isExpanded = false;
 
@@ -187,11 +201,12 @@ public class Post implements Serializable{
         this.format = format;
     }
 
-    public Links getLinks() {
-        return links;
-    }
+//    public Links getLinks() {
+//        return links;
+//    }
+//
+//    public void setLinks(Links links) {
+//        this.links = links;
+//    }
 
-    public void setLinks(Links links) {
-        this.links = links;
-    }
 }

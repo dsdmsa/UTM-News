@@ -20,11 +20,15 @@ import org.chromium.customtabsclient.CustomTabsActivityHelper;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
+import dsdmsa.utmnews.App;
 import dsdmsa.utmnews.R;
 import dsdmsa.utmnews.models.Post;
 import dsdmsa.utmnews.mvp.SearchFragmentVP;
 import dsdmsa.utmnews.presenters.SearchFragmentPresenter;
+import dsdmsa.utmnews.repository.PostRepository;
 import dsdmsa.utmnews.utils.Constants;
 import dsdmsa.utmnews.views.MyLinearLayout;
 import dsdmsa.utmnews.views.adapters.EndlessRecyclerOnScrollListener;
@@ -54,6 +58,9 @@ public class SearchFragment extends BaseFragment implements
     @BindView(R.id.swipe_refresh)
     SwipeRefreshLayout refreshLayout;
 
+    @Inject
+    PostRepository repository;
+
     private NewsAdapter newsAdapter;
     private MyLinearLayout layoutManager;
 
@@ -80,7 +87,7 @@ public class SearchFragment extends BaseFragment implements
         layoutManager = new MyLinearLayout(getContext());
         newsAdapter = new NewsAdapter(this);
         setupRecyclerView();
-
+        App.getAppComponent().inject(this);
         customTabsHelperFragment = CustomTabsHelperFragment.attachTo(this);
         customTabsIntent = new CustomTabsIntent.Builder()
                 .enableUrlBarHiding()
@@ -146,7 +153,9 @@ public class SearchFragment extends BaseFragment implements
 
     @Override
     public void onBookmarkClick(Post post) {
-
+        post.setBookmarked(!post.isBookmarked());
+        newsAdapter.notifyDataSetChanged();
+        repository.add(post);
     }
 
     @Override

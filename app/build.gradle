@@ -1,16 +1,17 @@
 import java.text.SimpleDateFormat
 
 apply plugin: 'com.android.application'
+//apply plugin: 'realm-android'
 
-def final DEV = "dsdmsa.utm_news.dev"
-def final PROD = "dsdmsa.utm_news.prod"
+def final DEV = "dsdmsa.utmnews.dev"
+def final PROD = "dsdmsa.utmnews.prod"
 def final VERSION_NAME = "v0.0.2.${buildTime()}"
 
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
     defaultConfig {
-        applicationId "dsdmsa.utm_news"
+        applicationId "dsdmsa.utmnews"
         minSdkVersion 15
         targetSdkVersion 25
         versionCode 1
@@ -25,20 +26,20 @@ android {
         }
     }
 
-//    productFlavors {
-//        dev {
-//            applicationId DEV
-//            signingConfig signingConfigs.debug
-//            versionName "dev.$VERSION_NAME"
-//        }
-//
-//        prod {
-//            applicationId PROD
-//            versionName "prod.$VERSION_NAME"
-//            signingConfig signingConfigs.debug
-//        }
-//
-//    }
+    productFlavors {
+        dev {
+            applicationId DEV
+            signingConfig signingConfigs.debug
+            versionName "dev.$VERSION_NAME"
+        }
+
+        prod {
+            applicationId PROD
+            versionName "prod.$VERSION_NAME"
+            signingConfig signingConfigs.debug
+        }
+
+    }
 
 
 }
@@ -53,6 +54,7 @@ dependencies {
     compile "com.android.support:preference-v7:25.3.1"
 
     compile 'com.google.code.gson:gson:2.8.0'
+    compile 'com.squareup.retrofit2:converter-moshi:2.0.0'
 
     compile "com.squareup.retrofit2:retrofit:2.2.0"
     compile "com.squareup.retrofit2:converter-gson:2.1.0"
@@ -88,6 +90,8 @@ dependencies {
     compile 'com.github.GrenderG:Toasty:1.1.4'
     //keyboard control
     compile 'com.github.Commit451:Teleprinter:1.0.1'
+    //database
+    compile 'io.realm:realm-android:0.87.5'
 
 
     //testing

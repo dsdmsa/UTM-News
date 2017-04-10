@@ -4,19 +4,28 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
+import io.realm.RealmObject;
+import io.realm.annotations.Ignore;
+
 import static dsdmsa.utmnews.utils.Constants.DEFAULT_IMAGE_URL;
 import static dsdmsa.utmnews.utils.Constants.MAX_DESC_LEN;
 
-public class Content {
-    public String rendered;
-    public Boolean _protected;
+public class Content extends RealmObject {
+    private String rendered;
+    @Ignore
+    private String description = "";
+    @Ignore
+    private String url = DEFAULT_IMAGE_URL;
 
     public String getRendered() {
         return rendered;
     }
 
+    public void setRendered(String rendered) {
+        this.rendered = rendered;
+    }
+
     public String getDescription() {
-        String description = "";
         String text = Jsoup.parse(getRendered()).text();
         if (text.length() > MAX_DESC_LEN) {
             description = text.substring(0, MAX_DESC_LEN) + "...";
@@ -26,10 +35,9 @@ public class Content {
         return description;
     }
 
-    public String getImageUrl() {
+    public String getUrl() {
         Document document = Jsoup.parse(getRendered());
         Element image = document.select("img").first();
-        String url = DEFAULT_IMAGE_URL;
         if (image != null) {
             url = image.absUrl("src");
         }

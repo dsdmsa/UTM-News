@@ -1,6 +1,8 @@
 package dsdmsa.utmnews.injection.modules;
 
 
+import com.google.gson.ExclusionStrategy;
+import com.google.gson.FieldAttributes;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -9,8 +11,9 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 import dsdmsa.utmnews.BuildConfig;
-import dsdmsa.utmnews.network.services.UtmServices;
 import dsdmsa.utmnews.network.api.UtmApi;
+import dsdmsa.utmnews.network.services.UtmServices;
+import io.realm.RealmObject;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -28,7 +31,19 @@ public class NetworkModule {
     @Singleton
     @Provides
     public Gson provideGson() {
-        return new GsonBuilder().create();
+        Gson gson = new GsonBuilder()
+                .setExclusionStrategies(new ExclusionStrategy() {
+                    @Override
+                    public boolean shouldSkipField(FieldAttributes f) {
+                        return f.getDeclaringClass().equals(RealmObject.class);
+                    }
+
+                    @Override
+                    public boolean shouldSkipClass(Class<?> clazz) {
+                        return false;
+                    }
+                }).create();
+        return gson;
     }
 
     @Singleton
@@ -57,7 +72,7 @@ public class NetworkModule {
 
     @Singleton
     @Provides
-    public UtmServices providesUtmController(UtmApi utmApi){
+    public UtmServices providesUtmController(UtmApi utmApi) {
         return new UtmServices(utmApi);
     }
 

@@ -15,22 +15,29 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.arellomobile.mvp.presenter.PresenterType;
 
 import org.chromium.customtabsclient.CustomTabsActivityHelper;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
+import dsdmsa.utmnews.App;
 import dsdmsa.utmnews.R;
 import dsdmsa.utmnews.models.Post;
 import dsdmsa.utmnews.mvp.LatestNewsFragmentVP;
 import dsdmsa.utmnews.presenters.LatestNewsPresenter;
-import dsdmsa.utmnews.utils.Constants;
+import dsdmsa.utmnews.repository.PostRepository;
 import dsdmsa.utmnews.views.MyLinearLayout;
 import dsdmsa.utmnews.views.adapters.EndlessRecyclerOnScrollListener;
 import dsdmsa.utmnews.views.adapters.NewsAdapter;
 import es.dmoral.toasty.Toasty;
 import me.zhanghai.android.customtabshelper.CustomTabsHelperFragment;
+
+import static dsdmsa.utmnews.utils.Constants.INITIAL_PAGE;
+import static dsdmsa.utmnews.utils.Constants.TEXT_PLAIN;
 
 public class LatestNewsFragment extends BaseFragment implements
         LatestNewsFragmentVP.View,
@@ -44,14 +51,17 @@ public class LatestNewsFragment extends BaseFragment implements
     @BindView(R.id.swipe_refresh)
     SwipeRefreshLayout refreshLayout;
 
-    @InjectPresenter
+    @InjectPresenter(type = PresenterType.GLOBAL)
     LatestNewsPresenter presenter;
+
+    @Inject
+    PostRepository repository;
 
     private NewsAdapter newsAdapter;
     private MyLinearLayout layoutManager;
 
-    CustomTabsHelperFragment customTabsHelperFragment;
-    CustomTabsIntent customTabsIntent;
+    private CustomTabsHelperFragment customTabsHelperFragment;
+    private CustomTabsIntent customTabsIntent;
 
     public static LatestNewsFragment newInstance() {
         Bundle args = new Bundle();
@@ -70,10 +80,11 @@ public class LatestNewsFragment extends BaseFragment implements
         super.onViewCreated(view, savedInstanceState);
         layoutManager = new MyLinearLayout(getContext());
         newsAdapter = new NewsAdapter(this);
+        App.getAppComponent().inject(this);
         setupRecyclerView();
 
         refreshLayout.setOnRefreshListener(this);
-        presenter.loadNewsOnPage(Constants.INITIAL_PAGE);
+        presenter.loadNewsOnPage(INITIAL_PAGE);
 
         customTabsHelperFragment = CustomTabsHelperFragment.attachTo(this);
         customTabsIntent = new CustomTabsIntent.Builder()
@@ -106,7 +117,7 @@ public class LatestNewsFragment extends BaseFragment implements
     public void onRefresh() {
         newsAdapter.clearData();
         setupRecyclerView();
-        presenter.loadNewsOnPage(Constants.INITIAL_PAGE);
+        presenter.loadNewsOnPage(INITIAL_PAGE);
     }
 
     @Override
@@ -130,13 +141,15 @@ public class LatestNewsFragment extends BaseFragment implements
         Intent sendIntent = new Intent();
         sendIntent.setAction(Intent.ACTION_SEND);
         sendIntent.putExtra(Intent.EXTRA_TEXT, url);
-        sendIntent.setType(Constants.TEXT_PLAIN);
+        sendIntent.setType(TEXT_PLAIN);
         startActivity(Intent.createChooser(sendIntent, getString(R.string.share_title)));
     }
 
     @Override
     public void onBookmarkClick(Post post) {
-        Toast.makeText(getContext(), "bokm", Toast.LENGTH_SHORT).show();
+        post.setBookmarked(!post.isBookmarked());
+        newsAdapter.notifyDataSetChanged();
+        repository.add(post);
     }
 
     @Override
