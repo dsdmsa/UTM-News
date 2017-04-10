@@ -46,12 +46,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
         if (newsList.get(position).isBookmarked()) {
             holder.bookmark.setImageResource(R.drawable.ic_bookmarcs);
-//            holder.bookmark.setImageDrawable(ContextCompat.getDrawable(holder.bookmark.getContext(), R.drawable
-//                    .ic_bookmarcs));
         } else {
             holder.bookmark.setImageResource(R.drawable.ic_bookmarcs_white);
-//            holder.bookmark.setImageDrawable(ContextCompat.getDrawable(holder.bookmark.getContext(), R.drawable
-//                    .ic_bookmarcs_white));
         }
 
         if (newsList.get(position).isExpanded()) {
