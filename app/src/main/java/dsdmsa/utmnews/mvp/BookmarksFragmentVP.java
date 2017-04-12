@@ -17,5 +17,7 @@ public interface BookmarksFragmentVP {
 
     interface Presenter {
         void loadNews();
+
+        void removePost(SimplePost post);
     }
 }

@@ -1,14 +1,13 @@
 package dsdmsa.utmnews.repository;
 
 
-import dsdmsa.utmnews.models.Post;
 import dsdmsa.utmnews.models.SimplePost;
 import io.realm.Realm;
 
-public class PostRepository implements Repository<Post> {
+public class PostRepository implements Repository<SimplePost> {
 
     @Override
-    public void add(final Post post) {
+    public void add(final SimplePost post) {
         Specification.DATABASE.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
@@ -18,7 +17,7 @@ public class PostRepository implements Repository<Post> {
     }
 
     @Override
-    public void delete(final Post post) {
+    public void delete(final SimplePost post) {
         Specification.DATABASE.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
@@ -31,13 +30,5 @@ public class PostRepository implements Repository<Post> {
     public void querry(Specification specification) {
         specification.querry();
     }
-
-    public void add(final SimplePost post) {
-        Specification.DATABASE.executeTransaction(new Realm.Transaction() {
-            @Override
-            public void execute(Realm realm) {
-                realm.copyToRealmOrUpdate(post);
-            }
-        });
-    }
+    
 }
