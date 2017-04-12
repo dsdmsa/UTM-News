@@ -26,6 +26,7 @@ import butterknife.BindView;
 import dsdmsa.utmnews.App;
 import dsdmsa.utmnews.R;
 import dsdmsa.utmnews.models.Post;
+import dsdmsa.utmnews.models.SimplePost;
 import dsdmsa.utmnews.mvp.SearchFragmentVP;
 import dsdmsa.utmnews.presenters.SearchFragmentPresenter;
 import dsdmsa.utmnews.repository.PostRepository;
@@ -138,7 +139,7 @@ public class SearchFragment extends BaseFragment implements
 
     @Override
     public void showNewses(List<Post> response) {
-        newsAdapter.addNewses(response);
+//        newsAdapter.addNewses(response);
         layoutManager.setScrollEnabled(true);
     }
 
@@ -152,14 +153,14 @@ public class SearchFragment extends BaseFragment implements
     }
 
     @Override
-    public void onBookmarkClick(Post post) {
+    public void onBookmarkClick(SimplePost post) {
         post.setBookmarked(!post.isBookmarked());
         newsAdapter.notifyDataSetChanged();
-        repository.add(post);
+//        repository.add(post);
     }
 
     @Override
-    public void onDetailsClick(Post post) {
+    public void onDetailsClick(SimplePost post) {
         CustomTabsHelperFragment.open(
                 getActivity(),
                 customTabsIntent,

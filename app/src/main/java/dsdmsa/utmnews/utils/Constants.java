@@ -3,7 +3,7 @@ package dsdmsa.utmnews.utils;
 
 public class Constants {
     public static final String TEXT_PLAIN = "text/plain";
-    public static final int ITEMS_PER_PAGE = 6;
+    public static final int ITEMS_PER_PAGE = 10;
     public static final int INITIAL_PAGE = 1;
     public static final int MAX_DESC_LEN = 200;
     public static final String DEFAULT_IMAGE_URL = "http://utm.md/wp-content/uploads/2016/08/utm2.png";

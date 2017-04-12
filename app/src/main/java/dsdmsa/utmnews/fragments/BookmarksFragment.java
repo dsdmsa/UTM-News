@@ -24,7 +24,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import dsdmsa.utmnews.App;
 import dsdmsa.utmnews.R;
-import dsdmsa.utmnews.models.Post;
+import dsdmsa.utmnews.models.SimplePost;
 import dsdmsa.utmnews.mvp.BookmarksFragmentVP;
 import dsdmsa.utmnews.presenters.BookmarksFragmentPresenter;
 import dsdmsa.utmnews.repository.PostRepository;
@@ -40,7 +40,9 @@ import me.zhanghai.android.customtabshelper.CustomTabsHelperFragment;
 
 public class BookmarksFragment extends BaseFragment implements
         BookmarksFragmentVP.View,
-        SwipeRefreshLayout.OnRefreshListener, NewsAdapter.NewsInteract, CustomTabsActivityHelper.CustomTabsFallback {
+        SwipeRefreshLayout.OnRefreshListener,
+        NewsAdapter.NewsInteract,
+        CustomTabsActivityHelper.CustomTabsFallback {
 
     @BindView(R.id.recycle_view)
     RecyclerView recyclerView;
@@ -111,7 +113,7 @@ public class BookmarksFragment extends BaseFragment implements
     }
 
     @Override
-    public void addNewses(List<Post> newses) {
+    public void addNewses(List<SimplePost> newses) {
         newsAdapter.addNewses(newses);
     }
 
@@ -125,14 +127,14 @@ public class BookmarksFragment extends BaseFragment implements
     }
 
     @Override
-    public void onBookmarkClick(Post post) {
+    public void onBookmarkClick(SimplePost post) {
         post.setBookmarked(!post.isBookmarked());
-        repository.delete(post);
+//        repository.delete(post);
         newsAdapter.removeItem(post);
     }
 
     @Override
-    public void onDetailsClick(final Post post) {
+    public void onDetailsClick(final SimplePost post) {
         CustomTabsHelperFragment.open(
                 getActivity(),
                 customTabsIntent,

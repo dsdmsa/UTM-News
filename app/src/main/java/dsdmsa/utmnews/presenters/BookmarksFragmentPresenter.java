@@ -35,7 +35,7 @@ public class BookmarksFragmentPresenter extends MvpPresenter<BookmarksFragmentVP
 
     @Override
     public void onSuccess(List<Post> response) {
-        getViewState().addNewses(response);
+//        getViewState().addNewses(response);
         getViewState().hideProgressDialog();
     }
 

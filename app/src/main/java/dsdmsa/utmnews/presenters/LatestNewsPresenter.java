@@ -2,10 +2,13 @@ package dsdmsa.utmnews.presenters;
 
 
 import android.content.Intent;
+import android.os.Handler;
+import android.os.Looper;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -13,6 +16,7 @@ import javax.inject.Inject;
 import dsdmsa.utmnews.App;
 import dsdmsa.utmnews.R;
 import dsdmsa.utmnews.models.Post;
+import dsdmsa.utmnews.models.SimplePost;
 import dsdmsa.utmnews.mvp.LatestNewsFragmentVP;
 import dsdmsa.utmnews.network.OnDataLoaded;
 import dsdmsa.utmnews.network.services.UtmServices;
@@ -63,26 +67,76 @@ public class LatestNewsPresenter extends MvpPresenter<LatestNewsFragmentVP.View>
     }
 
     @Override
-    public void bookmarkPost(Post post) {
+    public void bookmarkPost(SimplePost post) {
         post.setBookmarked(!post.isBookmarked());
-        repository.add(post);
+//        repository.add(post);
     }
 
     @Override
     public void onSuccess(List<Post> response) {
-        if (isFirstPage) {
-            isFirstPage = false;
-            getViewState().refreshDatas(response);
-        } else {
-            getViewState().addNewses(response);
-        }
-        getViewState().hideProgressDialog();
+        new Postparser(response).start();
     }
 
     @Override
     public void onError(String errorMsg) {
         getViewState().hideProgressDialog();
         getViewState().showInfoMessage(errorMsg);
+    }
+
+    private static class SimplePostAdapter {
+
+        private SimplePostAdapter() {
+        }
+
+        static SimplePost getSimplePost(Post post) {
+            SimplePost simplePost = new SimplePost();
+            simplePost.setBookmarked(false);
+            simplePost.setDate(post.getDate());
+            simplePost.setDescription(post.getContent().getDescription());
+            simplePost.setId(post.getId());
+            simplePost.setImageUrl(post.getContent().getUrl());
+            simplePost.setLink(post.getLink());
+            simplePost.setTitle(post.getTitle());
+            return simplePost;
+        }
+    }
+
+    private class Postparser extends Thread {
+        private List<Post> response;
+        private List<SimplePost> simplePosts = new ArrayList<>();
+
+        public Postparser(List<Post> response) {
+            this.response = response;
+        }
+
+        @Override
+        public void run() {
+
+            try {
+                sleep(1);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            for (Post post : response) {
+                simplePosts.add(SimplePostAdapter.getSimplePost(post));
+            }
+
+
+            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                @Override
+                public void run() {
+                    if (isFirstPage) {
+                        isFirstPage = false;
+                        getViewState().refreshDatas(simplePosts);
+                    } else {
+                        getViewState().addNewses(simplePosts);
+                    }
+                    getViewState().hideProgressDialog();
+                }
+            });
+
+        }
     }
 
 

@@ -4,7 +4,7 @@ import com.arellomobile.mvp.MvpView;
 
 import java.util.List;
 
-import dsdmsa.utmnews.models.Post;
+import dsdmsa.utmnews.models.SimplePost;
 
 /**
  * Created by dsdmsa on 4/8/17.
@@ -12,7 +12,7 @@ import dsdmsa.utmnews.models.Post;
 
 public interface BookmarksFragmentVP {
     interface View extends MvpView, LoadingView {
-        void addNewses(List<Post> newses);
+        void addNewses(List<SimplePost> newses);
     }
 
     interface Presenter {

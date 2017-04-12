@@ -14,6 +14,24 @@ public class SimplePost extends RealmObject implements Serializable {
     private String link;
     private Title title;
     private String imageUrl;
+    private String description;
+    private boolean isBookmarked = false;
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public boolean isBookmarked() {
+        return isBookmarked;
+    }
+
+    public void setBookmarked(boolean bookmarked) {
+        isBookmarked = bookmarked;
+    }
 
     public Integer getId() {
         return id;

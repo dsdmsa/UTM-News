@@ -15,7 +15,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import dsdmsa.utmnews.R;
-import dsdmsa.utmnews.models.Post;
+import dsdmsa.utmnews.models.SimplePost;
 import dsdmsa.utmnews.mvp.LatestNewsFragmentVP;
 import dsdmsa.utmnews.presenters.LatestNewsPresenter;
 import dsdmsa.utmnews.views.MyLinearLayout;
@@ -41,6 +41,8 @@ public class LatestNewsFragment extends BaseFragment implements
 
     private NewsAdapter newsAdapter;
     private MyLinearLayout layoutManager;
+//    private Handler handler = new Handler();
+//    private boolean isRefreshing = false;
 
     public static LatestNewsFragment newInstance() {
         Bundle args = new Bundle();
@@ -62,6 +64,7 @@ public class LatestNewsFragment extends BaseFragment implements
         setupRecyclerView();
         refreshLayout.setOnRefreshListener(this);
         presenter.loadNewsOnPage(INITIAL_PAGE);
+//        handler.post(refreshing);
     }
 
     private void setupRecyclerView() {
@@ -78,12 +81,12 @@ public class LatestNewsFragment extends BaseFragment implements
     }
 
     @Override
-    public void addNewses(List<Post> newses) {
+    public void addNewses(List<SimplePost> newses) {
         newsAdapter.addNewses(newses);
     }
 
     @Override
-    public void refreshDatas(List<Post> response) {
+    public void refreshDatas(List<SimplePost> response) {
         setupRecyclerView();
         newsAdapter.clearData();
         newsAdapter.addNewses(response);
@@ -91,16 +94,52 @@ public class LatestNewsFragment extends BaseFragment implements
 
     @Override
     public void onRefresh() {
+
         presenter.loadNewsOnPage(INITIAL_PAGE);
     }
 
     @Override
     public void showProgressDialog() {
+
+//        refreshLayout.post(new Runnable() {
+//            @Override
+//            public void run() {
+//                refreshLayout.setRefreshing(true);
+//            }
+//        });
+
+//        isRefreshing = true;
         refreshLayout.setRefreshing(true);
     }
 
+//    private final Runnable refreshing = new Runnable() {
+//        public void run() {
+//            try {
+//            /* TODO : isRefreshing should be attached to your data request status */
+//                if (refreshLayout.isRefreshing()) {
+//                    // re run the verification after 1 second
+//                    handler.postDelayed(this, 1000);
+//
+//                } else {
+//                    // stop the animation after the data is fully loaded
+//                    refreshLayout.setRefreshing(false);
+//                    // TODO : update your list with the new data
+//                }
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//        }
+//    };
+
     @Override
     public void hideProgressDialog() {
+//        refreshLayout.post(new Runnable() {
+//            @Override
+//            public void run() {
+//                refreshLayout.setRefreshing(false);
+//            }
+//        });
+//        isRefreshing = false;
         refreshLayout.setRefreshing(false);
     }
 
@@ -116,14 +155,14 @@ public class LatestNewsFragment extends BaseFragment implements
     }
 
     @Override
-    public void onBookmarkClick(Post post) {
+    public void onBookmarkClick(SimplePost post) {
         presenter.bookmarkPost(post);
         newsAdapter.notifyDataSetChanged();
     }
 
     @Override
-    public void onDetailsClick(final Post post) {
-        navigationPresenter.showPostDetails(post);
+    public void onDetailsClick(final SimplePost post) {
+//        navigationPresenter.showPostDetails(post);
     }
 
     @Override
