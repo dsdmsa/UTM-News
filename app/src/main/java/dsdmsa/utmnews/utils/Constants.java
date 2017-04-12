@@ -15,4 +15,5 @@ public class Constants {
     public static final String SEARCH_KEY = "search_key";
     public static final String REALM_UTM_DB = "realm-utm.db";
     public static final int SCHEMA_VERSION = 1;
+    public static final int TIME_TO_WAIT = 4000;
 }

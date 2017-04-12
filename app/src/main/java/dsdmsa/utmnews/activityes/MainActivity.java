@@ -162,6 +162,11 @@ public class MainActivity extends BaseActivity implements
             drawerLayout.closeDrawer(GravityCompat.START);
             return;
         }
+        if (getSupportFragmentManager().getBackStackEntryCount() > 1) {
+            super.onBackPressed();
+            return;
+        }
+        super.onBackPressed();
         super.onBackPressed();
     }
 

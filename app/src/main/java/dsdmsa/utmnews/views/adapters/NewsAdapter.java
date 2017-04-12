@@ -20,6 +20,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
     private List<SimplePost> newsList = new ArrayList<>();
     private NewsInteract interact;
+    private long time = 0;
+
 
     public NewsAdapter(NewsInteract interact) {
         this.interact = interact;
@@ -67,7 +69,10 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         holder.newsDetail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                interact.onDetailsClick(newsList.get(position));
+                if (time < System.currentTimeMillis()) {
+                    time = System.currentTimeMillis() + Constants.TIME_TO_WAIT;
+                    interact.onDetailsClick(newsList.get(position));
+                }
             }
         });
     }
