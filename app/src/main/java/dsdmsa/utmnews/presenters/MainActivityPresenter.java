@@ -3,7 +3,6 @@ package dsdmsa.utmnews.presenters;
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 
-import dsdmsa.utmnews.models.Post;
 import dsdmsa.utmnews.mvp.FragmentNavigation;
 import dsdmsa.utmnews.fragments.BaseFragment;
 import dsdmsa.utmnews.mvp.MainActivityVP;
@@ -23,7 +22,7 @@ public class MainActivityPresenter extends MvpPresenter<MainActivityVP.View>
     }
 
     @Override
-    public void showPostDetails(Post post) {
-        getViewState().openDetails(post);
+    public void showPostDetails(String url) {
+        getViewState().openDetails(url);
     }
 }

@@ -1,5 +1,6 @@
 package dsdmsa.utmnews.fragments;
 
+import dsdmsa.utmnews.App;
 import dsdmsa.utmnews.R;
 
 /**
@@ -14,7 +15,7 @@ public class SettingsFragment extends BaseFragment {
 
     @Override
     public String getTitle() {
-        return "Settings";
+        return App.getAppComponent().getContext().getString(R.string.settings_title);
     }
 
 

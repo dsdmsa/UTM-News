@@ -83,13 +83,13 @@ public class NewsPresenter extends MvpPresenter<NewsFragmentVP.View> implements
                 .startActivity(Intent.createChooser(
                         sendIntent,
                         App.getAppComponent().getContext().getString(R.string.share_title))
+                        .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 );
     }
 
     @Override
     public void bookmarkPost(SimplePost post) {
-        post.setBookmarked(!post.isBookmarked());
-//        repository.add(post);
+        repository.add(post);
     }
 
     @Override

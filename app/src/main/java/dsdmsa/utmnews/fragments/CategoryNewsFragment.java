@@ -1,13 +1,8 @@
 package dsdmsa.utmnews.fragments;
 
-import android.app.Activity;
-import android.content.ActivityNotFoundException;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.customtabs.CustomTabsIntent;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -15,8 +10,6 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
-
-import org.chromium.customtabsclient.CustomTabsActivityHelper;
 
 import java.util.List;
 
@@ -31,7 +24,6 @@ import dsdmsa.utmnews.views.MyLinearLayout;
 import dsdmsa.utmnews.views.adapters.EndlessRecyclerOnScrollListener;
 import dsdmsa.utmnews.views.adapters.NewsAdapter;
 import es.dmoral.toasty.Toasty;
-import me.zhanghai.android.customtabshelper.CustomTabsHelperFragment;
 
 /**
  * Created by dsdmsa on 4/8/17.
@@ -40,8 +32,7 @@ import me.zhanghai.android.customtabshelper.CustomTabsHelperFragment;
 public class CategoryNewsFragment extends BaseFragment implements
         NewsFragmentVP.View,
         NewsAdapter.NewsInteract,
-        SwipeRefreshLayout.OnRefreshListener,
-        CustomTabsActivityHelper.CustomTabsFallback {
+        SwipeRefreshLayout.OnRefreshListener{
 
     @InjectPresenter
     NewsPresenter presenter;
@@ -57,9 +48,6 @@ public class CategoryNewsFragment extends BaseFragment implements
 
     private NewsAdapter newsAdapter;
     private MyLinearLayout layoutManager;
-
-    private CustomTabsHelperFragment customTabsHelperFragment;
-    private CustomTabsIntent customTabsIntent;
 
     public static CategoryNewsFragment newInstance(int categoryId) {
         Bundle args = new Bundle();
@@ -81,14 +69,6 @@ public class CategoryNewsFragment extends BaseFragment implements
         layoutManager = new MyLinearLayout(getContext());
         newsAdapter = new NewsAdapter(this);
         setupRecyclerView();
-        App.getAppComponent().inject(this);
-
-        customTabsHelperFragment = CustomTabsHelperFragment.attachTo(this);
-        customTabsIntent = new CustomTabsIntent.Builder()
-                .enableUrlBarHiding()
-                .setToolbarColor(ContextCompat.getColor(getContext(), R.color.primary_dark))
-                .setShowTitle(true)
-                .build();
 
         presenter.getCategoryNewses(
                 getArguments().getInt(Constants.CATEGORY_ID),
@@ -142,30 +122,14 @@ public class CategoryNewsFragment extends BaseFragment implements
 
     @Override
     public void onBookmarkClick(SimplePost post) {
-        post.setBookmarked(!post.isBookmarked());
+        post.setBookmarked(true);
+        presenter.bookmarkPost(post);
         newsAdapter.notifyDataSetChanged();
-//        repository.add(post);
     }
 
     @Override
     public void onDetailsClick(SimplePost post) {
-        CustomTabsHelperFragment.open(
-                getActivity(),
-                customTabsIntent,
-                Uri.parse(post.getLink()),
-                this
-        );
-    }
-
-    @Override
-    public void openUri(Activity activity, Uri uri) {
-        Toast.makeText(activity, "custom_tabs_failed", Toast.LENGTH_SHORT).show();
-        try {
-            activity.startActivity(new Intent(Intent.ACTION_VIEW, uri));
-        } catch (ActivityNotFoundException e) {
-            e.printStackTrace();
-            Toast.makeText(activity, "activity_not_found", Toast.LENGTH_SHORT).show();
-        }
+        navigationPresenter.showPostDetails(post.getLink());
     }
 
     @Override
@@ -181,7 +145,7 @@ public class CategoryNewsFragment extends BaseFragment implements
 
     @Override
     public String getTitle() {
-        return "News by gategory";
+        return App.getAppComponent().getContext().getString(R.string.categoru_new_title);
     }
 
     @Override

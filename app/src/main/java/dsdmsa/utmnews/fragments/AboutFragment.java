@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import butterknife.BindView;
+import dsdmsa.utmnews.App;
 import dsdmsa.utmnews.BuildConfig;
 import dsdmsa.utmnews.R;
 
@@ -37,6 +38,6 @@ public class AboutFragment extends BaseFragment {
 
     @Override
     public String getTitle() {
-        return "About";
+        return App.getAppComponent().getContext().getString(R.string.about_title);
     }
 }

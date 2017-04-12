@@ -46,9 +46,6 @@ public class TagNewsFragment extends BaseFragment implements
     @BindView(R.id.swipe_refresh)
     SwipeRefreshLayout refreshLayout;
 
-//    @Inject
-//    PostRepository repository;
-
     private NewsAdapter newsAdapter;
     private MyLinearLayout layoutManager;
 
@@ -72,7 +69,6 @@ public class TagNewsFragment extends BaseFragment implements
         layoutManager = new MyLinearLayout(getContext());
         newsAdapter = new NewsAdapter(this);
         setupRecyclerView();
-        App.getAppComponent().inject(this);
 
         presenter.getNewsByTag(
                 getArguments().getInt(Constants.TAG_ID),
@@ -115,12 +111,6 @@ public class TagNewsFragment extends BaseFragment implements
         layoutManager.setScrollEnabled(true);
     }
 
-//    @Override
-//    public void showNewses(List<Post> response) {
-////        newsAdapter.addNewses(response);
-//        layoutManager.setScrollEnabled(true);
-//    }
-
     @Override
     public void onShareClick(String url) {
         Intent sendIntent = new Intent();
@@ -132,15 +122,15 @@ public class TagNewsFragment extends BaseFragment implements
 
     @Override
     public void onBookmarkClick(SimplePost post) {
-        post.setBookmarked(!post.isBookmarked());
+        post.setBookmarked(true);
+        presenter.bookmarkPost(post);
         newsAdapter.notifyDataSetChanged();
-//        repository.add(post);
     }
 
     @Override
     public void onDetailsClick(SimplePost post) {
+        navigationPresenter.showPostDetails(post.getLink());
     }
-
 
     @Override
     public void onRefresh() {
@@ -155,7 +145,7 @@ public class TagNewsFragment extends BaseFragment implements
 
     @Override
     public String getTitle() {
-        return "tagged News";
+        return App.getAppComponent().getContext().getString(R.string.tag_sewses_title);
     }
 
     @Override

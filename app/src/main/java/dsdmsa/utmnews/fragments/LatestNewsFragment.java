@@ -13,6 +13,7 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import java.util.List;
 
 import butterknife.BindView;
+import dsdmsa.utmnews.App;
 import dsdmsa.utmnews.R;
 import dsdmsa.utmnews.models.SimplePost;
 import dsdmsa.utmnews.mvp.NewsFragmentVP;
@@ -90,7 +91,6 @@ public class LatestNewsFragment extends BaseFragment implements
 
     @Override
     public void onRefresh() {
-
         presenter.loadNewsOnPage(INITIAL_PAGE);
     }
 
@@ -98,6 +98,7 @@ public class LatestNewsFragment extends BaseFragment implements
     public void showProgressDialog() {
         refreshLayout.setRefreshing(true);
     }
+
     @Override
     public void hideProgressDialog() {
         refreshLayout.setRefreshing(false);
@@ -106,7 +107,6 @@ public class LatestNewsFragment extends BaseFragment implements
     @Override
     public void showInfoMessage(String errorMsg) {
         Toasty.info(getContext(), errorMsg, Toast.LENGTH_SHORT).show();
-        layoutManager.setScrollEnabled(true);
     }
 
     @Override
@@ -117,17 +117,18 @@ public class LatestNewsFragment extends BaseFragment implements
     @Override
     public void onBookmarkClick(SimplePost post) {
         presenter.bookmarkPost(post);
+        post.setBookmarked(true);
         newsAdapter.notifyDataSetChanged();
     }
 
     @Override
     public void onDetailsClick(final SimplePost post) {
-//        navigationPresenter.showPostDetails(post);
+        navigationPresenter.showPostDetails(post.getLink());
     }
 
     @Override
     public String getTitle() {
-        return "UTM-News";
+        return App.getAppComponent().getContext().getString(R.string.news_lastest_title);
     }
 
 }

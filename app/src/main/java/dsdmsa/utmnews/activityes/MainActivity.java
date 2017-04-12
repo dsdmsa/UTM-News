@@ -39,7 +39,6 @@ import dsdmsa.utmnews.fragments.CategoryListFragment;
 import dsdmsa.utmnews.fragments.LatestNewsFragment;
 import dsdmsa.utmnews.fragments.SearchFragment;
 import dsdmsa.utmnews.fragments.TagListFragment;
-import dsdmsa.utmnews.models.Post;
 import dsdmsa.utmnews.mvp.MainActivityVP;
 import dsdmsa.utmnews.presenters.MainActivityPresenter;
 import me.zhanghai.android.customtabshelper.CustomTabsHelperFragment;
@@ -146,11 +145,11 @@ public class MainActivity extends BaseActivity implements
     }
 
     @Override
-    public void openDetails(Post post) {
+    public void openDetails(String url) {
         CustomTabsHelperFragment.open(
                 this,
                 customTabsIntent,
-                Uri.parse(post.getLink()),
+                Uri.parse(url),
                 this
         );
     }

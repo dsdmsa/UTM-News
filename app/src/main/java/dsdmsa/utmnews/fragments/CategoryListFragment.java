@@ -13,10 +13,12 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import java.util.List;
 
 import butterknife.BindView;
+import dsdmsa.utmnews.App;
 import dsdmsa.utmnews.R;
 import dsdmsa.utmnews.models.Category;
-import dsdmsa.utmnews.mvp.CategoriesFragmentVP;
-import dsdmsa.utmnews.presenters.CategoriesFragmentPresenter;
+import dsdmsa.utmnews.models.Tag;
+import dsdmsa.utmnews.mvp.ClasificationVP;
+import dsdmsa.utmnews.presenters.ClassificationPresenter;
 import dsdmsa.utmnews.views.adapters.CategoryAdapter;
 import es.dmoral.toasty.Toasty;
 
@@ -25,11 +27,11 @@ import es.dmoral.toasty.Toasty;
  */
 
 public class CategoryListFragment extends BaseFragment
-        implements CategoriesFragmentVP.View,
+        implements ClasificationVP.View,
         CategoryAdapter.CategoryInteract {
 
     @InjectPresenter
-    CategoriesFragmentPresenter presenter;
+    ClassificationPresenter presenter;
 
     private CategoryAdapter categoryAdapter;
 
@@ -51,11 +53,17 @@ public class CategoryListFragment extends BaseFragment
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(categoryAdapter);
+        presenter.getCategoryList();
     }
 
     @Override
     public void showCategories(List<Category> response) {
         categoryAdapter.addNewses(response);
+    }
+
+    @Override
+    public void showTags(List<Tag> response) {
+        //....
     }
 
     @Override
@@ -80,6 +88,6 @@ public class CategoryListFragment extends BaseFragment
 
     @Override
     public String getTitle() {
-        return "Categories";
+        return App.getAppComponent().getContext().getString(R.string.categories_title);
     }
 }

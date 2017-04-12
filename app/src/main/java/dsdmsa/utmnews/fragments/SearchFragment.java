@@ -1,9 +1,6 @@
 package dsdmsa.utmnews.fragments;
 
-import android.app.Activity;
-import android.content.ActivityNotFoundException;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -13,8 +10,6 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
-
-import org.chromium.customtabsclient.CustomTabsActivityHelper;
 
 import java.util.List;
 
@@ -37,8 +32,7 @@ import es.dmoral.toasty.Toasty;
 public class SearchFragment extends BaseFragment implements
         NewsFragmentVP.View,
         NewsAdapter.NewsInteract,
-        SwipeRefreshLayout.OnRefreshListener,
-        CustomTabsActivityHelper.CustomTabsFallback {
+        SwipeRefreshLayout.OnRefreshListener{
 
     @InjectPresenter
     NewsPresenter presenter;
@@ -76,7 +70,6 @@ public class SearchFragment extends BaseFragment implements
         layoutManager.setScrollEnabled(true);
         newsAdapter = new NewsAdapter(this);
         setupRecyclerView();
-        App.getAppComponent().inject(this);
         presenter.getSearchedNewses(
                 getArguments().getString(Constants.SEARCH_KEY),
                 Constants.ITEMS_PER_PAGE,
@@ -129,25 +122,13 @@ public class SearchFragment extends BaseFragment implements
 
     @Override
     public void onBookmarkClick(SimplePost post) {
-        post.setBookmarked(!post.isBookmarked());
+        post.setBookmarked(true);
         newsAdapter.notifyDataSetChanged();
-//        repository.add(post);
     }
 
     @Override
     public void onDetailsClick(SimplePost post) {
-//      navigationPresenter.showPostDetails(post.);
-    }
-
-    @Override
-    public void openUri(Activity activity, Uri uri) {
-        Toast.makeText(activity, "custom_tabs_failed", Toast.LENGTH_SHORT).show();
-        try {
-            activity.startActivity(new Intent(Intent.ACTION_VIEW, uri));
-        } catch (ActivityNotFoundException e) {
-            e.printStackTrace();
-            Toast.makeText(activity, "activity_not_found", Toast.LENGTH_SHORT).show();
-        }
+      navigationPresenter.showPostDetails(post.getLink());
     }
 
     @Override
@@ -163,7 +144,7 @@ public class SearchFragment extends BaseFragment implements
 
     @Override
     public String getTitle() {
-        return "S-News";
+        return App.getAppComponent().getContext().getString(R.string.search_title);
     }
 
 

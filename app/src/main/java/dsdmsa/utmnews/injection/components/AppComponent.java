@@ -17,9 +17,8 @@ import dsdmsa.utmnews.injection.modules.AppModule;
 import dsdmsa.utmnews.injection.modules.NetworkModule;
 import dsdmsa.utmnews.network.services.UtmServices;
 import dsdmsa.utmnews.presenters.BookmarksFragmentPresenter;
-import dsdmsa.utmnews.presenters.CategoriesFragmentPresenter;
+import dsdmsa.utmnews.presenters.ClassificationPresenter;
 import dsdmsa.utmnews.presenters.NewsPresenter;
-import dsdmsa.utmnews.presenters.TagFragmentPresenter;
 import dsdmsa.utmnews.views.adapters.NewsAdapter;
 
 @Singleton
@@ -42,7 +41,7 @@ public interface AppComponent {
 
     void inject(NewsAdapter __);
 
-    void inject(CategoriesFragmentPresenter __);
+    void inject(ClassificationPresenter __);
 
     void inject(BookmarksFragmentPresenter __);
 
@@ -54,5 +53,4 @@ public interface AppComponent {
 
     void inject(TagNewsFragment __);
 
-    void inject(TagFragmentPresenter __);
 }

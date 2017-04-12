@@ -156,6 +156,6 @@ public class BookmarksFragment extends BaseFragment implements
 
     @Override
     public String getTitle() {
-        return "Bookmarks";
+        return App.getAppComponent().getContext().getString(R.string.bokmarks_title);
     }
 }

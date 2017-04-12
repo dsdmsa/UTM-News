@@ -13,4 +13,13 @@
     <string name="categories">Categories</string>
     <string name="no_mer_data_info">data ended</string>
     <string name="tags">Tags</string>
+    <string name="search_title">Searched results</string>
+    <string name="categoru_new_title">News in selected category</string>
+    <string name="categories_title">Categories</string>
+    <string name="tag_title">Tags</string>
+    <string name="tag_sewses_title">News with selected tag</string>
+    <string name="settings_title">Settings</string>
+    <string name="news_lastest_title">UTM-News</string>
+    <string name="bokmarks_title">Bookmarks</string>
+    <string name="about_title">About</string>
 </resources>

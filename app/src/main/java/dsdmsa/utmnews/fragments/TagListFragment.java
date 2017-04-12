@@ -13,10 +13,12 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import java.util.List;
 
 import butterknife.BindView;
+import dsdmsa.utmnews.App;
 import dsdmsa.utmnews.R;
+import dsdmsa.utmnews.models.Category;
 import dsdmsa.utmnews.models.Tag;
-import dsdmsa.utmnews.mvp.TagsFragmentVP;
-import dsdmsa.utmnews.presenters.TagFragmentPresenter;
+import dsdmsa.utmnews.mvp.ClasificationVP;
+import dsdmsa.utmnews.presenters.ClassificationPresenter;
 import dsdmsa.utmnews.views.adapters.TagAdapter;
 import es.dmoral.toasty.Toasty;
 
@@ -25,11 +27,11 @@ import es.dmoral.toasty.Toasty;
  */
 
 public class TagListFragment extends BaseFragment
-        implements TagsFragmentVP.View,
+        implements ClasificationVP.View,
         TagAdapter.TagInteract {
 
     @InjectPresenter
-    TagFragmentPresenter presenter;
+    ClassificationPresenter presenter;
 
     private TagAdapter tagAdapter;
 
@@ -51,6 +53,12 @@ public class TagListFragment extends BaseFragment
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(tagAdapter);
+        presenter.getTagList();
+    }
+
+    @Override
+    public void showCategories(List<Category> response) {
+        //....
     }
 
     @Override
@@ -71,7 +79,6 @@ public class TagListFragment extends BaseFragment
     @Override
     public void showInfoMessage(String errorMsg) {
         Toasty.info(getContext(), errorMsg, Toast.LENGTH_SHORT).show();
-
     }
 
     @Override
@@ -81,8 +88,8 @@ public class TagListFragment extends BaseFragment
 
     @Override
     public String getTitle() {
-        return "Tags";
+        return App.getAppComponent().getContext().getString(R.string.tag_title);
+//        return "asaas asasd";
     }
-
 
 }
