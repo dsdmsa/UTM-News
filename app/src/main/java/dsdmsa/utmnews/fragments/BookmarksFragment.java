@@ -151,4 +151,9 @@ public class BookmarksFragment extends BaseFragment implements
             Toast.makeText(activity, "activity_not_found", Toast.LENGTH_SHORT).show();
         }
     }
+
+    @Override
+    public String getTitle() {
+        return "Bookmarks";
+    }
 }

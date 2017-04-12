@@ -78,4 +78,8 @@ public class CategoryListFragment extends BaseFragment
         navigationPresenter.addFragment(CategoryNewsFragment.newInstance(categoryId));
     }
 
+    @Override
+    public String getTitle() {
+        return "Categories";
+    }
 }

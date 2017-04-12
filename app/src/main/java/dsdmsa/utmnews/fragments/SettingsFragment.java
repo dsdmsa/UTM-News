@@ -11,4 +11,11 @@ public class SettingsFragment extends BaseFragment {
     protected int getLayout() {
         return R.layout.fragment_about;
     }
+
+    @Override
+    public String getTitle() {
+        return "Settings";
+    }
+
+
 }

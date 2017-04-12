@@ -34,4 +34,9 @@ public class AboutFragment extends BaseFragment {
         appVersionTextView.setText("Version : " + BuildConfig.VERSION_NAME);
 
     }
+
+    @Override
+    public String getTitle() {
+        return "About";
+    }
 }

@@ -191,6 +191,10 @@ public class CategoryNewsFragment extends BaseFragment implements
         );
     }
 
+    @Override
+    public String getTitle() {
+        return "News";
+    }
 
 
 }

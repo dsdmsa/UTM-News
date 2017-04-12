@@ -190,6 +190,11 @@ public class SearchFragment extends BaseFragment implements
         );
     }
 
+    @Override
+    public String getTitle() {
+        return "S-News";
+    }
+
 
 
 }

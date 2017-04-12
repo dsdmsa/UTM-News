@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import com.arellomobile.mvp.MvpAppCompatFragment;
 
 import butterknife.ButterKnife;
-import dsdmsa.utmnews.FragmentNavigation;
+import dsdmsa.utmnews.mvp.FragmentNavigation;
 
 public abstract class BaseFragment extends MvpAppCompatFragment implements FragmentNavigation.View {
 
@@ -33,8 +33,4 @@ public abstract class BaseFragment extends MvpAppCompatFragment implements Fragm
         navigationPresenter = presenter;
     }
 
-    @Override
-    public void addFragment(BaseFragment fragment) {
-        navigationPresenter.addFragment(fragment);
-    }
 }

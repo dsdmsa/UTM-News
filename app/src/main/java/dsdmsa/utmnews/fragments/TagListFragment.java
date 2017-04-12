@@ -79,4 +79,10 @@ public class TagListFragment extends BaseFragment
         navigationPresenter.addFragment(TagNewsFragment.newInstance(tagId));
     }
 
+    @Override
+    public String getTitle() {
+        return "Tags";
+    }
+
+
 }

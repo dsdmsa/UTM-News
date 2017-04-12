@@ -75,4 +75,10 @@ public class DetailsFragmentFragment extends BaseFragment implements DetailsFrag
     public void showInfoMessage(String errorMsg) {
 
     }
+
+    @Override
+    public String getTitle() {
+        return "News";
+    }
+
 }

@@ -190,6 +190,10 @@ public class TagNewsFragment extends BaseFragment implements
         );
     }
 
+    @Override
+    public String getTitle() {
+        return "News";
+    }
 
 
 }
