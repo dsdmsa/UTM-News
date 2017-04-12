@@ -31,7 +31,7 @@ public class NetworkModule {
     @Singleton
     @Provides
     public Gson provideGson() {
-        Gson gson = new GsonBuilder()
+        return new GsonBuilder()
                 .setExclusionStrategies(new ExclusionStrategy() {
                     @Override
                     public boolean shouldSkipField(FieldAttributes f) {
@@ -43,7 +43,6 @@ public class NetworkModule {
                         return false;
                     }
                 }).create();
-        return gson;
     }
 
     @Singleton
