@@ -56,6 +56,7 @@ public class BookmarksFragment extends BaseFragment implements
         App.getAppComponent().inject(this);
         setupRecyclerView();
         presenter.loadNews();
+        navigationPresenter.setTitle(getTitle());
     }
 
     private void setupRecyclerView() {
@@ -116,5 +117,11 @@ public class BookmarksFragment extends BaseFragment implements
     @Override
     public String getTitle() {
         return App.getAppComponent().getContext().getString(R.string.bokmarks_title);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        navigationPresenter.setTitle(getTitle());
     }
 }

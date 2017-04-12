@@ -54,6 +54,7 @@ public class TagListFragment extends BaseFragment
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(tagAdapter);
         presenter.getTagList();
+        navigationPresenter.setTitle(getTitle());
     }
 
     @Override
@@ -89,7 +90,12 @@ public class TagListFragment extends BaseFragment
     @Override
     public String getTitle() {
         return App.getAppComponent().getContext().getString(R.string.tag_title);
-//        return "asaas asasd";
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        navigationPresenter.setTitle(getTitle());
     }
 
 }

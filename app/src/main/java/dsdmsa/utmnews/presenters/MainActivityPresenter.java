@@ -25,4 +25,9 @@ public class MainActivityPresenter extends MvpPresenter<MainActivityVP.View>
     public void showPostDetails(String url) {
         getViewState().openDetails(url);
     }
+
+    @Override
+    public void setTitle(String title) {
+        getViewState().setTootlbarTitile(title);
+    }
 }

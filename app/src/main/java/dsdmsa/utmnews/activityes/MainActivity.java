@@ -114,7 +114,6 @@ public class MainActivity extends BaseActivity implements
         getSupportActionBar().setHomeButtonEnabled(true);
         drawerLayout.addDrawerListener(mDrawerToggle);
         mDrawerToggle.syncState();
-        toolbarTitle.setText(R.string.start_title);
     }
 
     @Override
@@ -132,7 +131,6 @@ public class MainActivity extends BaseActivity implements
     public void addFragment(BaseFragment fragment) {
         fragment.atachPresenter(presenter);
         String fragmentTitle = fragment.getTitle();
-        toolbarTitle.setText(fragmentTitle);
         FragmentManager manager = getSupportFragmentManager();
         boolean fragmentPopped = manager.popBackStackImmediate(fragmentTitle, 0);
         if (!fragmentPopped && manager.findFragmentByTag(fragmentTitle) == null) {
@@ -152,6 +150,11 @@ public class MainActivity extends BaseActivity implements
                 Uri.parse(url),
                 this
         );
+    }
+
+    @Override
+    public void setTootlbarTitile(String title) {
+        toolbarTitle.setText(title);
     }
 
     @Override

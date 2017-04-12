@@ -147,7 +147,6 @@ public class SearchFragment extends BaseFragment implements
         return App.getAppComponent().getContext().getString(R.string.search_title);
     }
 
-
     @Override
     public void addNewses(List<SimplePost> newses) {
         newsAdapter.addNewses(newses);
@@ -159,4 +158,11 @@ public class SearchFragment extends BaseFragment implements
         newsAdapter.clearData();
         newsAdapter.addNewses(response);
     }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        navigationPresenter.setTitle(getTitle());
+    }
+
 }

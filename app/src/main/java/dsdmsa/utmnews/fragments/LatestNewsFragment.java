@@ -131,4 +131,10 @@ public class LatestNewsFragment extends BaseFragment implements
         return App.getAppComponent().getContext().getString(R.string.news_lastest_title);
     }
 
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        navigationPresenter.setTitle(getTitle());
+    }
 }

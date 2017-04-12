@@ -41,6 +41,7 @@ public class NewsPresenter extends MvpPresenter<NewsFragmentVP.View> implements
 
     public NewsPresenter() {
         App.getAppComponent().inject(this);
+        getViewState().showInfoMessage("notif");
     }
 
     @Override

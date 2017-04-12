@@ -160,4 +160,11 @@ public class CategoryNewsFragment extends BaseFragment implements
         newsAdapter.addNewses(response);
     }
 
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        navigationPresenter.setTitle(getTitle());
+    }
+
 }

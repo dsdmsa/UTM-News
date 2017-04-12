@@ -13,6 +13,8 @@ public interface MainActivityVP {
         void addFragment(BaseFragment fragment);
 
         void openDetails(String url);
+
+        void setTootlbarTitile(String title);
     }
     interface Presenter{
 

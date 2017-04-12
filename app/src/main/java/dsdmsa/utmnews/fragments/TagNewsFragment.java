@@ -69,7 +69,7 @@ public class TagNewsFragment extends BaseFragment implements
         layoutManager = new MyLinearLayout(getContext());
         newsAdapter = new NewsAdapter(this);
         setupRecyclerView();
-
+        navigationPresenter.setTitle(getTitle());
         presenter.getNewsByTag(
                 getArguments().getInt(Constants.TAG_ID),
                 Constants.ITEMS_PER_PAGE,
@@ -160,4 +160,9 @@ public class TagNewsFragment extends BaseFragment implements
         newsAdapter.addNewses(response);
     }
 
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        navigationPresenter.setTitle(getTitle());
+    }
 }
