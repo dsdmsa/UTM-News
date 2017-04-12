@@ -17,7 +17,7 @@ import dsdmsa.utmnews.App;
 import dsdmsa.utmnews.R;
 import dsdmsa.utmnews.models.Post;
 import dsdmsa.utmnews.models.SimplePost;
-import dsdmsa.utmnews.mvp.LatestNewsFragmentVP;
+import dsdmsa.utmnews.mvp.NewsFragmentVP;
 import dsdmsa.utmnews.network.OnDataLoaded;
 import dsdmsa.utmnews.network.services.UtmServices;
 import dsdmsa.utmnews.repository.PostRepository;
@@ -27,8 +27,8 @@ import static dsdmsa.utmnews.utils.Constants.ITEMS_PER_PAGE;
 import static dsdmsa.utmnews.utils.Constants.TEXT_PLAIN;
 
 @InjectViewState
-public class LatestNewsPresenter extends MvpPresenter<LatestNewsFragmentVP.View> implements
-        LatestNewsFragmentVP.Presenter,
+public class NewsPresenter extends MvpPresenter<NewsFragmentVP.View> implements
+        NewsFragmentVP.Presenter,
         OnDataLoaded<List<Post>> {
 
     @Inject
@@ -39,7 +39,7 @@ public class LatestNewsPresenter extends MvpPresenter<LatestNewsFragmentVP.View>
 
     private boolean isFirstPage = false;
 
-    public LatestNewsPresenter() {
+    public NewsPresenter() {
         App.getAppComponent().inject(this);
     }
 
@@ -50,6 +50,26 @@ public class LatestNewsPresenter extends MvpPresenter<LatestNewsFragmentVP.View>
         if (page == Constants.INITIAL_PAGE) {
             isFirstPage = true;
         }
+    }
+
+    @Override
+    public void getSearchedNewses(String searchKey, int perPage, int page) {
+        App.getAppComponent().inject(this);
+        services.searchposts(searchKey, page, perPage, this);
+        getViewState().showProgressDialog();
+    }
+
+    @Override
+    public void getCategoryNewses(int categoryId, int perPage, int page) {
+        App.getAppComponent().inject(this);
+        services.getNewsByCategory(categoryId, page, perPage, this);
+        getViewState().showProgressDialog();
+    }
+
+    @Override
+    public void getNewsByTag(int tagId, int perPage, int page) {
+        services.getNewsByTag(tagId, page, perPage, this);
+        getViewState().showProgressDialog();
     }
 
     @Override

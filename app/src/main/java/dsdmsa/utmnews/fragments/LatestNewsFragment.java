@@ -9,15 +9,14 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
-import com.arellomobile.mvp.presenter.PresenterType;
 
 import java.util.List;
 
 import butterknife.BindView;
 import dsdmsa.utmnews.R;
 import dsdmsa.utmnews.models.SimplePost;
-import dsdmsa.utmnews.mvp.LatestNewsFragmentVP;
-import dsdmsa.utmnews.presenters.LatestNewsPresenter;
+import dsdmsa.utmnews.mvp.NewsFragmentVP;
+import dsdmsa.utmnews.presenters.NewsPresenter;
 import dsdmsa.utmnews.views.MyLinearLayout;
 import dsdmsa.utmnews.views.adapters.EndlessRecyclerOnScrollListener;
 import dsdmsa.utmnews.views.adapters.NewsAdapter;
@@ -26,7 +25,7 @@ import es.dmoral.toasty.Toasty;
 import static dsdmsa.utmnews.utils.Constants.INITIAL_PAGE;
 
 public class LatestNewsFragment extends BaseFragment implements
-        LatestNewsFragmentVP.View,
+        NewsFragmentVP.View,
         SwipeRefreshLayout.OnRefreshListener,
         NewsAdapter.NewsInteract {
 
@@ -36,13 +35,11 @@ public class LatestNewsFragment extends BaseFragment implements
     @BindView(R.id.swipe_refresh)
     SwipeRefreshLayout refreshLayout;
 
-    @InjectPresenter(type = PresenterType.GLOBAL)
-    LatestNewsPresenter presenter;
+    @InjectPresenter
+    NewsPresenter presenter;
 
     private NewsAdapter newsAdapter;
     private MyLinearLayout layoutManager;
-//    private Handler handler = new Handler();
-//    private boolean isRefreshing = false;
 
     public static LatestNewsFragment newInstance() {
         Bundle args = new Bundle();
@@ -64,7 +61,6 @@ public class LatestNewsFragment extends BaseFragment implements
         setupRecyclerView();
         refreshLayout.setOnRefreshListener(this);
         presenter.loadNewsOnPage(INITIAL_PAGE);
-//        handler.post(refreshing);
     }
 
     private void setupRecyclerView() {
@@ -100,46 +96,10 @@ public class LatestNewsFragment extends BaseFragment implements
 
     @Override
     public void showProgressDialog() {
-
-//        refreshLayout.post(new Runnable() {
-//            @Override
-//            public void run() {
-//                refreshLayout.setRefreshing(true);
-//            }
-//        });
-
-//        isRefreshing = true;
         refreshLayout.setRefreshing(true);
     }
-
-//    private final Runnable refreshing = new Runnable() {
-//        public void run() {
-//            try {
-//            /* TODO : isRefreshing should be attached to your data request status */
-//                if (refreshLayout.isRefreshing()) {
-//                    // re run the verification after 1 second
-//                    handler.postDelayed(this, 1000);
-//
-//                } else {
-//                    // stop the animation after the data is fully loaded
-//                    refreshLayout.setRefreshing(false);
-//                    // TODO : update your list with the new data
-//                }
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//        }
-//    };
-
     @Override
     public void hideProgressDialog() {
-//        refreshLayout.post(new Runnable() {
-//            @Override
-//            public void run() {
-//                refreshLayout.setRefreshing(false);
-//            }
-//        });
-//        isRefreshing = false;
         refreshLayout.setRefreshing(false);
     }
 

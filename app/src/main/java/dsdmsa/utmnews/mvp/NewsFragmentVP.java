@@ -11,7 +11,7 @@ import dsdmsa.utmnews.models.SimplePost;
  * Created by dsdmsa on 4/8/17.
  */
 
-public interface LatestNewsFragmentVP {
+public interface NewsFragmentVP {
     interface View extends MvpView, LoadingView {
         void addNewses(List<SimplePost> newses);
 
@@ -25,5 +25,11 @@ public interface LatestNewsFragmentVP {
         void shareString(String str);
 
         void bookmarkPost(SimplePost post);
+
+        void getSearchedNewses(String searchKey, int perPage, int page);
+
+        void getCategoryNewses(int categoryId,int perPage,int page);
+
+        void getNewsByTag(int tagId, int perPage, int page);
     }
 }

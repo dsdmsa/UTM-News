@@ -20,16 +20,12 @@ import org.chromium.customtabsclient.CustomTabsActivityHelper;
 
 import java.util.List;
 
-import javax.inject.Inject;
-
 import butterknife.BindView;
 import dsdmsa.utmnews.App;
 import dsdmsa.utmnews.R;
-import dsdmsa.utmnews.models.Post;
 import dsdmsa.utmnews.models.SimplePost;
-import dsdmsa.utmnews.mvp.CategoryNewsFragmentVP;
-import dsdmsa.utmnews.presenters.CategoryNewsFragmentPresenter;
-import dsdmsa.utmnews.repository.PostRepository;
+import dsdmsa.utmnews.mvp.NewsFragmentVP;
+import dsdmsa.utmnews.presenters.NewsPresenter;
 import dsdmsa.utmnews.utils.Constants;
 import dsdmsa.utmnews.views.MyLinearLayout;
 import dsdmsa.utmnews.views.adapters.EndlessRecyclerOnScrollListener;
@@ -42,13 +38,13 @@ import me.zhanghai.android.customtabshelper.CustomTabsHelperFragment;
  */
 
 public class CategoryNewsFragment extends BaseFragment implements
-        CategoryNewsFragmentVP.View,
+        NewsFragmentVP.View,
         NewsAdapter.NewsInteract,
         SwipeRefreshLayout.OnRefreshListener,
         CustomTabsActivityHelper.CustomTabsFallback {
 
     @InjectPresenter
-    CategoryNewsFragmentPresenter presenter;
+    NewsPresenter presenter;
 
     @BindView(R.id.progress_bar)
     ProgressBar progressBar;
@@ -58,9 +54,6 @@ public class CategoryNewsFragment extends BaseFragment implements
 
     @BindView(R.id.swipe_refresh)
     SwipeRefreshLayout refreshLayout;
-
-    @Inject
-    PostRepository repository;
 
     private NewsAdapter newsAdapter;
     private MyLinearLayout layoutManager;
@@ -139,12 +132,6 @@ public class CategoryNewsFragment extends BaseFragment implements
     }
 
     @Override
-    public void showNewses(List<Post> response) {
-//        newsAdapter.addNewses(response);
-        layoutManager.setScrollEnabled(true);
-    }
-
-    @Override
     public void onShareClick(String url) {
         Intent sendIntent = new Intent();
         sendIntent.setAction(Intent.ACTION_SEND);
@@ -194,8 +181,19 @@ public class CategoryNewsFragment extends BaseFragment implements
 
     @Override
     public String getTitle() {
-        return "News";
+        return "News by gategory";
     }
 
+    @Override
+    public void addNewses(List<SimplePost> newses) {
+        newsAdapter.addNewses(newses);
+    }
+
+    @Override
+    public void refreshDatas(List<SimplePost> response) {
+        setupRecyclerView();
+        newsAdapter.clearData();
+        newsAdapter.addNewses(response);
+    }
 
 }

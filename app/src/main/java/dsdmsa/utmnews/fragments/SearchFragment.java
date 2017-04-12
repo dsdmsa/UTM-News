@@ -6,8 +6,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.customtabs.CustomTabsIntent;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -20,35 +18,30 @@ import org.chromium.customtabsclient.CustomTabsActivityHelper;
 
 import java.util.List;
 
-import javax.inject.Inject;
-
 import butterknife.BindView;
 import dsdmsa.utmnews.App;
 import dsdmsa.utmnews.R;
-import dsdmsa.utmnews.models.Post;
 import dsdmsa.utmnews.models.SimplePost;
-import dsdmsa.utmnews.mvp.SearchFragmentVP;
-import dsdmsa.utmnews.presenters.SearchFragmentPresenter;
-import dsdmsa.utmnews.repository.PostRepository;
+import dsdmsa.utmnews.mvp.NewsFragmentVP;
+import dsdmsa.utmnews.presenters.NewsPresenter;
 import dsdmsa.utmnews.utils.Constants;
 import dsdmsa.utmnews.views.MyLinearLayout;
 import dsdmsa.utmnews.views.adapters.EndlessRecyclerOnScrollListener;
 import dsdmsa.utmnews.views.adapters.NewsAdapter;
 import es.dmoral.toasty.Toasty;
-import me.zhanghai.android.customtabshelper.CustomTabsHelperFragment;
 
 /**
  * Created by dsdmsa on 4/8/17.
  */
 
 public class SearchFragment extends BaseFragment implements
-        SearchFragmentVP.View,
+        NewsFragmentVP.View,
         NewsAdapter.NewsInteract,
         SwipeRefreshLayout.OnRefreshListener,
         CustomTabsActivityHelper.CustomTabsFallback {
 
     @InjectPresenter
-    SearchFragmentPresenter presenter;
+    NewsPresenter presenter;
 
     @BindView(R.id.progress_bar)
     ProgressBar progressBar;
@@ -59,14 +52,8 @@ public class SearchFragment extends BaseFragment implements
     @BindView(R.id.swipe_refresh)
     SwipeRefreshLayout refreshLayout;
 
-    @Inject
-    PostRepository repository;
-
     private NewsAdapter newsAdapter;
     private MyLinearLayout layoutManager;
-
-    private CustomTabsHelperFragment customTabsHelperFragment;
-    private CustomTabsIntent customTabsIntent;
 
     public static SearchFragment newInstance(String searchKey) {
         Bundle args = new Bundle();
@@ -86,17 +73,11 @@ public class SearchFragment extends BaseFragment implements
         super.onViewCreated(view, savedInstanceState);
         refreshLayout.setOnRefreshListener(this);
         layoutManager = new MyLinearLayout(getContext());
+        layoutManager.setScrollEnabled(true);
         newsAdapter = new NewsAdapter(this);
         setupRecyclerView();
         App.getAppComponent().inject(this);
-        customTabsHelperFragment = CustomTabsHelperFragment.attachTo(this);
-        customTabsIntent = new CustomTabsIntent.Builder()
-                .enableUrlBarHiding()
-                .setToolbarColor(ContextCompat.getColor(getContext(), R.color.primary_dark))
-                .setShowTitle(true)
-                .build();
-
-        presenter.getCategoryNewses(
+        presenter.getSearchedNewses(
                 getArguments().getString(Constants.SEARCH_KEY),
                 Constants.ITEMS_PER_PAGE,
                 Constants.INITIAL_PAGE
@@ -111,7 +92,7 @@ public class SearchFragment extends BaseFragment implements
             @Override
             public void onLoadMore(int currentPage) {
                 layoutManager.setScrollEnabled(false);
-                presenter.getCategoryNewses(
+                presenter.getSearchedNewses(
                         getArguments().getString(Constants.SEARCH_KEY),
                         Constants.ITEMS_PER_PAGE,
                         currentPage
@@ -138,12 +119,6 @@ public class SearchFragment extends BaseFragment implements
     }
 
     @Override
-    public void showNewses(List<Post> response) {
-//        newsAdapter.addNewses(response);
-        layoutManager.setScrollEnabled(true);
-    }
-
-    @Override
     public void onShareClick(String url) {
         Intent sendIntent = new Intent();
         sendIntent.setAction(Intent.ACTION_SEND);
@@ -161,12 +136,7 @@ public class SearchFragment extends BaseFragment implements
 
     @Override
     public void onDetailsClick(SimplePost post) {
-        CustomTabsHelperFragment.open(
-                getActivity(),
-                customTabsIntent,
-                Uri.parse(post.getLink()),
-                this
-        );
+//      navigationPresenter.showPostDetails(post.);
     }
 
     @Override
@@ -184,7 +154,7 @@ public class SearchFragment extends BaseFragment implements
     public void onRefresh() {
         newsAdapter.clearData();
         setupRecyclerView();
-        presenter.getCategoryNewses(
+        presenter.getSearchedNewses(
                 getArguments().getString(Constants.SEARCH_KEY),
                 Constants.ITEMS_PER_PAGE,
                 Constants.INITIAL_PAGE
@@ -197,5 +167,15 @@ public class SearchFragment extends BaseFragment implements
     }
 
 
+    @Override
+    public void addNewses(List<SimplePost> newses) {
+        newsAdapter.addNewses(newses);
+    }
 
+    @Override
+    public void refreshDatas(List<SimplePost> response) {
+        setupRecyclerView();
+        newsAdapter.clearData();
+        newsAdapter.addNewses(response);
+    }
 }
