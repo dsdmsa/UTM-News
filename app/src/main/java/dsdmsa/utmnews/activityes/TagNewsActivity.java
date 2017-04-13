@@ -1,10 +1,17 @@
 package dsdmsa.utmnews.activityes;
 
 
+import android.widget.TextView;
+
+import butterknife.BindView;
 import dsdmsa.utmnews.R;
 import dsdmsa.utmnews.fragments.TagNewsFragment;
+import dsdmsa.utmnews.utils.Constants;
 
-public class TagNewsActivity extends BaseActivity{
+public class TagNewsActivity extends BaseActivity {
+
+    @BindView(R.id.toolbar_title)
+    TextView toolbarTitle;
 
     @Override
     protected int getLayout() {
@@ -14,12 +21,12 @@ public class TagNewsActivity extends BaseActivity{
     @Override
     protected void onResume() {
         super.onResume();
-
-        int tagId = getIntent().getExtras().getInt("id");
-
+        int tagId = getIntent().getExtras().getInt(Constants.TAG_ID);
+        TagNewsFragment fragment = TagNewsFragment.newInstance(tagId);
+        toolbarTitle.setText(fragment.getTitle());
         getSupportFragmentManager()
                 .beginTransaction()
-                .add(R.id.fragment_container, TagNewsFragment.newInstance(tagId))
+                .add(R.id.fragment_container, fragment)
                 .commit();
     }
 }

@@ -16,6 +16,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import dsdmsa.utmnews.App;
+import dsdmsa.utmnews.views.ChromeTab;
 import dsdmsa.utmnews.R;
 import dsdmsa.utmnews.models.SimplePost;
 import dsdmsa.utmnews.mvp.BookmarksFragmentVP;
@@ -114,8 +115,8 @@ public class BookmarksFragment extends BaseFragment implements
     }
 
     @Override
-    public void onDetailsClick(final SimplePost post) {
-        navigationPresenter.showPostDetails(post.getLink());
+    public void onDetailsClick( SimplePost post) {
+        new ChromeTab(getActivity(), post.getLink());
     }
 
     @Override

@@ -15,6 +15,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import dsdmsa.utmnews.App;
+import dsdmsa.utmnews.views.ChromeTab;
 import dsdmsa.utmnews.R;
 import dsdmsa.utmnews.models.SimplePost;
 import dsdmsa.utmnews.mvp.NewsFragmentVP;
@@ -124,7 +125,7 @@ public class LatestNewsFragment extends BaseFragment implements
 
     @Override
     public void onDetailsClick(final SimplePost post) {
-        navigationPresenter.showPostDetails(post.getLink());
+        new ChromeTab(getActivity(), post.getLink());
     }
 
     @Override

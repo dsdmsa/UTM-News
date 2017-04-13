@@ -21,6 +21,7 @@ import dsdmsa.utmnews.models.Category;
 import dsdmsa.utmnews.models.Tag;
 import dsdmsa.utmnews.mvp.ClasificationVP;
 import dsdmsa.utmnews.presenters.ClassificationPresenter;
+import dsdmsa.utmnews.utils.Constants;
 import dsdmsa.utmnews.views.adapters.TagAdapter;
 import es.dmoral.toasty.Toasty;
 
@@ -90,20 +91,13 @@ public class TagListFragment extends BaseFragment implements
     @Override
     public void onShareClick(Integer tagId) {
         Intent intent = new Intent(getContext(), TagNewsActivity.class);
-        intent.putExtra("id",tagId);
+        intent.putExtra(Constants.TAG_ID,tagId);
         startActivity(intent);
-//        navigationPresenter.addFragment(TagNewsFragment.newInstance(tagId));
     }
 
     @Override
     public String getTitle() {
         return App.getAppComponent().getContext().getString(R.string.tag_title);
-    }
-
-    @Override
-    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
-        super.onViewStateRestored(savedInstanceState);
-        navigationPresenter.setTitle(getTitle());
     }
 
     @Override

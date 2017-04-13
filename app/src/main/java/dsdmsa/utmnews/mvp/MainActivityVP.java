@@ -12,10 +12,9 @@ public interface MainActivityVP {
     interface View extends MvpView{
         void addFragment(BaseFragment fragment);
 
-        void openDetails(String url);
-
         void setTootlbarTitile(String title);
     }
+
     interface Presenter{
 
     }

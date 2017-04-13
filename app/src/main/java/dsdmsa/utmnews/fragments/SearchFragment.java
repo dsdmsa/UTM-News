@@ -15,6 +15,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import dsdmsa.utmnews.App;
+import dsdmsa.utmnews.views.ChromeTab;
 import dsdmsa.utmnews.R;
 import dsdmsa.utmnews.models.SimplePost;
 import dsdmsa.utmnews.mvp.NewsFragmentVP;
@@ -122,7 +123,7 @@ public class SearchFragment extends BaseFragment implements
 
     @Override
     public void onDetailsClick(SimplePost post) {
-      navigationPresenter.showPostDetails(post.getLink());
+        new ChromeTab(getActivity(), post.getLink());
     }
 
     @Override
@@ -152,12 +153,6 @@ public class SearchFragment extends BaseFragment implements
         setupRecyclerView();
         newsAdapter.clearData();
         newsAdapter.addNewses(response);
-    }
-
-    @Override
-    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
-        super.onViewStateRestored(savedInstanceState);
-        navigationPresenter.setTitle(getTitle());
     }
 
 }

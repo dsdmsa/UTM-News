@@ -1,15 +1,9 @@
 package dsdmsa.utmnews.activityes;
 
-import android.app.Activity;
-import android.content.ActivityNotFoundException;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.customtabs.CustomTabsIntent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -26,8 +20,6 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.PresenterType;
 import com.commit451.teleprinter.Teleprinter;
 
-import org.chromium.customtabsclient.CustomTabsActivityHelper;
-
 import butterknife.BindView;
 import dsdmsa.utmnews.App;
 import dsdmsa.utmnews.R;
@@ -41,17 +33,16 @@ import dsdmsa.utmnews.fragments.TagListFragment;
 import dsdmsa.utmnews.mvp.MainActivityVP;
 import dsdmsa.utmnews.presenters.MainActivityPresenter;
 import es.dmoral.toasty.Toasty;
-import me.zhanghai.android.customtabshelper.CustomTabsHelperFragment;
+
+import static dsdmsa.utmnews.utils.Constants.TIME_INTERVAL;
 
 public class MainActivity extends BaseActivity implements
         MainActivityVP.View,
         NavigationView.OnNavigationItemSelectedListener,
         View.OnClickListener,
         TextView.OnEditorActionListener,
-        DrawerLayout.DrawerListener,
-        CustomTabsActivityHelper.CustomTabsFallback {
+        DrawerLayout.DrawerListener {
 
-    private static final int TIME_INTERVAL = 2000; // # milliseconds, desired time passed between two back presses.
     @InjectPresenter(type = PresenterType.GLOBAL)
     MainActivityPresenter presenter;
     @BindView(R.id.toolbar_title)
@@ -68,8 +59,6 @@ public class MainActivity extends BaseActivity implements
     NavigationView navigationView;
     private ActionBarDrawerToggle mDrawerToggle;
     private Teleprinter teleprinter;
-    private CustomTabsHelperFragment customTabsHelperFragment;
-    private CustomTabsIntent customTabsIntent;
     private long mBackPressed;
 
     @Override
@@ -87,17 +76,7 @@ public class MainActivity extends BaseActivity implements
         drawerLayout.addDrawerListener(this);
         fab.setOnClickListener(this);
         setupToolbar();
-
-        customTabsHelperFragment = CustomTabsHelperFragment.attachTo(this);
-
-        customTabsIntent = new CustomTabsIntent.Builder()
-                .enableUrlBarHiding()
-                .setToolbarColor(ContextCompat.getColor(this, R.color.primary_dark))
-                .setShowTitle(true)
-                .build();
-
         addFragment(LatestNewsFragment.newInstance());
-
     }
 
     private void setupToolbar() {
@@ -129,26 +108,6 @@ public class MainActivity extends BaseActivity implements
                 .beginTransaction()
                 .replace(R.id.fragment_container, fragment)
                 .commit();
-//        String fragmentTitle = fragment.getTitle();
-//        FragmentManager manager = getSupportFragmentManager();
-//        boolean fragmentPopped = manager.popBackStackImmediate(fragmentTitle, 0);
-//        if (!fragmentPopped && manager.findFragmentByTag(fragmentTitle) == null) {
-//            FragmentTransaction ft = manager.beginTransaction();
-//            ft.add(R.id.fragment_container, fragment, fragmentTitle);
-//            ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-//            ft.addToBackStack(fragmentTitle);
-//            ft.commit();
-//        }
-    }
-
-    @Override
-    public void openDetails(String url) {
-        CustomTabsHelperFragment.open(
-                this,
-                customTabsIntent,
-                Uri.parse(url),
-                this
-        );
     }
 
     @Override
@@ -248,16 +207,6 @@ public class MainActivity extends BaseActivity implements
 
     }
 
-    @Override
-    public void openUri(Activity activity, Uri uri) {
-//        getViewState().showInfoMessage("error");
-        try {
-            activity.startActivity(new Intent(Intent.ACTION_VIEW, uri));
-        } catch (ActivityNotFoundException e) {
-            e.printStackTrace();
-//            getViewState().showInfoMessage("activity not found");
-        }
-    }
 }
 
 

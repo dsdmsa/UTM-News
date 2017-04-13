@@ -21,6 +21,7 @@ import dsdmsa.utmnews.models.Category;
 import dsdmsa.utmnews.models.Tag;
 import dsdmsa.utmnews.mvp.ClasificationVP;
 import dsdmsa.utmnews.presenters.ClassificationPresenter;
+import dsdmsa.utmnews.utils.Constants;
 import dsdmsa.utmnews.views.adapters.CategoryAdapter;
 import es.dmoral.toasty.Toasty;
 
@@ -89,9 +90,8 @@ public class CategoryListFragment extends BaseFragment implements
     @Override
     public void onShareClick(Integer categoryId) {
         Intent intent = new Intent(getContext(), CategoryNewsActivity.class);
-        intent.putExtra("id",categoryId);
+        intent.putExtra(Constants.CATEGORY_ID,categoryId);
         startActivity(intent);
-//        navigationPresenter.addFragment(CategoryNewsFragment.newInstance(categoryId));
     }
 
     @Override

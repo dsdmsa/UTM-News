@@ -16,8 +16,6 @@ public interface FragmentNavigation {
     interface Presenter {
         void addFragment(BaseFragment fragment);
 
-        void showPostDetails(String url);
-
         void setTitle(String title);
     }
 }
