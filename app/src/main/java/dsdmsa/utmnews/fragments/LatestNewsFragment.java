@@ -4,6 +4,7 @@ package dsdmsa.utmnews.fragments;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Toast;
@@ -18,7 +19,6 @@ import dsdmsa.utmnews.R;
 import dsdmsa.utmnews.models.SimplePost;
 import dsdmsa.utmnews.mvp.NewsFragmentVP;
 import dsdmsa.utmnews.presenters.NewsPresenter;
-import dsdmsa.utmnews.views.MyLinearLayout;
 import dsdmsa.utmnews.views.adapters.EndlessRecyclerOnScrollListener;
 import dsdmsa.utmnews.views.adapters.NewsAdapter;
 import es.dmoral.toasty.Toasty;
@@ -40,7 +40,7 @@ public class LatestNewsFragment extends BaseFragment implements
     NewsPresenter presenter;
 
     private NewsAdapter newsAdapter;
-    private MyLinearLayout layoutManager;
+    private LinearLayoutManager layoutManager;
 
     public static LatestNewsFragment newInstance() {
         Bundle args = new Bundle();
@@ -57,7 +57,7 @@ public class LatestNewsFragment extends BaseFragment implements
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        layoutManager = new MyLinearLayout(getContext());
+        layoutManager = new LinearLayoutManager(getContext());
         newsAdapter = new NewsAdapter(this);
         setupRecyclerView();
         refreshLayout.setOnRefreshListener(this);
@@ -65,7 +65,6 @@ public class LatestNewsFragment extends BaseFragment implements
     }
 
     private void setupRecyclerView() {
-        layoutManager.setScrollEnabled(true);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(newsAdapter);

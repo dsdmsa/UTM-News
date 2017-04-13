@@ -34,7 +34,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-         holder.name.setText(categoryList.get(position).getName());
+        holder.name.setText(categoryList.get(position).getName());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -48,16 +48,20 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
         return categoryList.size();
     }
 
+    public void clearData() {
+        categoryList.clear();
+    }
+
+    public interface CategoryInteract {
+        void onShareClick(Integer categoryId);
+    }
+
     static class ViewHolder extends RecyclerView.ViewHolder {
         private final TextView name;
         ViewHolder(View itemView) {
             super(itemView);
             name = (TextView) itemView.findViewById(R.id.tv_name);
         }
-    }
-
-    public interface CategoryInteract {
-        void onShareClick(Integer categoryId);
     }
 
 }

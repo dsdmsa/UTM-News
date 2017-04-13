@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Toast;
@@ -19,7 +20,6 @@ import dsdmsa.utmnews.models.SimplePost;
 import dsdmsa.utmnews.mvp.BookmarksFragmentVP;
 import dsdmsa.utmnews.presenters.BookmarksFragmentPresenter;
 import dsdmsa.utmnews.utils.Constants;
-import dsdmsa.utmnews.views.MyLinearLayout;
 import dsdmsa.utmnews.views.adapters.NewsAdapter;
 import es.dmoral.toasty.Toasty;
 
@@ -42,7 +42,7 @@ public class BookmarksFragment extends BaseFragment implements
     BookmarksFragmentPresenter presenter;
 
     private NewsAdapter newsAdapter;
-    private MyLinearLayout layoutManager;
+    private LinearLayoutManager layoutManager;
 
     @Override
     protected int getLayout() {
@@ -60,8 +60,7 @@ public class BookmarksFragment extends BaseFragment implements
     }
 
     private void setupRecyclerView() {
-        layoutManager = new MyLinearLayout(getContext());
-        layoutManager.setScrollEnabled(true);
+        layoutManager = new LinearLayoutManager(getContext());
         newsAdapter = new NewsAdapter(this);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);

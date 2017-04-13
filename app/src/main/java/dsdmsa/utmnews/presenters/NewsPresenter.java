@@ -22,6 +22,7 @@ import dsdmsa.utmnews.network.OnDataLoaded;
 import dsdmsa.utmnews.network.services.UtmServices;
 import dsdmsa.utmnews.repository.PostRepository;
 import dsdmsa.utmnews.utils.Constants;
+import dsdmsa.utmnews.utils.SimplePostAdapter;
 
 import static dsdmsa.utmnews.utils.Constants.ITEMS_PER_PAGE;
 import static dsdmsa.utmnews.utils.Constants.TEXT_PLAIN;
@@ -41,7 +42,6 @@ public class NewsPresenter extends MvpPresenter<NewsFragmentVP.View> implements
 
     public NewsPresenter() {
         App.getAppComponent().inject(this);
-        getViewState().showInfoMessage("notif");
     }
 
     @Override
@@ -104,23 +104,7 @@ public class NewsPresenter extends MvpPresenter<NewsFragmentVP.View> implements
         getViewState().showInfoMessage(errorMsg);
     }
 
-    private static class SimplePostAdapter {
 
-        private SimplePostAdapter() {
-        }
-
-        static SimplePost getSimplePost(Post post) {
-            SimplePost simplePost = new SimplePost();
-            simplePost.setBookmarked(false);
-            simplePost.setDate(post.getDate());
-            simplePost.setDescription(post.getContent().getDescription());
-            simplePost.setId(post.getId());
-            simplePost.setImageUrl(post.getContent().getUrl());
-            simplePost.setLink(post.getLink());
-            simplePost.setTitle(post.getTitle());
-            return simplePost;
-        }
-    }
 
     private class Postparser extends Thread {
         private List<Post> response;

@@ -48,6 +48,10 @@ public class TagAdapter extends RecyclerView.Adapter<TagAdapter.ViewHolder> {
         return tagList.size();
     }
 
+    public void clearData() {
+        tagList.clear();
+    }
+
     static class ViewHolder extends RecyclerView.ViewHolder {
         private final TextView name;
 

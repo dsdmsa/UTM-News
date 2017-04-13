@@ -2,10 +2,10 @@ package dsdmsa.utmnews.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -26,20 +26,21 @@ import es.dmoral.toasty.Toasty;
  * Created by dsdmsa on 4/8/17.
  */
 
-public class CategoryListFragment extends BaseFragment
-        implements ClasificationVP.View,
-        CategoryAdapter.CategoryInteract {
+public class CategoryListFragment extends BaseFragment implements
+        ClasificationVP.View,
+        CategoryAdapter.CategoryInteract,
+        SwipeRefreshLayout.OnRefreshListener {
 
     @InjectPresenter
     ClassificationPresenter presenter;
 
-    private CategoryAdapter categoryAdapter;
-
     @BindView(R.id.recycle_view)
     RecyclerView recyclerView;
 
-    @BindView(R.id.progress_bar)
-    ProgressBar progressBar;
+    @BindView(R.id.swipe_refresh)
+    SwipeRefreshLayout refreshLayout;
+
+    private CategoryAdapter categoryAdapter;
 
     @Override
     protected int getLayout() {
@@ -52,12 +53,14 @@ public class CategoryListFragment extends BaseFragment
         categoryAdapter = new CategoryAdapter(this);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setHasFixedSize(true);
+        refreshLayout.setOnRefreshListener(this);
         recyclerView.setAdapter(categoryAdapter);
         presenter.getCategoryList();
     }
 
     @Override
     public void showCategories(List<Category> response) {
+        categoryAdapter.clearData();
         categoryAdapter.addNewses(response);
     }
 
@@ -68,12 +71,12 @@ public class CategoryListFragment extends BaseFragment
 
     @Override
     public void showProgressDialog() {
-        progressBar.setVisibility(View.VISIBLE);
+        refreshLayout.setRefreshing(true);
     }
 
     @Override
     public void hideProgressDialog() {
-        progressBar.setVisibility(View.GONE);
+        refreshLayout.setRefreshing(false);
     }
 
     @Override
@@ -91,10 +94,14 @@ public class CategoryListFragment extends BaseFragment
         return App.getAppComponent().getContext().getString(R.string.categories_title);
     }
 
-
     @Override
     public void onResume() {
         super.onResume();
         navigationPresenter.setTitle(getTitle());
+    }
+
+    @Override
+    public void onRefresh() {
+        presenter.getCategoryList();
     }
 }

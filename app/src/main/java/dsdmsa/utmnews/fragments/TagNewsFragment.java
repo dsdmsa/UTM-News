@@ -4,9 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -20,7 +20,6 @@ import dsdmsa.utmnews.models.SimplePost;
 import dsdmsa.utmnews.mvp.NewsFragmentVP;
 import dsdmsa.utmnews.presenters.NewsPresenter;
 import dsdmsa.utmnews.utils.Constants;
-import dsdmsa.utmnews.views.MyLinearLayout;
 import dsdmsa.utmnews.views.adapters.EndlessRecyclerOnScrollListener;
 import dsdmsa.utmnews.views.adapters.NewsAdapter;
 import es.dmoral.toasty.Toasty;
@@ -37,9 +36,6 @@ public class TagNewsFragment extends BaseFragment implements
     @InjectPresenter
     NewsPresenter presenter;
 
-    @BindView(R.id.progress_bar)
-    ProgressBar progressBar;
-
     @BindView(R.id.recycle_view)
     RecyclerView recyclerView;
 
@@ -47,7 +43,7 @@ public class TagNewsFragment extends BaseFragment implements
     SwipeRefreshLayout refreshLayout;
 
     private NewsAdapter newsAdapter;
-    private MyLinearLayout layoutManager;
+    private LinearLayoutManager layoutManager;
 
     public static TagNewsFragment newInstance(int tagId) {
         Bundle args = new Bundle();
@@ -66,7 +62,7 @@ public class TagNewsFragment extends BaseFragment implements
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         refreshLayout.setOnRefreshListener(this);
-        layoutManager = new MyLinearLayout(getContext());
+        layoutManager = new LinearLayoutManager(getContext());
         newsAdapter = new NewsAdapter(this);
         setupRecyclerView();
         navigationPresenter.setTitle(getTitle());
@@ -84,7 +80,6 @@ public class TagNewsFragment extends BaseFragment implements
         recyclerView.addOnScrollListener(new EndlessRecyclerOnScrollListener(layoutManager) {
             @Override
             public void onLoadMore(int currentPage) {
-                layoutManager.setScrollEnabled(false);
                 presenter.getNewsByTag(
                         getArguments().getInt(Constants.TAG_ID),
                         Constants.ITEMS_PER_PAGE,
@@ -96,19 +91,17 @@ public class TagNewsFragment extends BaseFragment implements
 
     @Override
     public void showProgressDialog() {
-        progressBar.setVisibility(View.VISIBLE);
+        refreshLayout.setRefreshing(true);
     }
 
     @Override
     public void hideProgressDialog() {
-        progressBar.setVisibility(View.GONE);
         refreshLayout.setRefreshing(false);
     }
 
     @Override
     public void showInfoMessage(String errorMsg) {
         Toasty.info(getContext(), errorMsg, Toast.LENGTH_SHORT).show();
-        layoutManager.setScrollEnabled(true);
     }
 
     @Override
