@@ -1,5 +1,6 @@
 package dsdmsa.utmnews.fragments;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -125,6 +126,12 @@ public class BookmarksFragment extends BaseFragment implements
     @Override
     public void onResume() {
         super.onResume();
+        navigationPresenter.setTitle(getTitle());
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
         navigationPresenter.setTitle(getTitle());
     }
 }

@@ -1,5 +1,6 @@
 package dsdmsa.utmnews.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -15,6 +16,7 @@ import java.util.List;
 import butterknife.BindView;
 import dsdmsa.utmnews.App;
 import dsdmsa.utmnews.R;
+import dsdmsa.utmnews.activityes.TagNewsActivity;
 import dsdmsa.utmnews.models.Category;
 import dsdmsa.utmnews.models.Tag;
 import dsdmsa.utmnews.mvp.ClasificationVP;
@@ -87,7 +89,10 @@ public class TagListFragment extends BaseFragment implements
 
     @Override
     public void onShareClick(Integer tagId) {
-        navigationPresenter.addFragment(TagNewsFragment.newInstance(tagId));
+        Intent intent = new Intent(getContext(), TagNewsActivity.class);
+        intent.putExtra("id",tagId);
+        startActivity(intent);
+//        navigationPresenter.addFragment(TagNewsFragment.newInstance(tagId));
     }
 
     @Override

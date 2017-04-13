@@ -144,6 +144,7 @@ public class SearchFragment extends BaseFragment implements
     @Override
     public void addNewses(List<SimplePost> newses) {
         newsAdapter.addNewses(newses);
+        newsAdapter.notifyDataSetChanged();
     }
 
     @Override

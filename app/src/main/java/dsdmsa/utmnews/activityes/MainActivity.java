@@ -9,8 +9,6 @@ import android.support.annotation.NonNull;
 import android.support.customtabs.CustomTabsIntent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -22,6 +20,7 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.PresenterType;
@@ -41,6 +40,7 @@ import dsdmsa.utmnews.fragments.SearchFragment;
 import dsdmsa.utmnews.fragments.TagListFragment;
 import dsdmsa.utmnews.mvp.MainActivityVP;
 import dsdmsa.utmnews.presenters.MainActivityPresenter;
+import es.dmoral.toasty.Toasty;
 import me.zhanghai.android.customtabshelper.CustomTabsHelperFragment;
 
 public class MainActivity extends BaseActivity implements
@@ -51,32 +51,26 @@ public class MainActivity extends BaseActivity implements
         DrawerLayout.DrawerListener,
         CustomTabsActivityHelper.CustomTabsFallback {
 
+    private static final int TIME_INTERVAL = 2000; // # milliseconds, desired time passed between two back presses.
     @InjectPresenter(type = PresenterType.GLOBAL)
     MainActivityPresenter presenter;
-
     @BindView(R.id.toolbar_title)
     TextView toolbarTitle;
-
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-
     @BindView(R.id.fab)
     FloatingActionButton fab;
-
     @BindView(R.id.et_search)
     EditText searchEditText;
-
     @BindView(R.id.activity_main)
     DrawerLayout drawerLayout;
-
     @BindView(R.id.navigation_view)
     NavigationView navigationView;
-
-
     private ActionBarDrawerToggle mDrawerToggle;
     private Teleprinter teleprinter;
     private CustomTabsHelperFragment customTabsHelperFragment;
     private CustomTabsIntent customTabsIntent;
+    private long mBackPressed;
 
     @Override
     protected int getLayout() {
@@ -130,16 +124,21 @@ public class MainActivity extends BaseActivity implements
     @Override
     public void addFragment(BaseFragment fragment) {
         fragment.atachPresenter(presenter);
-        String fragmentTitle = fragment.getTitle();
-        FragmentManager manager = getSupportFragmentManager();
-        boolean fragmentPopped = manager.popBackStackImmediate(fragmentTitle, 0);
-        if (!fragmentPopped && manager.findFragmentByTag(fragmentTitle) == null) {
-            FragmentTransaction ft = manager.beginTransaction();
-            ft.add(R.id.fragment_container, fragment, fragmentTitle);
-            ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-            ft.addToBackStack(fragmentTitle);
-            ft.commit();
-        }
+        setTootlbarTitile(fragment.getTitle());
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container, fragment)
+                .commit();
+//        String fragmentTitle = fragment.getTitle();
+//        FragmentManager manager = getSupportFragmentManager();
+//        boolean fragmentPopped = manager.popBackStackImmediate(fragmentTitle, 0);
+//        if (!fragmentPopped && manager.findFragmentByTag(fragmentTitle) == null) {
+//            FragmentTransaction ft = manager.beginTransaction();
+//            ft.add(R.id.fragment_container, fragment, fragmentTitle);
+//            ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+//            ft.addToBackStack(fragmentTitle);
+//            ft.commit();
+//        }
     }
 
     @Override
@@ -165,11 +164,11 @@ public class MainActivity extends BaseActivity implements
             drawerLayout.closeDrawer(GravityCompat.START);
             return;
         }
-        if (getSupportFragmentManager().getBackStackEntryCount() > 1) {
-            super.onBackPressed();
+        if (mBackPressed + TIME_INTERVAL < System.currentTimeMillis()) {
+            Toasty.info(this, getString(R.string.tab_again_exit_info), Toast.LENGTH_SHORT).show();
+            mBackPressed = System.currentTimeMillis();
             return;
         }
-        super.onBackPressed();
         super.onBackPressed();
     }
 
@@ -196,10 +195,6 @@ public class MainActivity extends BaseActivity implements
                 drawerLayout.closeDrawer(GravityCompat.START);
                 addFragment(new AboutFragment());
                 break;
-//            case R.id.menu_settings:
-//                drawerLayout.closeDrawer(GravityCompat.START);
-//                addFragment(new SettingsFragment());
-//                break;
         }
         return true;
     }

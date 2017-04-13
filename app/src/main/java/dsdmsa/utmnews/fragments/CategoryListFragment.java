@@ -1,5 +1,6 @@
 package dsdmsa.utmnews.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -15,6 +16,7 @@ import java.util.List;
 import butterknife.BindView;
 import dsdmsa.utmnews.App;
 import dsdmsa.utmnews.R;
+import dsdmsa.utmnews.activityes.CategoryNewsActivity;
 import dsdmsa.utmnews.models.Category;
 import dsdmsa.utmnews.models.Tag;
 import dsdmsa.utmnews.mvp.ClasificationVP;
@@ -86,7 +88,10 @@ public class CategoryListFragment extends BaseFragment implements
 
     @Override
     public void onShareClick(Integer categoryId) {
-        navigationPresenter.addFragment(CategoryNewsFragment.newInstance(categoryId));
+        Intent intent = new Intent(getContext(), CategoryNewsActivity.class);
+        intent.putExtra("id",categoryId);
+        startActivity(intent);
+//        navigationPresenter.addFragment(CategoryNewsFragment.newInstance(categoryId));
     }
 
     @Override
@@ -94,11 +99,6 @@ public class CategoryListFragment extends BaseFragment implements
         return App.getAppComponent().getContext().getString(R.string.categories_title);
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        navigationPresenter.setTitle(getTitle());
-    }
 
     @Override
     public void onRefresh() {

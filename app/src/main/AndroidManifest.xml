@@ -20,8 +20,9 @@
             </intent-filter>
         </activity>
         <activity android:name="dsdmsa.utmnews.activityes.MainActivity"
-
             android:theme="@style/NoActionBar"/>
+        <activity android:name=".activityes.CategoryNewsActivity"/>
+        <activity android:name=".activityes.TagNewsActivity"/>
     </application>
 
 </manifest>
