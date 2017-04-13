@@ -22,7 +22,7 @@
             android:layout_margin="16dp"
             android:gravity="center"
             android:padding="6dp"
-            android:text="UTM-News"
+            android:text="@string/utm_news_navigation_title"
             android:textSize="25sp" />
 
         <android.support.design.widget.NavigationView

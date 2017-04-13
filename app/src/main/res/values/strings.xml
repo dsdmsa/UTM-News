@@ -11,7 +11,7 @@
     <string name="share_title">News</string>
     <string name="bookmarks">Bookmarks</string>
     <string name="categories">Categories</string>
-    <string name="no_mer_data_info">data ended</string>
+    <string name="no_mer_data_info">empty data</string>
     <string name="tags">Tags</string>
     <string name="search_title">Searched results</string>
     <string name="categoru_new_title">News in selected category</string>
@@ -23,4 +23,5 @@
     <string name="bokmarks_title">Bookmarks</string>
     <string name="about_title">About</string>
     <string name="db_data_error">Data not found</string>
+    <string name="utm_news_navigation_title">UTM-News</string>
 </resources>

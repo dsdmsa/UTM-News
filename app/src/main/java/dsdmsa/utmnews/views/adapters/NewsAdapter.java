@@ -60,13 +60,15 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
                 interact.onBookmarkClick(newsList.get(position));
             }
         });
+
         holder.share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 interact.onShareClick(newsList.get(position).getLink());
             }
         });
-        holder.newsDetail.setOnClickListener(new View.OnClickListener() {
+
+        holder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (time < System.currentTimeMillis()) {
@@ -106,7 +108,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         private final AppCompatImageView imageView;
         private final AppCompatImageView share;
         private final AppCompatImageView bookmark;
-        private final AppCompatImageView newsDetail;
+//        private final AppCompatImageView newsDetail;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -115,7 +117,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
             imageView = (AppCompatImageView) itemView.findViewById(R.id.news_thombnail);
             share = (AppCompatImageView) itemView.findViewById(R.id.iv_share);
             bookmark = (AppCompatImageView) itemView.findViewById(R.id.iv_bookmark);
-            newsDetail = (AppCompatImageView) itemView.findViewById(R.id.iv_details);
+//            newsDetail = (AppCompatImageView) itemView.findViewById(R.id.iv_details);
         }
     }
 
