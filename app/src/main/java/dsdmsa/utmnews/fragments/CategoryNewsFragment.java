@@ -44,6 +44,7 @@ public class CategoryNewsFragment extends BaseFragment implements
 
     private NewsAdapter newsAdapter;
     private LinearLayoutManager layoutManager;
+    private EndlessRecyclerOnScrollListener endlessRecyclerOnScrollListener;
 
     public static CategoryNewsFragment newInstance(int categoryId) {
         Bundle args = new Bundle();
@@ -64,6 +65,16 @@ public class CategoryNewsFragment extends BaseFragment implements
         refreshLayout.setOnRefreshListener(this);
         layoutManager = new LinearLayoutManager(getContext());
         newsAdapter = new NewsAdapter(this);
+        endlessRecyclerOnScrollListener = new EndlessRecyclerOnScrollListener(layoutManager) {
+            @Override
+            public void onLoadMore(int currentPage) {
+                presenter.getCategoryNewses(
+                        getArguments().getInt(Constants.CATEGORY_ID),
+                        Constants.ITEMS_PER_PAGE,
+                        currentPage
+                );
+            }
+        };
         setupRecyclerView();
 
         presenter.getCategoryNewses(
@@ -77,16 +88,7 @@ public class CategoryNewsFragment extends BaseFragment implements
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(newsAdapter);
-        recyclerView.addOnScrollListener(new EndlessRecyclerOnScrollListener(layoutManager) {
-            @Override
-            public void onLoadMore(int currentPage) {
-                presenter.getCategoryNewses(
-                        getArguments().getInt(Constants.CATEGORY_ID),
-                        Constants.ITEMS_PER_PAGE,
-                        currentPage
-                );
-            }
-        });
+        recyclerView.addOnScrollListener(endlessRecyclerOnScrollListener);
     }
 
     @Override
@@ -144,6 +146,7 @@ public class CategoryNewsFragment extends BaseFragment implements
     @Override
     public void addNewses(List<SimplePost> newses) {
         newsAdapter.addNewses(newses);
+        newsAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -151,12 +154,6 @@ public class CategoryNewsFragment extends BaseFragment implements
         setupRecyclerView();
         newsAdapter.clearData();
         newsAdapter.addNewses(response);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        navigationPresenter.setTitle(getTitle());
     }
 
 }

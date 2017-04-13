@@ -86,10 +86,14 @@ public class BookmarksFragment extends BaseFragment implements
     @Override
     public void showInfoMessage(String errorMsg) {
         Toasty.info(getContext(), errorMsg, Toast.LENGTH_SHORT).show();
+        newsAdapter.clearData();
+        newsAdapter.notifyDataSetChanged();
     }
 
     @Override
     public void addNewses(List<SimplePost> newses) {
+        newsAdapter.clearData();
+        newsAdapter.notifyDataSetChanged();
         newsAdapter.addNewses(newses);
     }
 
@@ -105,7 +109,7 @@ public class BookmarksFragment extends BaseFragment implements
     @Override
     public void onBookmarkClick(SimplePost post) {
         presenter.removePost(post);
-        newsAdapter.removeItem(post);
+        presenter.loadNews();
     }
 
     @Override

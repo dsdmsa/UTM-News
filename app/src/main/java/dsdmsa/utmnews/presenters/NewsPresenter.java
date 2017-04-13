@@ -23,6 +23,7 @@ import dsdmsa.utmnews.network.services.UtmServices;
 import dsdmsa.utmnews.repository.PostRepository;
 import dsdmsa.utmnews.utils.Constants;
 import dsdmsa.utmnews.utils.SimplePostAdapter;
+import timber.log.Timber;
 
 import static dsdmsa.utmnews.utils.Constants.ITEMS_PER_PAGE;
 import static dsdmsa.utmnews.utils.Constants.TEXT_PLAIN;
@@ -38,7 +39,7 @@ public class NewsPresenter extends MvpPresenter<NewsFragmentVP.View> implements
     @Inject
     PostRepository repository;
 
-    private boolean isFirstPage = false;
+    private boolean isFirstpage = false;
 
     public NewsPresenter() {
         App.getAppComponent().inject(this);
@@ -49,7 +50,7 @@ public class NewsPresenter extends MvpPresenter<NewsFragmentVP.View> implements
         getViewState().showProgressDialog();
         services.getNews(page, ITEMS_PER_PAGE, this);
         if (page == Constants.INITIAL_PAGE) {
-            isFirstPage = true;
+            isFirstpage = true;
         }
     }
 
@@ -104,8 +105,6 @@ public class NewsPresenter extends MvpPresenter<NewsFragmentVP.View> implements
         getViewState().showInfoMessage(errorMsg);
     }
 
-
-
     private class Postparser extends Thread {
         private List<Post> response;
         private List<SimplePost> simplePosts = new ArrayList<>();
@@ -127,13 +126,16 @@ public class NewsPresenter extends MvpPresenter<NewsFragmentVP.View> implements
                 simplePosts.add(SimplePostAdapter.getSimplePost(post));
             }
 
-
             new Handler(Looper.getMainLooper()).post(new Runnable() {
                 @Override
                 public void run() {
-                    if (isFirstPage) {
-                        isFirstPage = false;
+
+                    Timber.d("response size : " + simplePosts.size());
+                    Timber.d("isFirstpage  : " + isFirstpage);
+
+                    if (isFirstpage) {
                         getViewState().refreshDatas(simplePosts);
+                        isFirstpage = false;
                     } else {
                         getViewState().addNewses(simplePosts);
                     }

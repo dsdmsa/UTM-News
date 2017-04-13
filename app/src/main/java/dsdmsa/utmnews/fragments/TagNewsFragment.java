@@ -23,6 +23,7 @@ import dsdmsa.utmnews.utils.Constants;
 import dsdmsa.utmnews.views.adapters.EndlessRecyclerOnScrollListener;
 import dsdmsa.utmnews.views.adapters.NewsAdapter;
 import es.dmoral.toasty.Toasty;
+import timber.log.Timber;
 
 /**
  * Created by dsdmsa on 4/8/17.
@@ -31,7 +32,7 @@ import es.dmoral.toasty.Toasty;
 public class TagNewsFragment extends BaseFragment implements
         NewsFragmentVP.View,
         NewsAdapter.NewsInteract,
-        SwipeRefreshLayout.OnRefreshListener{
+        SwipeRefreshLayout.OnRefreshListener {
 
     @InjectPresenter
     NewsPresenter presenter;
@@ -44,6 +45,7 @@ public class TagNewsFragment extends BaseFragment implements
 
     private NewsAdapter newsAdapter;
     private LinearLayoutManager layoutManager;
+    private EndlessRecyclerOnScrollListener endlessRecyclerOnScrollListener;
 
     public static TagNewsFragment newInstance(int tagId) {
         Bundle args = new Bundle();
@@ -63,6 +65,16 @@ public class TagNewsFragment extends BaseFragment implements
         super.onViewCreated(view, savedInstanceState);
         refreshLayout.setOnRefreshListener(this);
         layoutManager = new LinearLayoutManager(getContext());
+        endlessRecyclerOnScrollListener = new EndlessRecyclerOnScrollListener(layoutManager) {
+            @Override
+            public void onLoadMore(int currentPage) {
+                presenter.getNewsByTag(
+                        getArguments().getInt(Constants.TAG_ID),
+                        Constants.ITEMS_PER_PAGE,
+                        currentPage
+                );
+            }
+        };
         newsAdapter = new NewsAdapter(this);
         setupRecyclerView();
         navigationPresenter.setTitle(getTitle());
@@ -77,16 +89,7 @@ public class TagNewsFragment extends BaseFragment implements
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(newsAdapter);
-        recyclerView.addOnScrollListener(new EndlessRecyclerOnScrollListener(layoutManager) {
-            @Override
-            public void onLoadMore(int currentPage) {
-                presenter.getNewsByTag(
-                        getArguments().getInt(Constants.TAG_ID),
-                        Constants.ITEMS_PER_PAGE,
-                        currentPage
-                );
-            }
-        });
+        recyclerView.addOnScrollListener(endlessRecyclerOnScrollListener);
     }
 
     @Override
@@ -143,11 +146,14 @@ public class TagNewsFragment extends BaseFragment implements
 
     @Override
     public void addNewses(List<SimplePost> newses) {
+        Timber.d("add newses size : " + newses.size());
         newsAdapter.addNewses(newses);
+        newsAdapter.notifyDataSetChanged();
     }
 
     @Override
     public void refreshDatas(List<SimplePost> response) {
+        Timber.d("add refreshDatas size : " + response.size());
         setupRecyclerView();
         newsAdapter.clearData();
         newsAdapter.addNewses(response);

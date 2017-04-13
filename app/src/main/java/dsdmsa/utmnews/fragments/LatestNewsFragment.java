@@ -41,6 +41,7 @@ public class LatestNewsFragment extends BaseFragment implements
 
     private NewsAdapter newsAdapter;
     private LinearLayoutManager layoutManager;
+    private EndlessRecyclerOnScrollListener endlessRecyclerOnScrollListener;
 
     public static LatestNewsFragment newInstance() {
         Bundle args = new Bundle();
@@ -58,22 +59,24 @@ public class LatestNewsFragment extends BaseFragment implements
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         layoutManager = new LinearLayoutManager(getContext());
+        endlessRecyclerOnScrollListener = new EndlessRecyclerOnScrollListener(layoutManager) {
+            @Override
+            public void onLoadMore(int current_page) {
+                presenter.loadNewsOnPage(current_page);
+            }
+        };
         newsAdapter = new NewsAdapter(this);
         setupRecyclerView();
         refreshLayout.setOnRefreshListener(this);
         presenter.loadNewsOnPage(INITIAL_PAGE);
     }
 
+
     private void setupRecyclerView() {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(newsAdapter);
-        recyclerView.addOnScrollListener(new EndlessRecyclerOnScrollListener(layoutManager) {
-            @Override
-            public void onLoadMore(int currentPage) {
-                presenter.loadNewsOnPage(currentPage);
-            }
-        });
+        recyclerView.addOnScrollListener(endlessRecyclerOnScrollListener);
     }
 
     @Override
@@ -116,7 +119,6 @@ public class LatestNewsFragment extends BaseFragment implements
     @Override
     public void onBookmarkClick(SimplePost post) {
         presenter.bookmarkPost(post);
-        post.setBookmarked(true);
         newsAdapter.notifyDataSetChanged();
     }
 
@@ -130,10 +132,4 @@ public class LatestNewsFragment extends BaseFragment implements
         return App.getAppComponent().getContext().getString(R.string.news_lastest_title);
     }
 
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        navigationPresenter.setTitle(getTitle());
-    }
 }

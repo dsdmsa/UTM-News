@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -12,18 +13,27 @@ import com.bumptech.glide.Glide;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
+import dsdmsa.utmnews.App;
 import dsdmsa.utmnews.R;
 import dsdmsa.utmnews.models.SimplePost;
+import dsdmsa.utmnews.repository.PostRepository;
 import dsdmsa.utmnews.utils.Constants;
+import dsdmsa.utmnews.utils.Utils;
 
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
+
+    @Inject
+    PostRepository repository;
 
     private List<SimplePost> newsList = new ArrayList<>();
     private NewsInteract interact;
     private long time = 0;
-
+    private int lastAnimatedPosition = -1;
 
     public NewsAdapter(NewsInteract interact) {
+        App.getAppComponent().inject(this);
         this.interact = interact;
     }
 
@@ -41,11 +51,14 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
 
-        if (newsList.get(position).isBookmarked()) {
+        runEnterAnimation(holder.itemView, position);
+
+        if (repository.exists(newsList.get(position))) {
             holder.bookmark.setImageResource(R.drawable.ic_bookmarcs);
         } else {
             holder.bookmark.setImageResource(R.drawable.ic_bookmarcs_white);
         }
+
         Glide.with(holder.imageView.getContext())
                 .load(newsList.get(position).getImageUrl())
                 .asBitmap()
@@ -89,9 +102,17 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         notifyDataSetChanged();
     }
 
-    public void removeItem(SimplePost post) {
-        newsList.remove(post);
-        notifyDataSetChanged();
+    private void runEnterAnimation(View view, int position) {
+        if (position < 3)
+            if (position > lastAnimatedPosition) {
+                lastAnimatedPosition = position;
+                view.setTranslationY(Utils.getScreenHeight(App.getAppComponent().getContext()));
+                view.animate()
+                        .translationY(0)
+                        .setInterpolator(new DecelerateInterpolator(3.f))
+                        .setDuration(Constants.LIST_ITEMS_ANIMATION_DURATION)
+                        .start();
+            }
     }
 
     public interface NewsInteract {
@@ -108,7 +129,6 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         private final AppCompatImageView imageView;
         private final AppCompatImageView share;
         private final AppCompatImageView bookmark;
-//        private final AppCompatImageView newsDetail;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -117,9 +137,25 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
             imageView = (AppCompatImageView) itemView.findViewById(R.id.news_thombnail);
             share = (AppCompatImageView) itemView.findViewById(R.id.iv_share);
             bookmark = (AppCompatImageView) itemView.findViewById(R.id.iv_bookmark);
-//            newsDetail = (AppCompatImageView) itemView.findViewById(R.id.iv_details);
         }
     }
+
+//    private fun runEnterAnimation(view: View, position: Int) {
+//        if (position <=  5) {
+//            if (position > lastAnimatedPosition) {
+//                lastAnimatedPosition = position
+//                view.translationY = 1400f
+//                view.alpha = 0f
+//                view.animate()
+//                        .translationY(0f)
+//                        .alpha(1f)
+//                        .setInterpolator(DecelerateInterpolator(3f))
+//                        .setDuration(700)
+//                        .setStartDelay(position * 100L)
+//                        .start()
+//            }
+//        }
+//    }
 
 }
 

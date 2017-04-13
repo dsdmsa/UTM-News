@@ -44,6 +44,7 @@ public class SearchFragment extends BaseFragment implements
 
     private NewsAdapter newsAdapter;
     private LinearLayoutManager layoutManager;
+    private EndlessRecyclerOnScrollListener endlessRecyclerOnScrollListener;
 
     public static SearchFragment newInstance(String searchKey) {
         Bundle args = new Bundle();
@@ -64,6 +65,16 @@ public class SearchFragment extends BaseFragment implements
         refreshLayout.setOnRefreshListener(this);
         layoutManager = new LinearLayoutManager(getContext());
         newsAdapter = new NewsAdapter(this);
+        endlessRecyclerOnScrollListener = new EndlessRecyclerOnScrollListener(layoutManager) {
+            @Override
+            public void onLoadMore(int currentPage) {
+                presenter.getSearchedNewses(
+                        getArguments().getString(Constants.SEARCH_KEY),
+                        Constants.ITEMS_PER_PAGE,
+                        currentPage
+                );
+            }
+        };
         setupRecyclerView();
         presenter.getSearchedNewses(
                 getArguments().getString(Constants.SEARCH_KEY),
@@ -76,16 +87,7 @@ public class SearchFragment extends BaseFragment implements
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(newsAdapter);
-        recyclerView.addOnScrollListener(new EndlessRecyclerOnScrollListener(layoutManager) {
-            @Override
-            public void onLoadMore(int currentPage) {
-                presenter.getSearchedNewses(
-                        getArguments().getString(Constants.SEARCH_KEY),
-                        Constants.ITEMS_PER_PAGE,
-                        currentPage
-                );
-            }
-        });
+        recyclerView.addOnScrollListener(endlessRecyclerOnScrollListener);
     }
 
     @Override
