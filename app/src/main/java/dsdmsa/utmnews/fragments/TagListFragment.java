@@ -3,7 +3,7 @@ package dsdmsa.utmnews.fragments;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Toast;
@@ -26,10 +26,10 @@ import es.dmoral.toasty.Toasty;
  * Created by dsdmsa on 4/8/17.
  */
 
-public class TagListFragment extends BaseFragment        implements
+public class TagListFragment extends BaseFragment implements
         ClasificationVP.View,
-        TagAdapter.TagInteract ,
-SwipeRefreshLayout.OnRefreshListener{
+        TagAdapter.TagInteract,
+        SwipeRefreshLayout.OnRefreshListener {
 
     @InjectPresenter
     ClassificationPresenter presenter;
@@ -51,7 +51,7 @@ SwipeRefreshLayout.OnRefreshListener{
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         tagAdapter = new TagAdapter(this);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
         recyclerView.setHasFixedSize(true);
         refreshLayout.setOnRefreshListener(this);
         recyclerView.setAdapter(tagAdapter);
