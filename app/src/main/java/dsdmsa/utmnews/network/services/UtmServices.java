@@ -52,7 +52,7 @@ public class UtmServices {
 
             @Override
             public void onFailure(Call<List<Category>> call, Throwable t) {
-                dataLoaded.onError("error getng categories");
+                dataLoaded.onError(t.getMessage());
             }
         });
     }
@@ -87,7 +87,7 @@ public class UtmServices {
 
             @Override
             public void onFailure(Call<List<Tag>> call, Throwable t) {
-                dataLoaded.onError("error getng categories");
+                dataLoaded.onError(t.getMessage());
             }
         });
     }

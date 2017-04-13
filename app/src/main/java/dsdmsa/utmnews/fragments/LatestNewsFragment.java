@@ -72,7 +72,6 @@ public class LatestNewsFragment extends BaseFragment implements
         presenter.loadNewsOnPage(INITIAL_PAGE);
     }
 
-
     private void setupRecyclerView() {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);

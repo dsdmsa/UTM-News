@@ -15,15 +15,9 @@ public class MainActivityPresenter extends MvpPresenter<MainActivityVP.View>
         implements MainActivityVP.Presenter,
         FragmentNavigation.Presenter{
 
-
     @Override
     public void addFragment(BaseFragment fragment) {
         getViewState().addFragment(fragment);
-    }
-
-    @Override
-    public void showPostDetails(String url) {
-        getViewState().openDetails(url);
     }
 
     @Override

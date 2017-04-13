@@ -140,23 +140,6 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         }
     }
 
-//    private fun runEnterAnimation(view: View, position: Int) {
-//        if (position <=  5) {
-//            if (position > lastAnimatedPosition) {
-//                lastAnimatedPosition = position
-//                view.translationY = 1400f
-//                view.alpha = 0f
-//                view.animate()
-//                        .translationY(0f)
-//                        .alpha(1f)
-//                        .setInterpolator(DecelerateInterpolator(3f))
-//                        .setDuration(700)
-//                        .setStartDelay(position * 100L)
-//                        .start()
-//            }
-//        }
-//    }
-
 }
 
 

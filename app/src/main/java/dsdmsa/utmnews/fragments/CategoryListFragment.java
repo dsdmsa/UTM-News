@@ -99,7 +99,6 @@ public class CategoryListFragment extends BaseFragment implements
         return App.getAppComponent().getContext().getString(R.string.categories_title);
     }
 
-
     @Override
     public void onRefresh() {
         presenter.getCategoryList();

@@ -23,7 +23,6 @@ import dsdmsa.utmnews.network.services.UtmServices;
 import dsdmsa.utmnews.repository.PostRepository;
 import dsdmsa.utmnews.utils.Constants;
 import dsdmsa.utmnews.utils.SimplePostAdapter;
-import timber.log.Timber;
 
 import static dsdmsa.utmnews.utils.Constants.ITEMS_PER_PAGE;
 import static dsdmsa.utmnews.utils.Constants.TEXT_PLAIN;
@@ -115,24 +114,17 @@ public class NewsPresenter extends MvpPresenter<NewsFragmentVP.View> implements
 
         @Override
         public void run() {
-
             try {
                 sleep(1);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-
             for (Post post : response) {
                 simplePosts.add(SimplePostAdapter.getSimplePost(post));
             }
-
             new Handler(Looper.getMainLooper()).post(new Runnable() {
                 @Override
                 public void run() {
-
-                    Timber.d("response size : " + simplePosts.size());
-                    Timber.d("isFirstpage  : " + isFirstpage);
-
                     if (isFirstpage) {
                         getViewState().refreshDatas(simplePosts);
                         isFirstpage = false;
@@ -142,9 +134,7 @@ public class NewsPresenter extends MvpPresenter<NewsFragmentVP.View> implements
                     getViewState().hideProgressDialog();
                 }
             });
-
         }
     }
-
 
 }
