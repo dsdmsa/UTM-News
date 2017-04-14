@@ -130,8 +130,6 @@ public class CategoryNewsFragment extends BaseFragment implements
 
     @Override
     public void onRefresh() {
-        newsAdapter.clearData();
-        setupRecyclerView();
         presenter.getCategoryNewses(
                 getArguments().getInt(Constants.CATEGORY_ID),
                 Constants.ITEMS_PER_PAGE,

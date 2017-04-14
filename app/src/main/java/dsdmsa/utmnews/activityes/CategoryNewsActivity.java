@@ -2,6 +2,7 @@ package dsdmsa.utmnews.activityes;
 
 
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.TextView;
 
 import butterknife.BindView;
@@ -18,13 +19,19 @@ public class CategoryNewsActivity extends BaseActivity{
 
     @Override
     protected int getLayout() {
-        return R.layout.activity_main;
+        return R.layout.activity_item;
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         setSupportActionBar(toolbar);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         int categoryId = getIntent().getExtras().getInt(Constants.CATEGORY_ID);
         CategoryNewsFragment fragment = CategoryNewsFragment.newInstance(categoryId);
         toolbarTitle.setText(fragment.getTitle());
