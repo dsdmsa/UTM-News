@@ -5,7 +5,7 @@ apply plugin: 'com.android.application'
 
 def final DEV = "dsdmsa.utmnews.dev"
 def final PROD = "dsdmsa.utmnews.prod"
-def final VERSION_NAME = "v0.0.2.${buildTime()}"
+def final VERSION_NAME = "v0.0.6.${buildTime()}"
 
 android {
     compileSdkVersion 25

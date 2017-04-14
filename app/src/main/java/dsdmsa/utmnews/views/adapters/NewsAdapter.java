@@ -22,7 +22,7 @@ import dsdmsa.utmnews.repository.PostRepository;
 import dsdmsa.utmnews.utils.Constants;
 import dsdmsa.utmnews.utils.Utils;
 
-public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
+public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> {
 
     @Inject
     PostRepository repository;
@@ -43,13 +43,13 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_news, parent, false);
-        return new ViewHolder(itemView);
+        return new MyViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, final int position) {
+    public void onBindViewHolder(final MyViewHolder holder, final int position) {
 
         runEnterAnimation(holder.itemView, position);
 
@@ -115,22 +115,14 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
             }
     }
 
-    public interface NewsInteract {
-        void onShareClick(String url);
-
-        void onBookmarkClick(SimplePost post);
-
-        void onDetailsClick(SimplePost post);
-    }
-
-    static class ViewHolder extends RecyclerView.ViewHolder {
+    static class MyViewHolder extends RecyclerView.ViewHolder {
         private final TextView title;
         private final TextView description;
         private final AppCompatImageView imageView;
         private final AppCompatImageView share;
         private final AppCompatImageView bookmark;
 
-        ViewHolder(View itemView) {
+        MyViewHolder(View itemView) {
             super(itemView);
             title = (TextView) itemView.findViewById(R.id.tv_title);
             description = (TextView) itemView.findViewById(R.id.tv_description);
@@ -138,6 +130,14 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
             share = (AppCompatImageView) itemView.findViewById(R.id.iv_share);
             bookmark = (AppCompatImageView) itemView.findViewById(R.id.iv_bookmark);
         }
+    }
+
+    public interface NewsInteract {
+        void onShareClick(String url);
+
+        void onBookmarkClick(SimplePost post);
+
+        void onDetailsClick(SimplePost post);
     }
 
 }
