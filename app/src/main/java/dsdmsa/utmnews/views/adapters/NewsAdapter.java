@@ -70,7 +70,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
         holder.bookmark.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                interact.onBookmarkClick(newsList.get(position));
+                interact.onBookmarkClick(newsList.get(position),position);
             }
         });
 
@@ -135,7 +135,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
     public interface NewsInteract {
         void onShareClick(String url);
 
-        void onBookmarkClick(SimplePost post);
+        void onBookmarkClick(SimplePost post, int position);
 
         void onDetailsClick(SimplePost post);
     }
