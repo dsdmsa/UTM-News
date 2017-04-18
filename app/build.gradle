@@ -92,6 +92,7 @@ dependencies {
     compile 'com.github.Commit451:Teleprinter:1.0.1'
     //database
     compile 'io.realm:realm-android:0.87.5'
+    compile 'com.github.thorbenprimke:realm-nytimes-data:0.9.2'
 
 
     //testing
