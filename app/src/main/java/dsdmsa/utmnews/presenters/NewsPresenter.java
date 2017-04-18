@@ -104,6 +104,10 @@ public class NewsPresenter extends MvpPresenter<NewsFragmentVP.View> implements
         getViewState().showInfoMessage(errorMsg);
     }
 
+    public void setupRecyclerView() {
+        getViewState().setupRecyclerView();
+    }
+
     private class Postparser extends Thread {
         private List<Post> response;
         private List<SimplePost> simplePosts = new ArrayList<>();

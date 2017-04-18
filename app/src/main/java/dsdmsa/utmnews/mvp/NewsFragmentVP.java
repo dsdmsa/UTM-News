@@ -17,6 +17,7 @@ public interface NewsFragmentVP {
 
         void refreshDatas(List<SimplePost> response);
 
+        void setupRecyclerView();
     }
 
     interface Presenter {

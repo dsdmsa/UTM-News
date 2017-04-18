@@ -59,7 +59,6 @@ public class TagListFragment extends BaseFragment implements
         refreshLayout.setOnRefreshListener(this);
         recyclerView.setAdapter(tagAdapter);
         presenter.getTagList();
-        navigationPresenter.setTitle(getTitle());
     }
 
     @Override

@@ -84,7 +84,8 @@ public class SearchFragment extends BaseFragment implements
         );
     }
 
-    private void setupRecyclerView() {
+    @Override
+    public  void setupRecyclerView() {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(newsAdapter);

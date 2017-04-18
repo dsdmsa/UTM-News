@@ -10,16 +10,17 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.arellomobile.mvp.presenter.PresenterType;
 
 import java.util.List;
 
 import butterknife.BindView;
 import dsdmsa.utmnews.App;
-import dsdmsa.utmnews.views.ChromeTab;
 import dsdmsa.utmnews.R;
 import dsdmsa.utmnews.models.SimplePost;
 import dsdmsa.utmnews.mvp.NewsFragmentVP;
 import dsdmsa.utmnews.presenters.NewsPresenter;
+import dsdmsa.utmnews.views.ChromeTab;
 import dsdmsa.utmnews.views.adapters.EndlessRecyclerOnScrollListener;
 import dsdmsa.utmnews.views.adapters.NewsAdapter;
 import es.dmoral.toasty.Toasty;
@@ -37,7 +38,7 @@ public class LatestNewsFragment extends BaseFragment implements
     @BindView(R.id.swipe_refresh)
     SwipeRefreshLayout refreshLayout;
 
-    @InjectPresenter
+    @InjectPresenter(type = PresenterType.GLOBAL)
     NewsPresenter presenter;
 
     private NewsAdapter newsAdapter;
@@ -56,6 +57,7 @@ public class LatestNewsFragment extends BaseFragment implements
         return R.layout.fragment_news_list;
     }
 
+
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -66,13 +68,14 @@ public class LatestNewsFragment extends BaseFragment implements
                 presenter.loadNewsOnPage(current_page);
             }
         };
-        newsAdapter = new NewsAdapter(this);
-        setupRecyclerView();
-        refreshLayout.setOnRefreshListener(this);
+        presenter.setupRecyclerView();
         presenter.loadNewsOnPage(INITIAL_PAGE);
     }
 
-    private void setupRecyclerView() {
+    @Override
+    public void setupRecyclerView() {
+        newsAdapter = new NewsAdapter(this);
+        refreshLayout.setOnRefreshListener(this);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(newsAdapter);

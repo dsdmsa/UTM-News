@@ -1,10 +1,18 @@
 package dsdmsa.utmnews.presenters;
 
+import android.view.MenuItem;
+
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 
-import dsdmsa.utmnews.mvp.FragmentNavigation;
+import dsdmsa.utmnews.R;
+import dsdmsa.utmnews.fragments.AboutFragment;
 import dsdmsa.utmnews.fragments.BaseFragment;
+import dsdmsa.utmnews.fragments.BookmarksFragment;
+import dsdmsa.utmnews.fragments.CategoryListFragment;
+import dsdmsa.utmnews.fragments.LatestNewsFragment;
+import dsdmsa.utmnews.fragments.TagListFragment;
+import dsdmsa.utmnews.mvp.FragmentNavigation;
 import dsdmsa.utmnews.mvp.MainActivityVP;
 
 /**
@@ -13,7 +21,12 @@ import dsdmsa.utmnews.mvp.MainActivityVP;
 @InjectViewState
 public class MainActivityPresenter extends MvpPresenter<MainActivityVP.View>
         implements MainActivityVP.Presenter,
-        FragmentNavigation.Presenter{
+        FragmentNavigation.Presenter {
+
+
+    public MainActivityPresenter() {
+        getViewState().addFragment(LatestNewsFragment.newInstance());
+    }
 
     @Override
     public void addFragment(BaseFragment fragment) {
@@ -23,5 +36,27 @@ public class MainActivityPresenter extends MvpPresenter<MainActivityVP.View>
     @Override
     public void setTitle(String title) {
         getViewState().setTootlbarTitile(title);
+    }
+
+    @Override
+    public void onItemSelected(MenuItem menuItem) {
+        BaseFragment fragment = null;
+        switch (menuItem.getItemId()) {
+            case R.id.menu_categories:
+                fragment = new CategoryListFragment();
+                break;
+            case R.id.menu_tags:
+                fragment = new TagListFragment();
+                break;
+            case R.id.menu_bookmarks:
+                fragment = new BookmarksFragment();
+                break;
+            case R.id.menu_info:
+                fragment = new AboutFragment();
+                break;
+            default:
+                fragment = new LatestNewsFragment();
+        }
+        getViewState().addFragment(fragment);
     }
 }
