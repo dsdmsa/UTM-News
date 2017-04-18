@@ -109,9 +109,10 @@ public class BookmarksFragment extends BaseFragment implements
     }
 
     @Override
-    public void onBookmarkClick(SimplePost post) {
+    public void onBookmarkClick(SimplePost post, int position) {
+        newsAdapter.notifyItemRemoved(position);
         presenter.removePost(post);
-        presenter.loadNews();
+//        presenter.loadNews();
     }
 
     @Override

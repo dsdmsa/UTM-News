@@ -117,7 +117,7 @@ public class LatestNewsFragment extends BaseFragment implements
     }
 
     @Override
-    public void onBookmarkClick(SimplePost post) {
+    public void onBookmarkClick(SimplePost post, int position) {
         presenter.bookmarkPost(post);
         newsAdapter.notifyDataSetChanged();
     }

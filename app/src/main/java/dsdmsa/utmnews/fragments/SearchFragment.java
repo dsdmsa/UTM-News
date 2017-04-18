@@ -116,7 +116,7 @@ public class SearchFragment extends BaseFragment implements
     }
 
     @Override
-    public void onBookmarkClick(SimplePost post) {
+    public void onBookmarkClick(SimplePost post, int position) {
         post.setBookmarked(true);
         newsAdapter.notifyDataSetChanged();
     }
