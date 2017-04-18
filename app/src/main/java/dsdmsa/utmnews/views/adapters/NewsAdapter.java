@@ -19,8 +19,12 @@ import dsdmsa.utmnews.App;
 import dsdmsa.utmnews.R;
 import dsdmsa.utmnews.models.SimplePost;
 import dsdmsa.utmnews.repository.PostRepository;
-import dsdmsa.utmnews.utils.Constants;
 import dsdmsa.utmnews.utils.Utils;
+
+import static dsdmsa.utmnews.utils.Constants.ITEMS_PER_PAGE;
+import static dsdmsa.utmnews.utils.Constants.ITEMS_TO_ANIMATE_IN_ADAPTER;
+import static dsdmsa.utmnews.utils.Constants.LIST_ITEMS_ANIMATION_DURATION;
+import static dsdmsa.utmnews.utils.Constants.TIME_TO_WAIT;
 
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> {
 
@@ -39,7 +43,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
 
     public void addNewses(List<SimplePost> orderDTOs) {
         newsList.addAll(orderDTOs);
-        notifyItemRangeInserted(newsList.size() - Constants.ITEMS_PER_PAGE + 1, newsList.size());
+        notifyItemRangeInserted(newsList.size() - ITEMS_PER_PAGE + 1, newsList.size());
     }
 
     @Override
@@ -85,7 +89,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
             @Override
             public void onClick(View v) {
                 if (time < System.currentTimeMillis()) {
-                    time = System.currentTimeMillis() + Constants.TIME_TO_WAIT;
+                    time = System.currentTimeMillis() + TIME_TO_WAIT;
                     interact.onDetailsClick(newsList.get(position));
                 }
             }
@@ -103,14 +107,14 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
     }
 
     private void runEnterAnimation(View view, int position) {
-        if (position < 3)
+        if (position < ITEMS_TO_ANIMATE_IN_ADAPTER)
             if (position > lastAnimatedPosition) {
                 lastAnimatedPosition = position;
                 view.setTranslationY(Utils.getScreenHeight(App.getAppComponent().getContext()));
                 view.animate()
                         .translationY(0)
                         .setInterpolator(new DecelerateInterpolator(3.f))
-                        .setDuration(Constants.LIST_ITEMS_ANIMATION_DURATION)
+                        .setDuration(LIST_ITEMS_ANIMATION_DURATION)
                         .start();
             }
     }

@@ -21,7 +21,6 @@ import com.arellomobile.mvp.presenter.PresenterType;
 import com.commit451.teleprinter.Teleprinter;
 
 import butterknife.BindView;
-import dsdmsa.utmnews.App;
 import dsdmsa.utmnews.R;
 import dsdmsa.utmnews.fragments.AboutFragment;
 import dsdmsa.utmnews.fragments.BaseFragment;
@@ -69,7 +68,6 @@ public class MainActivity extends BaseActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        App.getAppComponent().inject(this);
         teleprinter = new Teleprinter(this);
         navigationView.setNavigationItemSelectedListener(this);
         searchEditText.setOnEditorActionListener(this);
@@ -189,6 +187,7 @@ public class MainActivity extends BaseActivity implements
     @Override
     public void onDrawerSlide(View drawerView, float slideOffset) {
         navigationView.setAlpha(slideOffset);
+
     }
 
     @Override
