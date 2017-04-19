@@ -1,9 +1,13 @@
 package dsdmsa.utmnews.activityes;
 
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -20,10 +24,14 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.PresenterType;
 import com.commit451.teleprinter.Teleprinter;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
 import butterknife.BindView;
 import dsdmsa.utmnews.R;
 import dsdmsa.utmnews.fragments.BaseFragment;
 import dsdmsa.utmnews.fragments.SearchFragment;
+import dsdmsa.utmnews.models.enums.NetState;
 import dsdmsa.utmnews.mvp.MainActivityVP;
 import dsdmsa.utmnews.presenters.MainActivityPresenter;
 import es.dmoral.toasty.Toasty;
@@ -51,6 +59,8 @@ public class MainActivity extends BaseActivity implements
     DrawerLayout drawerLayout;
     @BindView(R.id.navigation_view)
     NavigationView navigationView;
+    @BindView(R.id.coordinator)
+    CoordinatorLayout coordinatorLayout;
     private ActionBarDrawerToggle mDrawerToggle;
     private Teleprinter teleprinter;
     private long mBackPressed;
@@ -69,6 +79,13 @@ public class MainActivity extends BaseActivity implements
         drawerLayout.addDrawerListener(this);
         fab.setOnClickListener(this);
         setupToolbar();
+
+
+        Intent intent = new Intent("dsdmsa.utmnews");
+
+        sendBroadcast(intent);
+//        sendBroadCast( intent );
+
     }
 
     private void setupToolbar() {
@@ -177,9 +194,43 @@ public class MainActivity extends BaseActivity implements
 
     @Override
     public void onDrawerStateChanged(int newState) {
-
+//        switch (newState){
+//            case
+//        }
     }
 
+    @Subscribe
+    public void showSnake(final NetState state) {
+        final Snackbar snackbar = Snackbar.make(coordinatorLayout, state.getNet_state(), Snackbar.LENGTH_INDEFINITE);
+        snackbar.setAction(state.getS_action(), new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (state.equals(NetState.OFFLINE)) {
+                    presenter.openNetSettings();
+                } else {
+                    snackbar.dismiss();
+                }
+            }
+        });
+
+        View sbView = snackbar.getView();
+        sbView.setBackgroundColor(Color.BLACK);
+
+        snackbar.setActionTextColor(state.getColor());
+        snackbar.show();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        EventBus.getDefault().unregister(this);
+    }
 }
 
 

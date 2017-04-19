@@ -1,10 +1,12 @@
 package dsdmsa.utmnews.presenters;
 
+import android.content.Intent;
 import android.view.MenuItem;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 
+import dsdmsa.utmnews.App;
 import dsdmsa.utmnews.R;
 import dsdmsa.utmnews.fragments.AboutFragment;
 import dsdmsa.utmnews.fragments.BaseFragment;
@@ -26,6 +28,10 @@ public class MainActivityPresenter extends MvpPresenter<MainActivityVP.View>
 
     public MainActivityPresenter() {
         getViewState().addFragment(LatestNewsFragment.newInstance());
+
+//        ConnectionChangeReceiver connectionChangeReceiver = new ConnectionChangeReceiver();
+//        connectionChangeReceiver.onReceive();
+
     }
 
     @Override
@@ -59,4 +65,13 @@ public class MainActivityPresenter extends MvpPresenter<MainActivityVP.View>
         }
         getViewState().addFragment(fragment);
     }
+
+    @Override
+    public void openNetSettings(){
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.setClassName("com.android.phone", "com.android.phone.NetworkSetting");
+        App.getAppComponent().getContext().startActivity(intent);
+    }
+
 }

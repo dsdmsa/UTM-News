@@ -19,6 +19,8 @@ public interface MainActivityVP {
 
     interface Presenter{
 
+        void openNetSettings();
+
         void onItemSelected(MenuItem menuItem);
     }
 }

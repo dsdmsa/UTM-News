@@ -25,4 +25,8 @@
     <string name="db_data_error">Data not found</string>
     <string name="utm_news_navigation_title">UTM-News</string>
     <string name="tab_again_exit_info">Tap back button in order to exit</string>
+    <string name="online_state">Network online</string>
+    <string name="offline_state">Network offline</string>
+    <string name="s_action_online">close</string>
+    <string name="s_action_ofline">open settings</string>
 </resources>

@@ -35,7 +35,8 @@ import timber.log.Timber;
 
 public class BookmarksFragment extends BaseFragment implements
         BookmarksFragmentVP.View,
-        BookmarkNewsAdapter.NewsInteract, OnDataLoaded<RealmResults<SimplePost>> {
+        BookmarkNewsAdapter.NewsInteract,
+        OnDataLoaded<RealmResults<SimplePost>> {
 
     @BindView(R.id.recycle_view)
     RecyclerView recyclerView;
