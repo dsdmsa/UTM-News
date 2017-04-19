@@ -1,12 +1,13 @@
 package dsdmsa.utmnews.models;
 
 
-import java.io.Serializable;
-
+import io.realm.RealmModel;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
+import io.realm.annotations.RealmClass;
 
-public class SimplePost extends RealmObject implements Serializable {
+@RealmClass
+public class SimplePost extends RealmObject implements RealmModel {
 
     @PrimaryKey
     private Integer id;

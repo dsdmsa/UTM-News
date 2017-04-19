@@ -12,7 +12,6 @@ import dsdmsa.utmnews.App;
 import dsdmsa.utmnews.models.SimplePost;
 import dsdmsa.utmnews.mvp.BookmarksFragmentVP;
 import dsdmsa.utmnews.network.OnDataLoaded;
-import dsdmsa.utmnews.repository.GetAllRealmPostsSpecification;
 import dsdmsa.utmnews.repository.PostRepository;
 
 @InjectViewState
@@ -30,7 +29,7 @@ public class BookmarksFragmentPresenter extends MvpPresenter<BookmarksFragmentVP
     @Override
     public void loadNews() {
         getViewState().showProgressDialog();
-        repository.querry(new GetAllRealmPostsSpecification(this));
+//        repository.querry(new GetAllRealmPostsSpecification(this));
     }
 
     @Override
