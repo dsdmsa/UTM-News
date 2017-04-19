@@ -32,7 +32,7 @@ public class UtmServices {
                 if (response.body().size() > 0) {
                     dataLoaded.onSuccess(response.body());
                 } else {
-                    dataLoaded.onError(App.getAppComponent().getContext().getString(R.string.no_mer_data_info));
+                    dataLoaded.onError(App.getAppComponent().getApp().getString(R.string.no_mer_data_info));
                 }
             }
 
@@ -67,7 +67,7 @@ public class UtmServices {
                 if (response.body().size() > 0) {
                     dataLoaded.onSuccess(response.body());
                 } else {
-                    dataLoaded.onError(App.getAppComponent().getContext().getString(R.string.no_mer_data_info));
+                    dataLoaded.onError(App.getAppComponent().getApp().getString(R.string.no_mer_data_info));
                 }
             }
 
@@ -102,7 +102,7 @@ public class UtmServices {
                 if (response.body().size() > 0) {
                     dataLoaded.onSuccess(response.body());
                 } else {
-                    dataLoaded.onError(App.getAppComponent().getContext().getString(R.string.no_mer_data_info));
+                    dataLoaded.onError(App.getAppComponent().getApp().getString(R.string.no_mer_data_info));
                 }
             }
 
@@ -123,7 +123,7 @@ public class UtmServices {
                 if (response.body().size() > 0) {
                     dataLoaded.onSuccess(response.body());
                 } else {
-                    dataLoaded.onError(App.getAppComponent().getContext().getString(R.string.no_mer_data_info));
+                    dataLoaded.onError(App.getAppComponent().getApp().getString(R.string.no_mer_data_info));
                 }
             }
 

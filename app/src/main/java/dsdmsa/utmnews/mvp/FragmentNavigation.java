@@ -11,11 +11,16 @@ public interface FragmentNavigation {
         void atachPresenter(Presenter presenter);
 
         String getTitle();
+
+        void retry();
+
     }
 
     interface Presenter {
         void addFragment(BaseFragment fragment);
 
         void setTitle(String title);
+
+        void retry();
     }
 }

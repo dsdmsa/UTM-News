@@ -38,6 +38,11 @@ public class AboutFragment extends BaseFragment {
 
     @Override
     public String getTitle() {
-        return App.getAppComponent().getContext().getString(R.string.about_title);
+        return App.getAppComponent().getApp().getString(R.string.about_title);
+    }
+
+    @Override
+    public void retry() {
+
     }
 }

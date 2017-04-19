@@ -22,12 +22,12 @@ public class AppModule {
     }
 
     @Provides
-    Context provideContext() {
+    App provideContext() {
         return mApp;
     }
 
     @Provides
-    SharedPreferences provideSharedPrefs(Context context) {
+    SharedPreferences provideSharedPrefs(App context) {
         return context.getSharedPreferences(UTM_SHARED_PRESFS, Context.MODE_PRIVATE);
     }
 

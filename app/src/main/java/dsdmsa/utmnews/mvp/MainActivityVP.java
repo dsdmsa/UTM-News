@@ -1,5 +1,7 @@
 package dsdmsa.utmnews.mvp;
 
+import android.view.MenuItem;
+
 import com.arellomobile.mvp.MvpView;
 
 import dsdmsa.utmnews.fragments.BaseFragment;
@@ -17,5 +19,8 @@ public interface MainActivityVP {
 
     interface Presenter{
 
+        void openNetSettings();
+
+        void onItemSelected(MenuItem menuItem);
     }
 }

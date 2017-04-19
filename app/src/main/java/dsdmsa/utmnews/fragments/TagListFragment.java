@@ -59,7 +59,6 @@ public class TagListFragment extends BaseFragment implements
         refreshLayout.setOnRefreshListener(this);
         recyclerView.setAdapter(tagAdapter);
         presenter.getTagList();
-        navigationPresenter.setTitle(getTitle());
     }
 
     @Override
@@ -97,7 +96,12 @@ public class TagListFragment extends BaseFragment implements
 
     @Override
     public String getTitle() {
-        return App.getAppComponent().getContext().getString(R.string.tag_title);
+        return App.getAppComponent().getApp().getString(R.string.tag_title);
+    }
+
+    @Override
+    public void retry() {
+
     }
 
     @Override

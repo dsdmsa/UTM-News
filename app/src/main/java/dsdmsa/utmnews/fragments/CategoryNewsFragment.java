@@ -85,7 +85,8 @@ public class CategoryNewsFragment extends BaseFragment implements
         );
     }
 
-    private void setupRecyclerView() {
+    @Override
+    public  void setupRecyclerView() {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(newsAdapter);
@@ -139,7 +140,12 @@ public class CategoryNewsFragment extends BaseFragment implements
 
     @Override
     public String getTitle() {
-        return App.getAppComponent().getContext().getString(R.string.categoru_new_title);
+        return App.getAppComponent().getApp().getString(R.string.categoru_new_title);
+    }
+
+    @Override
+    public void retry() {
+
     }
 
     @Override

@@ -96,7 +96,12 @@ public class CategoryListFragment extends BaseFragment implements
 
     @Override
     public String getTitle() {
-        return App.getAppComponent().getContext().getString(R.string.categories_title);
+        return App.getAppComponent().getApp().getString(R.string.categories_title);
+    }
+
+    @Override
+    public void retry() {
+
     }
 
     @Override

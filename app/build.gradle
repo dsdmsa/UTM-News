@@ -1,7 +1,7 @@
 import java.text.SimpleDateFormat
 
 apply plugin: 'com.android.application'
-//apply plugin: 'realm-android'
+apply plugin: 'realm-android'
 
 def final DEV = "dsdmsa.utmnews.dev"
 def final PROD = "dsdmsa.utmnews.prod"
@@ -91,10 +91,10 @@ dependencies {
     //keyboard control
     compile 'com.github.Commit451:Teleprinter:1.0.1'
     //database
-    compile 'io.realm:realm-android:0.87.5'
-
-
-
+//    compile 'io.realm:realm-android:0.87.5'
+//    compile 'com.github.thorbenprimke:realm-recycler-view:0.9.5'
+    compile 'com.github.thorbenprimke:realm-recyclerview:0.9.25'
+//    compile 'io.realm:android-adapters:2.0.0'
     //testing
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'

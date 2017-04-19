@@ -1,11 +1,11 @@
 package dsdmsa.utmnews.injection.components;
 
-import android.content.Context;
 import android.content.SharedPreferences;
 
 import javax.inject.Singleton;
 
 import dagger.Component;
+import dsdmsa.utmnews.App;
 import dsdmsa.utmnews.activityes.MainActivity;
 import dsdmsa.utmnews.activityes.SplashScreenActivity;
 import dsdmsa.utmnews.fragments.BookmarksFragment;
@@ -19,6 +19,7 @@ import dsdmsa.utmnews.network.services.UtmServices;
 import dsdmsa.utmnews.presenters.BookmarksFragmentPresenter;
 import dsdmsa.utmnews.presenters.ClassificationPresenter;
 import dsdmsa.utmnews.presenters.NewsPresenter;
+import dsdmsa.utmnews.views.adapters.BookmarkNewsAdapter;
 import dsdmsa.utmnews.views.adapters.NewsAdapter;
 
 @Singleton
@@ -27,7 +28,7 @@ public interface AppComponent {
 
     SharedPreferences getPrefs();
 
-    Context getContext();
+    App getApp();
 
     void inject(SplashScreenActivity __);
 
@@ -53,4 +54,5 @@ public interface AppComponent {
 
     void inject(TagNewsFragment __);
 
+    void inject(BookmarkNewsAdapter __);
 }

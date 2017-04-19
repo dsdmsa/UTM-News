@@ -80,10 +80,10 @@ public class NewsPresenter extends MvpPresenter<NewsFragmentVP.View> implements
         sendIntent.setAction(Intent.ACTION_SEND);
         sendIntent.putExtra(Intent.EXTRA_TEXT, str);
         sendIntent.setType(TEXT_PLAIN);
-        App.getAppComponent().getContext()
+        App.getAppComponent().getApp()
                 .startActivity(Intent.createChooser(
                         sendIntent,
-                        App.getAppComponent().getContext().getString(R.string.share_title))
+                        App.getAppComponent().getApp().getString(R.string.share_title))
                         .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 );
     }
@@ -102,6 +102,10 @@ public class NewsPresenter extends MvpPresenter<NewsFragmentVP.View> implements
     public void onError(String errorMsg) {
         getViewState().hideProgressDialog();
         getViewState().showInfoMessage(errorMsg);
+    }
+
+    public void setupRecyclerView() {
+        getViewState().setupRecyclerView();
     }
 
     private class Postparser extends Thread {

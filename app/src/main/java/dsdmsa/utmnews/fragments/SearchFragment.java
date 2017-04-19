@@ -84,7 +84,8 @@ public class SearchFragment extends BaseFragment implements
         );
     }
 
-    private void setupRecyclerView() {
+    @Override
+    public  void setupRecyclerView() {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(newsAdapter);
@@ -139,7 +140,12 @@ public class SearchFragment extends BaseFragment implements
 
     @Override
     public String getTitle() {
-        return App.getAppComponent().getContext().getString(R.string.search_title);
+        return App.getAppComponent().getApp().getString(R.string.search_title);
+    }
+
+    @Override
+    public void retry() {
+
     }
 
     @Override
