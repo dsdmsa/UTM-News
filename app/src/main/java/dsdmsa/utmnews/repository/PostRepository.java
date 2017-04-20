@@ -22,11 +22,7 @@ public class PostRepository implements Repository<SimplePost> {
             Specification.DATABASE.executeTransaction(new Realm.Transaction() {
                 @Override
                 public void execute(Realm realm) {
-
-                    post.deleteFromRealm();
-
-//                    realm.
-//                    post.removeFromRealm();
+                        post.deleteFromRealm();
                 }
             });
     }

@@ -77,10 +77,6 @@ public class MainActivity extends BaseActivity implements
         drawerLayout.addDrawerListener(this);
         fab.setOnClickListener(this);
         setupToolbar();
-
-//        Intent intent = new Intent("dsdmsa.utmnews");
-//        sendBroadcast(intent);
-
     }
 
     private void setupToolbar() {

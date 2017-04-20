@@ -38,7 +38,7 @@ public class NewsPresenter extends MvpPresenter<NewsFragmentVP.View> implements
     @Inject
     PostRepository repository;
 
-    private boolean isFirstpage = false;
+    private boolean isFirstPage = false;
 
     public NewsPresenter() {
         App.getAppComponent().inject(this);
@@ -49,7 +49,7 @@ public class NewsPresenter extends MvpPresenter<NewsFragmentVP.View> implements
         getViewState().showProgressDialog();
         services.getNews(page, ITEMS_PER_PAGE, this);
         if (page == Constants.INITIAL_PAGE) {
-            isFirstpage = true;
+            isFirstPage = true;
         }
     }
 
@@ -95,7 +95,7 @@ public class NewsPresenter extends MvpPresenter<NewsFragmentVP.View> implements
 
     @Override
     public void onSuccess(List<Post> response) {
-        new Postparser(response).start();
+        new PostParser(response).start();
     }
 
     @Override
@@ -108,11 +108,11 @@ public class NewsPresenter extends MvpPresenter<NewsFragmentVP.View> implements
         getViewState().setupRecyclerView();
     }
 
-    private class Postparser extends Thread {
+    private class PostParser extends Thread {
         private List<Post> response;
         private List<SimplePost> simplePosts = new ArrayList<>();
 
-        public Postparser(List<Post> response) {
+        public PostParser(List<Post> response) {
             this.response = response;
         }
 
@@ -129,9 +129,9 @@ public class NewsPresenter extends MvpPresenter<NewsFragmentVP.View> implements
             new Handler(Looper.getMainLooper()).post(new Runnable() {
                 @Override
                 public void run() {
-                    if (isFirstpage) {
+                    if (isFirstPage) {
                         getViewState().refreshDatas(simplePosts);
-                        isFirstpage = false;
+                        isFirstPage = false;
                     } else {
                         getViewState().addNewses(simplePosts);
                     }

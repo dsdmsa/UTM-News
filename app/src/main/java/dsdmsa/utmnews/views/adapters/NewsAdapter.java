@@ -119,10 +119,6 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
             }
     }
 
-    public boolean hasNewses() {
-        return !newsList.isEmpty();
-    }
-
     static class MyViewHolder extends RecyclerView.ViewHolder {
         private final TextView title;
         private final TextView description;

@@ -22,4 +22,5 @@ public class Constants {
     public static final String DEFAULT_IMAGE_URL_5 = "http://utm.md/wp-content/uploads/2015/06/17_4-1030x740.jpg";
     public static final int LIST_ITEMS_ANIMATION_DURATION = 1700;
     public static final int ITEMS_TO_ANIMATE_IN_ADAPTER = 2;
+    public static final String IN_INTERNET_AVAIBLE = "inInternetAvaible";
 }
