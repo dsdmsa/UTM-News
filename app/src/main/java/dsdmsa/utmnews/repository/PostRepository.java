@@ -22,7 +22,8 @@ public class PostRepository implements Repository<SimplePost> {
             Specification.DATABASE.executeTransaction(new Realm.Transaction() {
                 @Override
                 public void execute(Realm realm) {
-                        post.deleteFromRealm();
+                    SimplePost po = Specification.DATABASE.where(SimplePost.class).equalTo("id", post.getId()).findFirst();
+                    po.deleteFromRealm();
                 }
             });
     }

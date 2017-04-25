@@ -59,6 +59,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
 
         if (repository.exists(newsList.get(position))) {
             holder.bookmark.setImageResource(R.drawable.ic_bookmarcs);
+            newsList.get(position).setBookmarked(true);
         } else {
             holder.bookmark.setImageResource(R.drawable.ic_bookmarcs_white);
         }

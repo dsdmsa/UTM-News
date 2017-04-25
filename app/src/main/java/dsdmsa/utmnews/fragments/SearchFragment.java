@@ -118,8 +118,15 @@ public class SearchFragment extends BaseFragment implements
 
     @Override
     public void onBookmarkClick(SimplePost post, int position) {
-        post.setBookmarked(true);
-        newsAdapter.notifyDataSetChanged();
+        if (post.isBookmarked()) {
+            post.setBookmarked(false);
+            presenter.removeBookmarkPost(post);
+            newsAdapter.notifyItemChanged(position);
+        } else {
+            post.setBookmarked(true);
+            presenter.bookmarkPost(post);
+            newsAdapter.notifyItemChanged(position);
+        }
     }
 
     @Override
@@ -145,7 +152,11 @@ public class SearchFragment extends BaseFragment implements
 
     @Override
     public void retry() {
-
+        presenter.getSearchedNewses(
+                getArguments().getString(Constants.SEARCH_KEY),
+                Constants.ITEMS_PER_PAGE,
+                Constants.INITIAL_PAGE
+        );
     }
 
     @Override

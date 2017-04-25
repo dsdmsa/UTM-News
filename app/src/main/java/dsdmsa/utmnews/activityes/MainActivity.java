@@ -1,5 +1,6 @@
 package dsdmsa.utmnews.activityes;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.CoordinatorLayout;
@@ -147,8 +148,7 @@ public class MainActivity extends BaseActivity implements
                     searchEditText.requestFocus();
                     teleprinter.showKeyboard(searchEditText);
                 } else {
-                    teleprinter.hideKeyboard();
-                    searchEditText.setVisibility(View.GONE);
+                    hideKeyboard();
                     addFragment(SearchFragment.newInstance(searchEditText.getText().toString()));
                 }
                 break;
@@ -158,8 +158,7 @@ public class MainActivity extends BaseActivity implements
     @Override
     public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
         if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-            teleprinter.hideKeyboard();
-            searchEditText.setVisibility(View.GONE);
+            hideKeyboard();
             addFragment(SearchFragment.newInstance(searchEditText.getText().toString()));
             return true;
         }
@@ -174,16 +173,24 @@ public class MainActivity extends BaseActivity implements
 
     @Override
     public void onDrawerOpened(View drawerView) {
+        hideKeyboard();
+    }
+
+    @Override
+    public void onDrawerClosed(View drawerView) {
+        hideKeyboard();
+    }
+
+    private void hideKeyboard() {
         teleprinter.hideKeyboard();
         searchEditText.setVisibility(View.GONE);
     }
 
     @Override
-    public void onDrawerClosed(View drawerView) {
-    }
-
-    @Override
     public void onDrawerStateChanged(int newState) {
+        if (newState == DrawerLayout.STATE_DRAGGING){
+            hideKeyboard();
+        }
     }
 
     @Subscribe
@@ -203,7 +210,7 @@ public class MainActivity extends BaseActivity implements
 
         View sbView = snackbar.getView();
         sbView.setBackgroundColor(state.getBkgColor());
-        snackbar.setActionTextColor(state.getTextColor());
+        snackbar.setActionTextColor(Color.BLACK);
         snackbar.show();
     }
 

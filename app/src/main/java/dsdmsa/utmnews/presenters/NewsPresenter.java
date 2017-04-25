@@ -74,6 +74,11 @@ public class NewsPresenter extends MvpPresenter<NewsFragmentVP.View> implements
     }
 
     @Override
+    public void removeBookmarkPost(SimplePost post) {
+        repository.delete(post);
+    }
+
+    @Override
     public void shareString(String str) {
         Intent sendIntent = new Intent();
         sendIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

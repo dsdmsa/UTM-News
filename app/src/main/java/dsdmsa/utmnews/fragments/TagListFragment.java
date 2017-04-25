@@ -101,7 +101,7 @@ public class TagListFragment extends BaseFragment implements
 
     @Override
     public void retry() {
-
+        presenter.getTagList();
     }
 
     @Override

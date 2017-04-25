@@ -101,7 +101,7 @@ public class CategoryListFragment extends BaseFragment implements
 
     @Override
     public void retry() {
-
+        presenter.getCategoryList();
     }
 
     @Override

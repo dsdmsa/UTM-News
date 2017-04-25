@@ -32,5 +32,7 @@ public interface NewsFragmentVP {
         void getCategoryNewses(int categoryId,int perPage,int page);
 
         void getNewsByTag(int tagId, int perPage, int page);
+
+        void removeBookmarkPost(SimplePost post);
     }
 }
