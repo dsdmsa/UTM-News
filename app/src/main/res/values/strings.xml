@@ -30,4 +30,6 @@
     <string name="s_action_online">retry</string>
     <string name="s_action_ofline">open wifi settings</string>
     <string name="no_net_error">no internet connection</string>
+    <string name="about_name">Name :</string>
+    <string name="about_version">Version :</string>
 </resources>

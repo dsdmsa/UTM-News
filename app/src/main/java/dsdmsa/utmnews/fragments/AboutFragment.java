@@ -31,8 +31,8 @@ public class AboutFragment extends BaseFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        appNameTextView.setText("Name : " + getString(R.string.app_name));
-        appVersionTextView.setText("Version : " + BuildConfig.VERSION_NAME);
+        appNameTextView.setText(getString(R.string.about_name) + getString(R.string.app_name));
+        appVersionTextView.setText(getString(R.string.about_version) + BuildConfig.VERSION_NAME);
 
     }
 

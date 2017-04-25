@@ -24,10 +24,4 @@ public class ConnectionChangeReceiver extends BroadcastReceiver {
         }
     }
 
-//    public boolean isOnline(Context context) {
-//        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-//        NetworkInfo netInfo = cm.getActiveNetworkInfo();
-//        return (netInfo != null && netInfo.isConnected());
-//    }
-
 }

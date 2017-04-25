@@ -8,7 +8,6 @@ import dsdmsa.utmnews.mvp.BookmarksFragmentVP;
 
 @InjectViewState
 public class BookmarksFragmentPresenter extends MvpPresenter<BookmarksFragmentVP.View> implements
-        BookmarksFragmentVP.Presenter{
-
+        BookmarksFragmentVP.Presenter {
 
 }

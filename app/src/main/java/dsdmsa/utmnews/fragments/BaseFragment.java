@@ -10,19 +10,21 @@ import android.view.ViewGroup;
 import com.arellomobile.mvp.MvpAppCompatFragment;
 
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import dsdmsa.utmnews.mvp.FragmentNavigation;
 
 public abstract class BaseFragment extends MvpAppCompatFragment implements FragmentNavigation.View {
 
     protected View rootView;
     protected FragmentNavigation.Presenter navigationPresenter;
+    protected Unbinder unbinder;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle
             savedInstanceState) {
         rootView = inflater.inflate(getLayout(), container, false);
-        ButterKnife.bind(this, rootView);
+        unbinder = ButterKnife.bind(this, rootView);
         return rootView;
     }
 
@@ -33,4 +35,10 @@ public abstract class BaseFragment extends MvpAppCompatFragment implements Fragm
         navigationPresenter = presenter;
     }
 
+
+    @Override
+    public void onDestroyView() {
+        unbinder.unbind();
+        super.onDestroyView();
+    }
 }

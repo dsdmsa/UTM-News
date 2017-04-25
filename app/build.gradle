@@ -5,7 +5,7 @@ apply plugin: 'realm-android'
 
 def final DEV = "dsdmsa.utmnews.dev"
 def final PROD = "dsdmsa.utmnews.prod"
-def final VERSION_NAME = "v0.0.6.${buildTime()}"
+def final VERSION_NAME = "v0.1.${getGitCommitsNumber()}.${buildTime()}"
 
 android {
     compileSdkVersion 25
@@ -107,4 +107,13 @@ static def buildTime() {
     def df = new SimpleDateFormat("yyyyMMdd")
     df.setTimeZone(TimeZone.getTimeZone("GMT"))
     return df.format(new Date())
+}
+
+def getGitCommitsNumber() {
+    def stdout = new ByteArrayOutputStream()
+    exec {
+        commandLine 'git', 'rev-list', '--all', '--count'
+        standardOutput = stdout
+    }
+    return stdout.toString().replace('\n','')
 }
