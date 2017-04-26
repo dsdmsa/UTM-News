@@ -27,7 +27,6 @@ import dsdmsa.utmnews.views.ChromeTab;
 import dsdmsa.utmnews.views.adapters.BookmarkNewsAdapter;
 import es.dmoral.toasty.Toasty;
 import io.realm.RealmResults;
-import timber.log.Timber;
 
 /**
  * Created by dsdmsa on 4/8/17.
@@ -107,7 +106,6 @@ public class BookmarksFragment extends BaseFragment implements
 
     @Override
     public void onSuccess(RealmResults<SimplePost> response) {
-        Timber.d(" result size " + response.size());
         layoutManager = new LinearLayoutManager(getContext());
         newsAdapter = new BookmarkNewsAdapter(getContext(), response, true, true, null, this);
         recyclerView.setLayoutManager(layoutManager);

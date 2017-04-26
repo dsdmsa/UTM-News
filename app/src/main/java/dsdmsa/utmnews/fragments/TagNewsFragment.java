@@ -15,16 +15,15 @@ import java.util.List;
 
 import butterknife.BindView;
 import dsdmsa.utmnews.App;
-import dsdmsa.utmnews.views.ChromeTab;
 import dsdmsa.utmnews.R;
 import dsdmsa.utmnews.models.SimplePost;
 import dsdmsa.utmnews.mvp.NewsFragmentVP;
 import dsdmsa.utmnews.presenters.NewsPresenter;
 import dsdmsa.utmnews.utils.Constants;
+import dsdmsa.utmnews.views.ChromeTab;
 import dsdmsa.utmnews.views.adapters.EndlessRecyclerOnScrollListener;
 import dsdmsa.utmnews.views.adapters.NewsAdapter;
 import es.dmoral.toasty.Toasty;
-import timber.log.Timber;
 
 /**
  * Created by dsdmsa on 4/8/17.
@@ -160,14 +159,12 @@ public class TagNewsFragment extends BaseFragment implements
 
     @Override
     public void addNewses(List<SimplePost> newses) {
-        Timber.d("add newses size : " + newses.size());
         newsAdapter.addNewses(newses);
         newsAdapter.notifyDataSetChanged();
     }
 
     @Override
     public void refreshDatas(List<SimplePost> response) {
-        Timber.d("add refreshDatas size : " + response.size());
         setupRecyclerView();
         newsAdapter.clearData();
         newsAdapter.addNewses(response);
