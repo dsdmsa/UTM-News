@@ -4,11 +4,8 @@ import com.arellomobile.mvp.MvpView;
 
 import java.util.List;
 
-import dsdmsa.utmnews.models.Tag;
+import dsdmsa.utmnews.domain.models.Tag;
 
-/**
- * Created by dsdmsa on 4/8/17.
- */
 
 public interface TagsFragmentVP {
     interface View extends MvpView, LoadingView {

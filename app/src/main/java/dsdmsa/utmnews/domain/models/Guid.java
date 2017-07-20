@@ -1,8 +1,6 @@
 package dsdmsa.utmnews.domain.models;
 
-import io.realm.RealmObject;
-
-public class Guid extends RealmObject {
+public class Guid  {
 
     private String rendered;
 

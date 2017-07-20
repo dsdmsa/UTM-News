@@ -1,17 +1,10 @@
 package dsdmsa.utmnews.domain.models;
 
-import android.arch.persistence.room.Entity;
-
-import io.realm.annotations.PrimaryKey;
-
-@Entity
 public class Post {
 
-    @PrimaryKey
     private Integer id;
     private String date;
     private String dateGmt;
-    private Guid guid;
     private String modified;
     private String modifiedGmt;
     private String slug;
@@ -71,14 +64,6 @@ public class Post {
 
     public void setDateGmt(String dateGmt) {
         this.dateGmt = dateGmt;
-    }
-
-    public Guid getGuid() {
-        return guid;
-    }
-
-    public void setGuid(Guid guid) {
-        this.guid = guid;
     }
 
     public String getModified() {

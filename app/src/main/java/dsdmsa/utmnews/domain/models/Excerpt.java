@@ -1,8 +1,6 @@
 package dsdmsa.utmnews.domain.models;
 
-import io.realm.RealmObject;
-
-public class Excerpt extends RealmObject {
+public class Excerpt  {
 
 private String rendered;
 

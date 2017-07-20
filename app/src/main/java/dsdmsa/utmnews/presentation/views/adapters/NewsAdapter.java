@@ -13,12 +13,9 @@ import com.bumptech.glide.Glide;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.inject.Inject;
-
 import dsdmsa.utmnews.App;
 import dsdmsa.utmnews.R;
-import dsdmsa.utmnews.models.SimplePost;
-import dsdmsa.utmnews.data.repository.PostRepository;
+import dsdmsa.utmnews.domain.models.SimplePost;
 import dsdmsa.utmnews.domain.utils.Utils;
 
 import static dsdmsa.utmnews.domain.utils.Constants.ITEMS_PER_PAGE;
@@ -28,8 +25,6 @@ import static dsdmsa.utmnews.domain.utils.Constants.TIME_TO_WAIT;
 
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> {
 
-    @Inject
-    PostRepository repository;
 
     private List<SimplePost> newsList = new ArrayList<>();
     private NewsInteract interact;
@@ -37,7 +32,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
     private int lastAnimatedPosition = -1;
 
     public NewsAdapter(NewsInteract interact) {
-        App.getAppComponent().inject(this);
+//        App.getAppComponent().inject(this);
         this.interact = interact;
     }
 
@@ -57,12 +52,12 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
 
         runEnterAnimation(holder.itemView, position);
 
-        if (repository.exists(newsList.get(position))) {
-            holder.bookmark.setImageResource(R.drawable.ic_bookmarcs);
-            newsList.get(position).setBookmarked(true);
-        } else {
-            holder.bookmark.setImageResource(R.drawable.ic_bookmarcs_white);
-        }
+//        if (repository.exists(newsList.get(position))) {
+//            holder.bookmark.setImageResource(R.drawable.ic_bookmarcs);
+//            newsList.get(position).setBookmarked(true);
+//        } else {
+//            holder.bookmark.setImageResource(R.drawable.ic_bookmarcs_white);
+//        }
 
         Glide.with(holder.imageView.getContext())
                 .load(newsList.get(position).getImageUrl())

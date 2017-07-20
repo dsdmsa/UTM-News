@@ -4,12 +4,9 @@ import com.arellomobile.mvp.MvpView;
 
 import java.util.List;
 
-import dsdmsa.utmnews.models.Category;
-import dsdmsa.utmnews.models.Tag;
+import dsdmsa.utmnews.domain.models.Category;
+import dsdmsa.utmnews.domain.models.Tag;
 
-/**
- * Created by dsdmsa on 4/8/17.
- */
 
 public interface ClasificationVP {
     interface View extends MvpView, LoadingView {

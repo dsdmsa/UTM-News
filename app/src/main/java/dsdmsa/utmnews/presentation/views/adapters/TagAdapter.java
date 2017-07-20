@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dsdmsa.utmnews.R;
-import dsdmsa.utmnews.models.Tag;
+import dsdmsa.utmnews.domain.models.Tag;
 
 public class TagAdapter extends RecyclerView.Adapter<TagAdapter.ViewHolder> {
 

@@ -1,17 +1,19 @@
 package dsdmsa.utmnews.domain.models;
 
 
+import android.arch.persistence.room.Embedded;
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
 
-import io.realm.annotations.PrimaryKey;
 
 @Entity
 public class SimplePost {
 
     @PrimaryKey
-    private Integer id;
+    protected Integer id;
     private String date;
     private String link;
+    @Embedded
     private Title title;
     private String imageUrl;
     private String description;

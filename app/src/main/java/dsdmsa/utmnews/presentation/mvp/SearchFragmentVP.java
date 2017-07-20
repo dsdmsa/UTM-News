@@ -4,11 +4,8 @@ import com.arellomobile.mvp.MvpView;
 
 import java.util.List;
 
-import dsdmsa.utmnews.models.Post;
+import dsdmsa.utmnews.domain.models.Post;
 
-/**
- * Created by dsdmsa on 4/8/17.
- */
 
 public interface SearchFragmentVP {
     interface View extends MvpView, LoadingView {

@@ -3,14 +3,12 @@ package dsdmsa.utmnews.domain.models;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
 
-import io.realm.RealmObject;
-
-public class Title  extends RealmObject {
+public class Title {
 
     private String rendered;
 
     public String getRendered() {
-        return  Jsoup.clean(rendered,new Whitelist());
+        return Jsoup.clean(rendered, new Whitelist());
     }
 
     public void setRendered(String rendered) {

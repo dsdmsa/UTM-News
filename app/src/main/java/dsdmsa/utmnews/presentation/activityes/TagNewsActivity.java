@@ -1,13 +1,10 @@
 package dsdmsa.utmnews.presentation.activityes;
 
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.widget.TextView;
 
 import butterknife.BindView;
 import dsdmsa.utmnews.R;
-import dsdmsa.utmnews.domain.utils.Constants;
-import dsdmsa.utmnews.presentation.fragments.TagNewsFragment;
 
 public class TagNewsActivity extends BaseActivity {
 
@@ -24,19 +21,19 @@ public class TagNewsActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        setSupportActionBar(toolbar);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-        int tagId = getIntent().getExtras().getInt(Constants.TAG_ID);
-        TagNewsFragment fragment = TagNewsFragment.newInstance(tagId);
-        toolbarTitle.setText(fragment.getTitle());
-        getSupportFragmentManager()
-                .beginTransaction()
-                .add(R.id.fragment_container, fragment)
-                .commit();
+//        setSupportActionBar(toolbar);
+//        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                finish();
+//            }
+//        });
+//        int tagId = getIntent().getExtras().getInt(Constants.TAG_ID);
+//        TagNewsFragment fragment = TagNewsFragment.newInstance(tagId);
+//        toolbarTitle.setText(fragment.getTitle());
+//        getSupportFragmentManager()
+//                .beginTransaction()
+//                .add(R.id.fragment_container, fragment)
+//                .commit();
     }
 }

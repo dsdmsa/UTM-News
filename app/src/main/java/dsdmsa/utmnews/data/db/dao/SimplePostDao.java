@@ -10,15 +10,15 @@ import java.util.List;
 
 import dsdmsa.utmnews.domain.models.SimplePost;
 
-@Dao()
-public interface PostDao {
+@Dao
+public interface SimplePostDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void addPosts(List<SimplePost> posts);
 
-    @Query("SELECT * FROM SimplePost")
+    @Query("SELECT * FROM simplePost")
     LiveData<List<SimplePost>> getAllPosts();
 
-    @Query("DELETE FROM SimplePost")
+    @Query("DELETE FROM simplePost")
     void removeAllPosts();
 }

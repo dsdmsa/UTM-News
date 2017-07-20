@@ -7,7 +7,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import dsdmsa.utmnews.App;
 import dsdmsa.utmnews.data.network.OnDataLoaded;
 import dsdmsa.utmnews.data.network.services.UtmServices;
 import dsdmsa.utmnews.domain.models.Category;
@@ -49,9 +48,9 @@ public class ClassificationPresenter extends MvpPresenter<ClasificationVP.View> 
         }
     };
 
-    public ClassificationPresenter() {
-        App.getAppComponent().inject(this);
-    }
+//    public ClassificationPresenter() {
+//        App.getAppComponent().inject(this);
+//    }
 
     @Override
     public void getTagList() {

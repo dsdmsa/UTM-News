@@ -5,11 +5,9 @@ import android.app.Application;
 
 import com.squareup.leakcanary.LeakCanary;
 
-import dsdmsa.utmnews.data.di.components.DaggerAppComponent;
 import dsdmsa.utmnews.data.di.modules.AppModule;
 import dsdmsa.utmnews.data.di.modules.NetworkModule;
 import dsdmsa.utmnews.domain.utils.Utils;
-import io.realm.Realm;
 
 import static dsdmsa.utmnews.domain.utils.Constants.END_POINT;
 import static dsdmsa.utmnews.domain.utils.Constants.IN_INTERNET_AVAIBLE;
@@ -37,8 +35,6 @@ public class App extends Application {
             App.getAppComponent().getPrefs().edit().putBoolean(IN_INTERNET_AVAIBLE, false).apply();
         }
         
-        Realm.init(this);
-
         if (BuildConfig.DEBUG) {
             if (LeakCanary.isInAnalyzerProcess(this)) {
                 return;

@@ -5,6 +5,20 @@ import android.content.SharedPreferences;
 import javax.inject.Singleton;
 
 import dagger.Component;
+import dsdmsa.utmnews.data.di.modules.AppModule;
+import dsdmsa.utmnews.data.di.modules.NetworkModule;
+import dsdmsa.utmnews.data.network.services.UtmServices;
+import dsdmsa.utmnews.presentation.activityes.MainActivity;
+import dsdmsa.utmnews.presentation.activityes.SplashScreenActivity;
+import dsdmsa.utmnews.presentation.fragments.BookmarksFragment;
+import dsdmsa.utmnews.presentation.fragments.CategoryNewsFragment;
+import dsdmsa.utmnews.presentation.fragments.LatestNewsFragment;
+import dsdmsa.utmnews.presentation.fragments.SearchFragment;
+import dsdmsa.utmnews.presentation.fragments.TagNewsFragment;
+import dsdmsa.utmnews.presentation.presenters.BookmarksFragmentPresenter;
+import dsdmsa.utmnews.presentation.presenters.ClassificationPresenter;
+import dsdmsa.utmnews.presentation.presenters.NewsPresenter;
+import dsdmsa.utmnews.presentation.views.adapters.NewsAdapter;
 
 @Singleton
 @Component(modules = {AppModule.class, NetworkModule.class})
@@ -38,5 +52,4 @@ public interface AppComponent {
 
     void inject(TagNewsFragment __);
 
-    void inject(BookmarkNewsAdapter __);
 }

@@ -12,9 +12,6 @@ import org.chromium.customtabsclient.CustomTabsActivityHelper;
 import dsdmsa.utmnews.R;
 import me.zhanghai.android.customtabshelper.CustomTabsHelperFragment;
 
-/**
- * Created by dsdmsa on 4/13/17.
- */
 
 public class ChromeTab implements CustomTabsActivityHelper.CustomTabsFallback {
 

@@ -1,8 +1,11 @@
 package dsdmsa.utmnews.domain.models;
 
-import java.util.List;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
 
+@Entity
 public class Tag {
+    @PrimaryKey
     public Integer id;
     public Integer count;
     public String description;
@@ -10,6 +13,4 @@ public class Tag {
     public String name;
     public String slug;
     public String taxonomy;
-    public List<Object> meta = null;
-    public Links links;
 }

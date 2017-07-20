@@ -1,6 +1,7 @@
 package dsdmsa.utmnews.presentation.mvp;
 
-import dsdmsa.utmnews.fragments.BaseFragment;
+
+import dsdmsa.utmnews.presentation.fragments.BaseFragment;
 
 /**
  * Created by dsdmsa on 4/8/17.

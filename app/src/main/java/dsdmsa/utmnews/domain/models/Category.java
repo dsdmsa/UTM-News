@@ -1,9 +1,14 @@
 package dsdmsa.utmnews.domain.models;
 
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
+
 import java.util.List;
 
+@Entity
 public class Category {
 
+    @PrimaryKey
     private Integer id;
     private Integer count;
     private String description;
@@ -12,8 +17,6 @@ public class Category {
     private String slug;
     private String taxonomy;
     private Integer parent;
-    private List<Object> meta = null;
-    private Links links;
 
     public Integer getId() {
         return id;
@@ -77,21 +80,5 @@ public class Category {
 
     public void setParent(Integer parent) {
         this.parent = parent;
-    }
-
-    public List<Object> getMeta() {
-        return meta;
-    }
-
-    public void setMeta(List<Object> meta) {
-        this.meta = meta;
-    }
-
-    public Links getLinks() {
-        return links;
-    }
-
-    public void setLinks(Links links) {
-        this.links = links;
     }
 }

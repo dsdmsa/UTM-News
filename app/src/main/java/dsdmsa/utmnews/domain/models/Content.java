@@ -5,16 +5,12 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
 import dsdmsa.utmnews.domain.utils.DefoultImagesUrl;
-import io.realm.RealmObject;
-import io.realm.annotations.Ignore;
 
 import static dsdmsa.utmnews.domain.utils.Constants.MAX_DESC_LEN;
 
-public class Content extends RealmObject {
+public class Content {
     private String rendered;
-    @Ignore
     private String description = "";
-    @Ignore
     private String url;
 
     public String getRendered() {
