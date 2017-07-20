@@ -26,7 +26,7 @@
         <activity android:name=".activityes.TagNewsActivity"/>
 
         <receiver
-            android:name=".brodcast.ConnectionChangeReceiver"
+            android:name=".data.brodcast.ConnectionChangeReceiver"
             android:label="NetworkConnection">
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />.

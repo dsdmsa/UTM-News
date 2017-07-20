@@ -9,11 +9,11 @@ def final VERSION_NAME = "v0.1.${getGitCommitsNumber()}.${buildTime()}"
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    buildToolsVersion "25.0.3"
     defaultConfig {
         applicationId "dsdmsa.utmnews"
         minSdkVersion 15
-        targetSdkVersion 25
+        targetSdkVersion 26
         versionCode 1
         versionName VERSION_NAME
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -64,11 +64,10 @@ dependencies {
     compile "com.android.support:preference-v7:25.3.1"
     compile 'com.android.support:cardview-v7:25.3.1'
 
+    //network
     compile 'com.google.code.gson:gson:2.8.0'
-
     compile "com.squareup.retrofit2:retrofit:2.2.0"
     compile "com.squareup.retrofit2:converter-gson:2.1.0"
-
     compile "com.squareup.okhttp3:okhttp:3.5.0"
     compile "com.squareup.okhttp3:logging-interceptor:3.5.0"
 
@@ -87,11 +86,11 @@ dependencies {
     compile 'com.arello-mobile:moxy-app-compat:1.4.6'
     annotationProcessor 'com.arello-mobile:moxy-compiler:1.4.6'
     // memory leak
-//    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
-//    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
-//    testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
+    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
+    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
+    testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
     //logger
-//    compile 'com.jakewharton.timber:timber:4.5.1'
+    compile 'com.jakewharton.timber:timber:4.5.1'
     //bus
     compile 'org.greenrobot:eventbus:3.0.0'
     //costum chrome tab
@@ -101,7 +100,14 @@ dependencies {
     //keyboard control
     compile 'com.github.Commit451:Teleprinter:1.0.1'
     //database
-    compile 'com.github.thorbenprimke:realm-recyclerview:0.9.25'
+    compile "android.arch.lifecycle:extensions:1.0.0-alpha1"
+    compile "android.arch.persistence.room:runtime:1.0.0-alpha1"
+    annotationProcessor "android.arch.lifecycle:compiler:1.0.0-alpha1"
+    annotationProcessor "android.arch.persistence.room:compiler:1.0.0-alpha1"
+    //reactive
+    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    compile 'io.reactivex.rxjava2:rxjava:2.0.1'
+    compile 'com.squareup.retrofit2:adapter-rxjava2:2.2.0'
     //testing
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
