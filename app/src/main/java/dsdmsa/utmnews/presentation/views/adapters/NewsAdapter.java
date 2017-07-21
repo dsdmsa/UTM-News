@@ -17,8 +17,6 @@ import butterknife.ButterKnife;
 import dsdmsa.utmnews.R;
 import dsdmsa.utmnews.domain.models.SimplePost;
 
-import static dsdmsa.utmnews.domain.utils.Constants.ITEMS_PER_PAGE;
-
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> {
 
     private List<SimplePost> newsList = new ArrayList<>();
@@ -30,7 +28,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
 
     public void addNewses(List<SimplePost> orderDTOs) {
         newsList.addAll(orderDTOs);
-        notifyItemRangeInserted(newsList.size() - ITEMS_PER_PAGE + 1, newsList.size());
+        notifyDataSetChanged();
     }
 
     @Override

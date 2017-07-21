@@ -40,6 +40,11 @@ public class TagNewsFragment extends BaseFragment implements
     }
 
     @Override
+    public String getName() {
+        return "";
+    }
+
+    @Override
     public void onRefresh() {
 
     }

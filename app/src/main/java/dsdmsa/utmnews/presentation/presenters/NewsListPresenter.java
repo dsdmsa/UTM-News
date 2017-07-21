@@ -34,7 +34,7 @@ public class NewsListPresenter extends MvpPresenter<NewsContract.View> implement
     @Override
     public void refreshNewses() {
         getViewState().showProgressDialog();
-        interactor.getNews(0, ITEMS_PER_PAGE, new NewsInteractor.Callback() {
+        interactor.getNews(1, ITEMS_PER_PAGE, new NewsInteractor.Callback() {
             @Override
             public void onSuccess(List<SimplePost> response) {
                 getViewState().hideProgressDialog();

@@ -16,6 +16,7 @@ import dsdmsa.utmnews.domain.models.Tag;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import timber.log.Timber;
 
 import static dsdmsa.utmnews.domain.utils.Constants.IN_INTERNET_AVAIBLE;
 
@@ -38,14 +39,17 @@ public class UtmServices {
             api.getPosts(pageItems, page).enqueue(new Callback<List<Post>>() {
                 @Override
                 public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
-                    if (response.body().size() > 0) {
+                    Timber.d("succes");
+                    if (!response.body().isEmpty()) {
                         dataLoaded.onSuccess(response.body());
                     } else {
                         dataLoaded.onError(App.getAppComponent().getApp().getString(R.string.no_mer_data_info));
                     }
                 }
+
                 @Override
                 public void onFailure(Call<List<Post>> call, Throwable t) {
+                    Timber.d("error");
                     dataLoaded.onError(t.getMessage());
                 }
             });
@@ -59,11 +63,13 @@ public class UtmServices {
             api.getCategories().enqueue(new Callback<List<Category>>() {
                 @Override
                 public void onResponse(Call<List<Category>> call, Response<List<Category>> response) {
+                    Timber.d("succes get category");
                     dataLoaded.onSuccess(response.body());
                 }
 
                 @Override
                 public void onFailure(Call<List<Category>> call, Throwable t) {
+                    Timber.d("error get category");
                     dataLoaded.onError(t.getMessage());
                 }
             });
@@ -80,11 +86,12 @@ public class UtmServices {
             api.getPostsByCategories(categoryId, pageItems, page).enqueue(new Callback<List<Post>>() {
                 @Override
                 public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
-                    if (response.body().size() > 0) {
-                        dataLoaded.onSuccess(response.body());
-                    } else {
-                        dataLoaded.onError(App.getAppComponent().getApp().getString(R.string.no_mer_data_info));
-                    }
+                    if (response.body() != null)
+                        if (!response.body().isEmpty()) {
+                            dataLoaded.onSuccess(response.body());
+                        } else {
+                            dataLoaded.onError(App.getAppComponent().getApp().getString(R.string.no_mer_data_info));
+                        }
                 }
 
                 @Override

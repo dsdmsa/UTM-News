@@ -2,21 +2,63 @@ package dsdmsa.utmnews.domain.models;
 
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
+import android.os.Parcel;
+import android.os.Parcelable;
 
-import java.util.List;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
 @Entity
-public class Category {
+public class Category implements Parcelable{
+
+    public Category() {
+    }
 
     @PrimaryKey
-    private Integer id;
-    private Integer count;
-    private String description;
-    private String link;
-    private String name;
-    private String slug;
-    private String taxonomy;
-    private Integer parent;
+    @SerializedName("id")
+    @Expose
+    public Integer id;
+    @SerializedName("count")
+    @Expose
+    public Integer count;
+    @SerializedName("description")
+    @Expose
+    public String description;
+    @SerializedName("link")
+    @Expose
+    public String link;
+    @SerializedName("name")
+    @Expose
+    public String name;
+    @SerializedName("slug")
+    @Expose
+    public String slug;
+    @SerializedName("taxonomy")
+    @Expose
+    public String taxonomy;
+    @SerializedName("parent")
+    @Expose
+    public Integer parent;
+
+    protected Category(Parcel in) {
+        description = in.readString();
+        link = in.readString();
+        name = in.readString();
+        slug = in.readString();
+        taxonomy = in.readString();
+    }
+
+    public static final Creator<Category> CREATOR = new Creator<Category>() {
+        @Override
+        public Category createFromParcel(Parcel in) {
+            return new Category(in);
+        }
+
+        @Override
+        public Category[] newArray(int size) {
+            return new Category[size];
+        }
+    };
 
     public Integer getId() {
         return id;
@@ -80,5 +122,19 @@ public class Category {
 
     public void setParent(Integer parent) {
         this.parent = parent;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(description);
+        parcel.writeString(link);
+        parcel.writeString(name);
+        parcel.writeString(slug);
+        parcel.writeString(taxonomy);
     }
 }

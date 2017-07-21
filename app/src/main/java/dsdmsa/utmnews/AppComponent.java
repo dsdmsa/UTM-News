@@ -16,6 +16,7 @@ import dsdmsa.utmnews.presentation.fragments.LatestNewsFragment;
 import dsdmsa.utmnews.presentation.fragments.SearchFragment;
 import dsdmsa.utmnews.presentation.fragments.TagNewsFragment;
 import dsdmsa.utmnews.presentation.presenters.BookmarksFragmentPresenter;
+import dsdmsa.utmnews.presentation.presenters.CategoryNewsListPresenter;
 import dsdmsa.utmnews.presentation.presenters.ClassificationPresenter;
 import dsdmsa.utmnews.presentation.presenters.HomeFragmentPresenter;
 import dsdmsa.utmnews.presentation.presenters.NewsListPresenter;
@@ -57,4 +58,6 @@ public interface AppComponent {
     void inject(NewsListPresenter newsListPresenter);
 
     void inject(HomeFragmentPresenter homeFragmentPresenter);
+
+    void inject(CategoryNewsListPresenter categoryNewsListPresenter);
 }

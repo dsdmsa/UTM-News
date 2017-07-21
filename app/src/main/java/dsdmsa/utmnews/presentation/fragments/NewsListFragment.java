@@ -34,9 +34,16 @@ public class NewsListFragment extends BaseFragment implements SwipeRefreshLayout
     private NewsAdapter adapter;
     private LinearLayoutManager layoutManager;
 
+    private String category;
+
     @Override
     protected int getLayout() {
         return R.layout.fragment_news_list;
+    }
+
+    @Override
+    public String getName() {
+        return "Latest";
     }
 
     @Override
@@ -58,7 +65,7 @@ public class NewsListFragment extends BaseFragment implements SwipeRefreshLayout
                 presenter.getNews(page);
             }
         });
-        presenter.getNews(0);
+        presenter.getNews(1);
     }
 
     @Override
@@ -94,5 +101,9 @@ public class NewsListFragment extends BaseFragment implements SwipeRefreshLayout
     @Override
     public void onPostClick(SimplePost post) {
 
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 }

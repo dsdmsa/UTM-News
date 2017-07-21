@@ -1,5 +1,6 @@
 package dsdmsa.utmnews.data.interactor;
 
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,20 +10,20 @@ import dsdmsa.utmnews.data.network.OnDataLoaded;
 import dsdmsa.utmnews.data.network.services.UtmServices;
 import dsdmsa.utmnews.domain.models.Post;
 import dsdmsa.utmnews.domain.models.SimplePost;
+import dsdmsa.utmnews.domain.utils.Constants;
 import dsdmsa.utmnews.domain.utils.SimplePostAdapter;
 
-
-public class NewsInteractor {
+public class CategoryNewsInteractor {
 
     private UtmServices services;
 
     @Inject
-    public NewsInteractor(UtmServices services) {
+    public CategoryNewsInteractor(UtmServices services) {
         this.services = services;
     }
 
-    public void getNews(int page, int quantity, final Callback callback) {
-        services.getNews(page, quantity, new OnDataLoaded<List<Post>>() {
+    public void getCategories(int categoryId, int page, final Callback callback) {
+        services.getNewsByCategory(categoryId, page, Constants.ITEMS_PER_PAGE, new OnDataLoaded<List<Post>>() {
             @Override
             public void onSuccess(List<Post> response) {
                 List<SimplePost> simplePosts = new ArrayList<>();
@@ -37,6 +38,7 @@ public class NewsInteractor {
                 callback.onError(errorMsg);
             }
         });
+
     }
 
     public interface Callback {

@@ -33,4 +33,7 @@ public abstract class BaseFragment extends MvpAppCompatFragment{
         unbinder.unbind();
         super.onDestroyView();
     }
+
+
+    public abstract String getName();
 }

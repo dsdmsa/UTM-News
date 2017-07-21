@@ -12,6 +12,7 @@ import dsdmsa.utmnews.BuildConfig;
 import dsdmsa.utmnews.data.network.api.UtmApi;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Converter;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -24,10 +25,19 @@ public class NetworkModule {
         this.endPoint = endPoint;
     }
 
-    @Singleton
+
     @Provides
-    public Gson provideGson() {
-        return new GsonBuilder().create();
+    @Singleton
+    Converter.Factory provideConverterFactory(Gson gson) {
+        return GsonConverterFactory.create(gson);
+    }
+
+    @Provides
+    @Singleton
+    Gson provideGson() {
+        return new GsonBuilder()
+                .setPrettyPrinting()
+                .create();
     }
 
     @Singleton
@@ -38,7 +48,7 @@ public class NetworkModule {
 
     @Singleton
     @Provides
-    public UtmApi provideUtmServices(Gson gson, OkHttpClient okHttpClient) {
+    public UtmApi provideUtmServices(Converter.Factory factory, OkHttpClient okHttpClient) {
         OkHttpClient.Builder httpClientBuilder = okHttpClient.newBuilder();
 
         if (BuildConfig.DEBUG) {
@@ -49,7 +59,7 @@ public class NetworkModule {
 
         return new Retrofit.Builder()
                 .baseUrl(endPoint)
-                .addConverterFactory(GsonConverterFactory.create(gson))
+                .addConverterFactory(factory)
                 .callFactory(httpClientBuilder.build())
                 .build().create(UtmApi.class);
     }

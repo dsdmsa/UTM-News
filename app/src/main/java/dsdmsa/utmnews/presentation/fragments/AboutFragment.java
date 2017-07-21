@@ -21,6 +21,11 @@ public class AboutFragment extends BaseFragment {
     }
 
     @Override
+    public String getName() {
+        return "";
+    }
+
+    @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 

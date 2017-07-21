@@ -16,6 +16,7 @@ public class CategoryViewPagerAdapter extends FragmentStatePagerAdapter {
 
     public CategoryViewPagerAdapter(FragmentManager fm, List<BaseFragment> baseFragments) {
         super(fm);
+        fragments.addAll(baseFragments);
     }
 
     @Override
@@ -26,5 +27,15 @@ public class CategoryViewPagerAdapter extends FragmentStatePagerAdapter {
     @Override
     public int getCount() {
         return fragments.size();
+    }
+
+    @Override
+    public CharSequence getPageTitle(int position) {
+        return fragments.get(position).getName();
+    }
+
+    @Override
+    public float getPageWidth(int position) {
+        return(0.9f);
     }
 }

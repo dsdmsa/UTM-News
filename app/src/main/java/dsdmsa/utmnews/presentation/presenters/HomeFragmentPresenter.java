@@ -12,8 +12,10 @@ import dsdmsa.utmnews.App;
 import dsdmsa.utmnews.data.interactor.CategoryInteractor;
 import dsdmsa.utmnews.domain.models.Category;
 import dsdmsa.utmnews.presentation.fragments.BaseFragment;
+import dsdmsa.utmnews.presentation.fragments.CategoryNewsFragment;
 import dsdmsa.utmnews.presentation.fragments.NewsListFragment;
 import dsdmsa.utmnews.presentation.mvp.HomeContract;
+import timber.log.Timber;
 
 
 @InjectViewState
@@ -34,11 +36,19 @@ public class HomeFragmentPresenter extends MvpPresenter<HomeContract.View> imple
 
     @Override
     public void onCategoryLoaded(List<Category> categories) {
+        Timber.d("category loaded");
         getViewState().hideProgressDialog();
 
         List<BaseFragment> fragments = new ArrayList<>();
+        NewsListFragment fragment = new NewsListFragment();
+        fragment.setCategory("Latest");
         fragments.add(new NewsListFragment());
 
+        for (Category category : categories) {
+            CategoryNewsFragment categoryNewsFragment = CategoryNewsFragment.newInstance(category);
+            categoryNewsFragment.setCategory(category);
+            fragments.add(categoryNewsFragment);
+        }
 
         getViewState().displayPages(fragments);
     }

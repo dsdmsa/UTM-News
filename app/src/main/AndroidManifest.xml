@@ -21,7 +21,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="dsdmsa.utmnews.presentation.activityes.MainActivity" />
+        <activity
+            android:name="dsdmsa.utmnews.presentation.activityes.MainActivity"
+            android:screenOrientation="portrait" />
 
         <receiver
             android:name=".data.brodcast.ConnectionChangeReceiver"

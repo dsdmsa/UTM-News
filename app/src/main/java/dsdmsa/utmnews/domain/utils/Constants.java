@@ -3,7 +3,7 @@ package dsdmsa.utmnews.domain.utils;
 
 public class Constants {
     public static final String TEXT_PLAIN = "text/plain";
-    public static final int ITEMS_PER_PAGE = 10;
+    public static final int ITEMS_PER_PAGE = 3;
     public static final int INITIAL_PAGE = 1;
     public static final int MAX_DESC_LEN = 200;
     public static final String END_POINT = "http://utm.md/";

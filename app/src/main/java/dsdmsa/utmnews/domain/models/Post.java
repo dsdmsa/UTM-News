@@ -1,46 +1,77 @@
 package dsdmsa.utmnews.domain.models;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 public class Post {
 
-    private Integer id;
-    private String date;
-    private String dateGmt;
-    private String modified;
-    private String modifiedGmt;
-    private String slug;
-    private String status;
-    private String type;
-    private String link;
-    private Title title;
-    private Content content;
-    private Excerpt excerpt;
-    private Integer author;
-    private Integer featuredMedia;
-    private String commentStatus;
-    private String pingStatus;
-    private Boolean sticky;
-    private String format;
-//    private Links links;
+    @SerializedName("id")
+    @Expose
+    public Integer id;
+    @SerializedName("date")
+    @Expose
+    public String date;
+    @SerializedName("date_gmt")
+    @Expose
+    public String dateGmt;
+    @SerializedName("guid")
+    @Expose
+    public Guid guid;
+    @SerializedName("modified")
+    @Expose
+    public String modified;
+    @SerializedName("modified_gmt")
+    @Expose
+    public String modifiedGmt;
+    @SerializedName("slug")
+    @Expose
+    public String slug;
+    @SerializedName("status")
+    @Expose
+    public String status;
+    @SerializedName("type")
+    @Expose
+    public String type;
+    @SerializedName("link")
+    @Expose
+    public String link;
+    @SerializedName("title")
+    @Expose
+    public Title title;
+    @SerializedName("content")
+    @Expose
+    public Content content;
+    @SerializedName("excerpt")
+    @Expose
+    public Excerpt excerpt;
+    @SerializedName("author")
+    @Expose
+    public Integer author;
+    @SerializedName("featured_media")
+    @Expose
+    public Integer featuredMedia;
+    @SerializedName("comment_status")
+    @Expose
+    public String commentStatus;
+    @SerializedName("ping_status")
+    @Expose
+    public String pingStatus;
+    @SerializedName("sticky")
+    @Expose
+    public Boolean sticky;
+    @SerializedName("template")
+    @Expose
+    public String template;
+    @SerializedName("format")
+    @Expose
+    public String format;
+//    @SerializedName("categories")
+//    @Expose
+//    public List<Integer> categories = null;
+//    @SerializedName("tags")
+//    @Expose
+//    public List<Tag> tags = null;
 
-    private boolean isBookmarked = false;
-
-    public boolean isBookmarked() {
-        return isBookmarked;
-    }
-
-    public void setBookmarked(boolean bookmarked) {
-        isBookmarked = bookmarked;
-    }
-
-    private boolean isExpanded = false;
-
-    public boolean isExpanded() {
-        return isExpanded;
-    }
-
-    public void setExpanded(boolean expanded) {
-        isExpanded = expanded;
-    }
 
     public Integer getId() {
         return id;
@@ -64,6 +95,14 @@ public class Post {
 
     public void setDateGmt(String dateGmt) {
         this.dateGmt = dateGmt;
+    }
+
+    public Guid getGuid() {
+        return guid;
+    }
+
+    public void setGuid(Guid guid) {
+        this.guid = guid;
     }
 
     public String getModified() {
@@ -178,6 +217,14 @@ public class Post {
         this.sticky = sticky;
     }
 
+    public String getTemplate() {
+        return template;
+    }
+
+    public void setTemplate(String template) {
+        this.template = template;
+    }
+
     public String getFormat() {
         return format;
     }
@@ -185,13 +232,4 @@ public class Post {
     public void setFormat(String format) {
         this.format = format;
     }
-
-//    public Links getLinks() {
-//        return links;
-//    }
-//
-//    public void setLinks(Links links) {
-//        this.links = links;
-//    }
-
 }

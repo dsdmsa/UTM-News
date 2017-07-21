@@ -52,6 +52,11 @@ public class LatestNewsFragment extends BaseFragment implements
         return 0;
     }
 
+    @Override
+    public String getName() {
+        return "";
+    }
+
 //    @BindView(R.id.recycle_view)
 //    RecyclerView recyclerView;
 //

@@ -31,8 +31,53 @@ public class CategoryInteractor {
             @Override
             public String call() throws Exception {
                 List<Category> categories = appDb.getCategoryDao().getAllCategories();
-                if (categories != null)
+                if (categories != null) {
                     callback.onCategoryLoaded(categories);
+                    services.getCategories(new OnDataLoaded<List<Category>>() {
+                        @Override
+                        public void onSuccess(final List<Category> response) {
+                            Single.fromCallable(new Callable<String>() {
+                                @Override
+                                public String call() throws Exception {
+                                    if (response != null)
+                                        appDb.getCategoryDao().addCategories(response);
+                                    return "";
+                                }
+                            })
+                                    .subscribeOn(Schedulers.io())
+                                    .observeOn(AndroidSchedulers.mainThread())
+                                    .subscribe();
+                        }
+
+                        @Override
+                        public void onError(String errorMsg) {
+                            callback.onError(errorMsg);
+                        }
+                    });
+                } else {
+                    services.getCategories(new OnDataLoaded<List<Category>>() {
+                        @Override
+                        public void onSuccess(final List<Category> response) {
+                            Single.fromCallable(new Callable<String>() {
+                                @Override
+                                public String call() throws Exception {
+                                    if (response != null)
+                                        appDb.getCategoryDao().addCategories(response);
+                                    return "";
+                                }
+                            })
+                                    .subscribeOn(Schedulers.io())
+                                    .observeOn(AndroidSchedulers.mainThread())
+                                    .subscribe();
+                            callback.onCategoryLoaded(response);
+                        }
+
+                        @Override
+                        public void onError(String errorMsg) {
+                            callback.onError(errorMsg);
+                        }
+                    });
+                }
                 return "";
             }
         })
@@ -41,28 +86,6 @@ public class CategoryInteractor {
                 .subscribe();
 
 
-        services.getCategories(new OnDataLoaded<List<Category>>() {
-            @Override
-            public void onSuccess(final List<Category> response) {
-                Single.fromCallable(new Callable<String>() {
-                    @Override
-                    public String call() throws Exception {
-                        if (response != null)
-                            appDb.getCategoryDao().addCategories(response);
-                        return "";
-                    }
-                })
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe();
-                callback.onCategoryLoaded(response);
-            }
-
-            @Override
-            public void onError(String errorMsg) {
-                callback.onError(errorMsg);
-            }
-        });
     }
 
     public interface Callback {

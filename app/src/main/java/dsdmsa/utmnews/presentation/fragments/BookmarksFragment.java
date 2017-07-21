@@ -28,6 +28,11 @@ public class BookmarksFragment extends BaseFragment implements
     }
 
     @Override
+    public String getName() {
+        return "";
+    }
+
+    @Override
     public void showInfoMessage(String s) {
 
     }

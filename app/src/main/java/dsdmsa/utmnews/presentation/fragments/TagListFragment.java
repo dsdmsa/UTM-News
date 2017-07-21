@@ -34,6 +34,11 @@ public class TagListFragment extends BaseFragment implements
     }
 
     @Override
+    public String getName() {
+        return "";
+    }
+
+    @Override
     public void onRefresh() {
 
     }
