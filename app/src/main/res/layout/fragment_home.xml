@@ -10,12 +10,12 @@
         android:layout_height="80dp"
         android:background="@android:color/transparent"
         app:stl_defaultTabTextSize="32sp"
+        app:stl_defaultTabTextColor="@color/primary_text"
         app:stl_dividerColor="@android:color/transparent"
         app:stl_indicatorColor="@android:color/transparent"
         app:stl_underlineColor="@android:color/transparent"
         app:tabBackground="@android:color/transparent"
-        app:tabMode="scrollable"
-        app:tabSelectedTextColor="@color/accent" />
+        app:tabMode="scrollable" />
 
 
     <android.support.v4.view.ViewPager

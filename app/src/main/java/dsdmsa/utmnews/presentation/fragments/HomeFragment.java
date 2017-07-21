@@ -81,8 +81,12 @@ public class HomeFragment extends BaseFragment implements HomeContract.View {
         viewPager.setOffscreenPageLimit(0);
         tabLayout.setViewPager(viewPager);
         tabLayout.setDefaultTabTextColor(Color.CYAN);
-
-        tabLayout.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        for (int i = 0; i < pagerAdapter.getCount(); i++) {
+            float alp = Math.abs(0 - i);
+            alp = 1 - alp / 2.5f;
+            tabLayout.getTabAt(i).setAlpha(alp);
+        }
+            tabLayout.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
@@ -92,7 +96,7 @@ public class HomeFragment extends BaseFragment implements HomeContract.View {
             public void onPageSelected(int position) {
                 for (int i = 0; i < pagerAdapter.getCount(); i++) {
                     float alp = Math.abs(position - i);
-                    alp = 1 - alp / 3;
+                    alp = 1 - alp / 2.5f;
                     tabLayout.getTabAt(i).setAlpha(alp);
                 }
             }

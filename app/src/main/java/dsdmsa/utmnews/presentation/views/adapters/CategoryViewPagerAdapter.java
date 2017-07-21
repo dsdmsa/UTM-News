@@ -36,6 +36,6 @@ public class CategoryViewPagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public float getPageWidth(int position) {
-        return(0.9f);
+        return(0.95f);
     }
 }
