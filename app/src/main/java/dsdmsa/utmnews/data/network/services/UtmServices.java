@@ -3,6 +3,9 @@ package dsdmsa.utmnews.data.network.services;
 
 import java.util.List;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import dsdmsa.utmnews.App;
 import dsdmsa.utmnews.R;
 import dsdmsa.utmnews.data.network.OnDataLoaded;
@@ -17,10 +20,12 @@ import retrofit2.Response;
 import static dsdmsa.utmnews.domain.utils.Constants.IN_INTERNET_AVAIBLE;
 
 
+@Singleton
 public class UtmServices {
 
     private UtmApi api;
 
+    @Inject
     public UtmServices(UtmApi api) {
         this.api = api;
     }

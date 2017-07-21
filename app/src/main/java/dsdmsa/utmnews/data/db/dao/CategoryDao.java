@@ -1,6 +1,5 @@
 package dsdmsa.utmnews.data.db.dao;
 
-import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.OnConflictStrategy;
@@ -17,7 +16,7 @@ public interface CategoryDao {
     void addCategories(List<Category> posts);
 
     @Query("SELECT * FROM Category")
-    LiveData<List<Category>> getAllCategories();
+    List<Category> getAllCategories();
 
     @Query("DELETE FROM Category")
     void removeAll();

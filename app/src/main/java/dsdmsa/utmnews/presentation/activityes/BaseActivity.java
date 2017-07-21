@@ -7,7 +7,6 @@ import android.support.annotation.Nullable;
 import com.arellomobile.mvp.MvpAppCompatActivity;
 
 import butterknife.ButterKnife;
-import dsdmsa.utmnews.R;
 
 public abstract class BaseActivity extends MvpAppCompatActivity {
 
@@ -18,7 +17,6 @@ public abstract class BaseActivity extends MvpAppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(getLayout());
         ButterKnife.bind(this);
-        setTheme(R.style.NoActionBar);
     }
 
 }

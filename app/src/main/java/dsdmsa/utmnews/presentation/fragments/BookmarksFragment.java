@@ -32,15 +32,6 @@ public class BookmarksFragment extends BaseFragment implements
 
     }
 
-    @Override
-    public String getTitle() {
-        return null;
-    }
-
-    @Override
-    public void retry() {
-
-    }
 //
 //    @Override
 //    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {

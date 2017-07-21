@@ -46,15 +46,6 @@ public class LatestNewsFragment extends BaseFragment implements
 
     }
 
-    @Override
-    public String getTitle() {
-        return null;
-    }
-
-    @Override
-    public void retry() {
-
-    }
 
     @Override
     protected int getLayout() {

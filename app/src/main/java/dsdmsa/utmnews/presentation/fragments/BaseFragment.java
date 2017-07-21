@@ -11,12 +11,10 @@ import com.arellomobile.mvp.MvpAppCompatFragment;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import dsdmsa.utmnews.presentation.mvp.FragmentNavigation;
 
-public abstract class BaseFragment extends MvpAppCompatFragment implements FragmentNavigation.View {
+public abstract class BaseFragment extends MvpAppCompatFragment{
 
     protected View rootView;
-    protected FragmentNavigation.Presenter navigationPresenter;
     protected Unbinder unbinder;
 
     @Nullable
@@ -29,12 +27,6 @@ public abstract class BaseFragment extends MvpAppCompatFragment implements Fragm
     }
 
     protected abstract int getLayout();
-
-    @Override
-    public void atachPresenter(FragmentNavigation.Presenter presenter) {
-        navigationPresenter = presenter;
-    }
-
 
     @Override
     public void onDestroyView() {

@@ -1,23 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_home"
+        android:icon="@drawable/ic_home_black"
+        android:title="@string/home" />
 
-    <group>
-        <item
-            android:id="@+id/menu_home"
-            android:icon="@drawable/ic_home_black"
-            android:title="@string/home" />
+    <item
+        android:id="@+id/menu_tags"
+        android:icon="@drawable/ic_tag"
+        android:title="@string/tags" />
 
-        <item
-            android:id="@+id/menu_tags"
-            android:icon="@drawable/ic_tag"
-            android:title="@string/tags" />
-
-        <item
-            android:id="@+id/menu_bookmarks"
-            android:icon="@drawable/ic_bookmarcs_white"
-            android:title="@string/bookmarks" />
-        <item
-            android:id="@+id/menu_search"
-            android:icon="@drawable/ic_search"
-            android:title="@string/search" />
-    </group>
+    <item
+        android:id="@+id/menu_bookmarks"
+        android:icon="@drawable/ic_bookmarcs_white"
+        android:title="@string/bookmarks" />
+    <item
+        android:id="@+id/menu_search"
+        android:icon="@drawable/ic_search"
+        android:title="@string/search" />
 </menu>

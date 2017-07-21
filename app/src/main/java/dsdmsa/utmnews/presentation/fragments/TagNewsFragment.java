@@ -73,16 +73,6 @@ public class TagNewsFragment extends BaseFragment implements
     public void setupRecyclerView() {
 
     }
-
-    @Override
-    public String getTitle() {
-        return null;
-    }
-
-    @Override
-    public void retry() {
-
-    }
 //
 //    @Override
 //    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {

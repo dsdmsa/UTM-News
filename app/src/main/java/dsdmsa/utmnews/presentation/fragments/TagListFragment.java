@@ -53,15 +53,6 @@ public class TagListFragment extends BaseFragment implements
 
     }
 
-    @Override
-    public String getTitle() {
-        return null;
-    }
-
-    @Override
-    public void retry() {
-
-    }
 
     @Override
     public void showCategories(List<Category> response) {

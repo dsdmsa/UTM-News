@@ -10,7 +10,6 @@ import dagger.Module;
 import dagger.Provides;
 import dsdmsa.utmnews.BuildConfig;
 import dsdmsa.utmnews.data.network.api.UtmApi;
-import dsdmsa.utmnews.data.network.services.UtmServices;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -53,12 +52,6 @@ public class NetworkModule {
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .callFactory(httpClientBuilder.build())
                 .build().create(UtmApi.class);
-    }
-
-    @Singleton
-    @Provides
-    public UtmServices providesUtmController(UtmApi utmApi) {
-        return new UtmServices(utmApi);
     }
 
 }
