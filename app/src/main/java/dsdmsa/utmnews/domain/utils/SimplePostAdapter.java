@@ -18,6 +18,7 @@ public class SimplePostAdapter {
         simplePost.setImageUrl(post.getContent().getUrl());
         simplePost.setLink(post.getLink());
         simplePost.setTitle(post.getTitle());
+        simplePost.setCategory(post.getCategory());
         return simplePost;
     }
 }

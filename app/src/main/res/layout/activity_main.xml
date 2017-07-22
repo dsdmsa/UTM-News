@@ -4,15 +4,36 @@
     android:id="@+id/coordinator"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/primary">
+    android:background="@color/divider"
+    android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/primary_dark"
-        app:layout_scrollFlags="scroll|enterAlways" />
+        app:layout_scrollFlags="scroll|enterAlways">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="left|center_vertical"
+                app:srcCompat="@drawable/ic_logo" />
+
+
+            <ImageView
+                android:layout_width="34dp"
+                android:layout_height="34dp"
+                android:layout_gravity="right|center_vertical"
+                android:layout_marginRight="24dp"
+                app:srcCompat="@drawable/ic_about" />
+
+        </FrameLayout>
+    </android.support.v7.widget.Toolbar>
 
     <FrameLayout
         android:id="@+id/fragment_container"
@@ -23,9 +44,9 @@
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/navigation"
-        android:background="@color/accent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/primary_light"
         app:menu="@menu/menu" />
 
 </LinearLayout>

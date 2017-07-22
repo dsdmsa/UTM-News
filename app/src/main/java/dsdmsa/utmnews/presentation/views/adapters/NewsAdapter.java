@@ -44,10 +44,10 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
 
         Glide.with(holder.image.getContext())
                 .load(newsList.get(position).getImageUrl())
-                .asBitmap()
                 .centerCrop()
                 .into(holder.image);
 
+        holder.tvTime.setText(newsList.get(position).getDate());
         holder.tvTitle.setText(newsList.get(position).getTitle().getRendered());
         holder.tvDescription.setText(newsList.get(position).getDescription());
 
@@ -74,10 +74,16 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
         ImageView image;
         @BindView(R.id.tv_category)
         TextView tvCategory;
+        @BindView(R.id.tv_time)
+        TextView tvTime;
         @BindView(R.id.tv_title)
         TextView tvTitle;
         @BindView(R.id.tv_description)
         TextView tvDescription;
+        @BindView(R.id.iv_share)
+        ImageView ivShare;
+        @BindView(R.id.iv_bookmark)
+        ImageView ivBookmark;
 
         MyViewHolder(View view) {
             super(view);
@@ -88,6 +94,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
     public interface Listener {
         void onPostClick(SimplePost post);
     }
+
 }
 
 

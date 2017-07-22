@@ -4,8 +4,7 @@ xmlns:app="http://schemas.android.com/apk/res-auto"
 xmlns:tools="http://schemas.android.com/tools"
 android:id="@+id/activity_main"
 android:layout_width="match_parent"
-android:layout_height="match_parent"
-tools:context="dsdmsa.utmnews.activityes.MainActivity">
+android:layout_height="match_parent" >
 
 <android.support.design.widget.CoordinatorLayout
     android:layout_width="match_parent"
@@ -65,7 +64,6 @@ tools:context="dsdmsa.utmnews.activityes.MainActivity">
     <View
         android:layout_width="match_parent"
         android:layout_height="4dp"
-        android:background="@drawable/gradient_toolbar"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
 </android.support.design.widget.CoordinatorLayout>

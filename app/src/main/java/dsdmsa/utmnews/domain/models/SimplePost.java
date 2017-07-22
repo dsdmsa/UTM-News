@@ -17,7 +17,16 @@ public class SimplePost {
     private Title title;
     private String imageUrl;
     private String description;
+    private String category;
     private boolean isBookmarked = false;
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
 
     public String getDescription() {
         return description;

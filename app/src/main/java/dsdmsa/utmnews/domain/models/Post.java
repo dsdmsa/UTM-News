@@ -3,6 +3,8 @@ package dsdmsa.utmnews.domain.models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 public class Post {
 
     @SerializedName("id")
@@ -65,13 +67,21 @@ public class Post {
     @SerializedName("format")
     @Expose
     public String format;
-//    @SerializedName("categories")
-//    @Expose
-//    public List<Integer> categories = null;
+    @SerializedName("categories")
+    @Expose
+    public List<Integer> categories = null;
 //    @SerializedName("tags")
 //    @Expose
 //    public List<Tag> tags = null;
 
+
+    public List<Integer> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(List<Integer> categories) {
+        this.categories = categories;
+    }
 
     public Integer getId() {
         return id;
@@ -231,5 +241,9 @@ public class Post {
 
     public void setFormat(String format) {
         this.format = format;
+    }
+
+    public String getCategory() {
+        return getCategories().get(0).toString();
     }
 }

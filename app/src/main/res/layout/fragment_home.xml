@@ -7,10 +7,10 @@
     <com.ogaclejapan.smarttablayout.SmartTabLayout
         android:id="@+id/tab_layout"
         android:layout_width="wrap_content"
-        android:layout_height="80dp"
+        android:layout_height="50dp"
         android:background="@android:color/transparent"
         app:stl_defaultTabTextSize="32sp"
-        app:stl_defaultTabTextColor="@color/primary_text"
+        app:stl_defaultTabTextColor="@color/primary_dark"
         app:stl_dividerColor="@android:color/transparent"
         app:stl_indicatorColor="@android:color/transparent"
         app:stl_underlineColor="@android:color/transparent"
@@ -22,8 +22,7 @@
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="80dp"
-        android:background="#ff22" />
+        android:layout_marginTop="50dp" />
 
     <ProgressBar
         android:id="@+id/progress_bar"
