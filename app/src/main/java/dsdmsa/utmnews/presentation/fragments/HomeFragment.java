@@ -78,7 +78,6 @@ public class HomeFragment extends BaseFragment implements HomeContract.View {
         Timber.d(" adding fragments " + baseFragments.size());
         pagerAdapter = new CategoryViewPagerAdapter(getFragmentManager(), baseFragments);
         viewPager.setAdapter(pagerAdapter);
-        viewPager.setOffscreenPageLimit(0);
         tabLayout.setViewPager(viewPager);
         tabLayout.setDefaultTabTextColor(Color.CYAN);
         for (int i = 0; i < pagerAdapter.getCount(); i++) {

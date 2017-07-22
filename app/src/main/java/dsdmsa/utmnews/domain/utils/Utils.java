@@ -2,6 +2,7 @@ package dsdmsa.utmnews.domain.utils;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Point;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -53,6 +54,14 @@ public class Utils {
                     context.getResources().getDisplayMetrics());
         }
         return actionBarHeight;
+    }
+
+
+    public static Intent getShareIntent(String text){
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.setType("text/plain");
+        shareIntent.putExtra(Intent.EXTRA_TEXT, text);
+        return Intent.createChooser(shareIntent, "Share link using");
     }
 
 }

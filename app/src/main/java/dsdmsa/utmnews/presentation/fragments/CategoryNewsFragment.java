@@ -16,6 +16,7 @@ import dsdmsa.utmnews.R;
 import dsdmsa.utmnews.domain.models.Category;
 import dsdmsa.utmnews.domain.models.SimplePost;
 import dsdmsa.utmnews.domain.utils.Constants;
+import dsdmsa.utmnews.domain.utils.Utils;
 import dsdmsa.utmnews.presentation.mvp.CategoryContract;
 import dsdmsa.utmnews.presentation.presenters.CategoryNewsListPresenter;
 import dsdmsa.utmnews.presentation.views.adapters.EndlessRecyclerOnScrollListener;
@@ -25,7 +26,8 @@ import es.dmoral.toasty.Toasty;
 
 public class CategoryNewsFragment extends BaseFragment implements
         CategoryContract.View,
-        SwipeRefreshLayout.OnRefreshListener, NewsAdapter.Listener {
+        SwipeRefreshLayout.OnRefreshListener,
+        NewsAdapter.Listener {
 
     @InjectPresenter
     CategoryNewsListPresenter presenter;
@@ -123,6 +125,16 @@ public class CategoryNewsFragment extends BaseFragment implements
 
     @Override
     public void onPostClick(SimplePost post) {
+
+    }
+
+    @Override
+    public void onShareClick(SimplePost post) {
+        startActivity(Utils.getShareIntent(post.getLink()));
+    }
+
+    @Override
+    public void onBookmark(SimplePost post) {
 
     }
 }

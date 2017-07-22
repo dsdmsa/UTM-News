@@ -16,6 +16,7 @@ import java.util.List;
 import butterknife.BindView;
 import dsdmsa.utmnews.R;
 import dsdmsa.utmnews.domain.models.SimplePost;
+import dsdmsa.utmnews.domain.utils.Utils;
 import dsdmsa.utmnews.presentation.mvp.NewsContract;
 import dsdmsa.utmnews.presentation.presenters.NewsListPresenter;
 import dsdmsa.utmnews.presentation.views.ChromeTab;
@@ -104,6 +105,16 @@ public class NewsListFragment extends BaseFragment implements
     @Override
     public void onPostClick(SimplePost post) {
         new ChromeTab(getActivity(), post.getLink()).openUri(getActivity(), Uri.parse(post.getLink()));
+    }
+
+    @Override
+    public void onShareClick(SimplePost post) {
+        startActivity(Utils.getShareIntent(post.getLink()));
+    }
+
+    @Override
+    public void onBookmark(SimplePost post) {
+
     }
 
 }

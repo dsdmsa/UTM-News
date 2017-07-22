@@ -38,7 +38,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, int pos) {
+    public void onBindViewHolder(MyViewHolder holder, final int pos) {
 
         final int position = holder.getAdapterPosition();
 
@@ -55,6 +55,18 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
             @Override
             public void onClick(View view) {
                 listener.onPostClick(newsList.get(position));
+            }
+        });
+        holder.ivShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                listener.onShareClick(newsList.get(position));
+            }
+        });
+        holder.ivBookmark.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                listener.onBookmark(newsList.get(position));
             }
         });
     }
@@ -93,6 +105,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
 
     public interface Listener {
         void onPostClick(SimplePost post);
+        void onShareClick(SimplePost post);
+        void onBookmark(SimplePost post);
     }
 
 }
