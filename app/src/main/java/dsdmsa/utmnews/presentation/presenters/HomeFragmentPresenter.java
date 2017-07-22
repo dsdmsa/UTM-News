@@ -40,8 +40,6 @@ public class HomeFragmentPresenter extends MvpPresenter<HomeContract.View> imple
         getViewState().hideProgressDialog();
 
         List<BaseFragment> fragments = new ArrayList<>();
-        NewsListFragment fragment = new NewsListFragment();
-        fragment.setCategory("Latest");
         fragments.add(new NewsListFragment());
 
         for (Category category : categories) {

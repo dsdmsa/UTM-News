@@ -1,6 +1,9 @@
 package dsdmsa.utmnews.presentation.fragments;
 
 
+import android.arch.lifecycle.Lifecycle;
+import android.arch.lifecycle.LifecycleOwner;
+import android.arch.lifecycle.LifecycleRegistry;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -12,7 +15,7 @@ import com.arellomobile.mvp.MvpAppCompatFragment;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public abstract class BaseFragment extends MvpAppCompatFragment{
+public abstract class BaseFragment extends MvpAppCompatFragment implements LifecycleOwner {
 
     protected View rootView;
     protected Unbinder unbinder;
@@ -28,12 +31,16 @@ public abstract class BaseFragment extends MvpAppCompatFragment{
 
     protected abstract int getLayout();
 
+    public abstract String getName();
+
     @Override
     public void onDestroyView() {
         unbinder.unbind();
         super.onDestroyView();
     }
 
-
-    public abstract String getName();
+    @Override
+    public Lifecycle getLifecycle() {
+        return new LifecycleRegistry(this);
+    }
 }

@@ -39,8 +39,6 @@ public class NewsListFragment extends BaseFragment implements
     private NewsAdapter adapter;
     private LinearLayoutManager layoutManager;
 
-    private String category;
-
     @Override
     protected int getLayout() {
         return R.layout.fragment_news_list;
@@ -48,7 +46,7 @@ public class NewsListFragment extends BaseFragment implements
 
     @Override
     public String getName() {
-        return "Latest";
+        return "TOATE";
     }
 
     @Override
@@ -108,7 +106,4 @@ public class NewsListFragment extends BaseFragment implements
         new ChromeTab(getActivity(), post.getLink()).openUri(getActivity(), Uri.parse(post.getLink()));
     }
 
-    public void setCategory(String category) {
-        this.category = category;
-    }
 }

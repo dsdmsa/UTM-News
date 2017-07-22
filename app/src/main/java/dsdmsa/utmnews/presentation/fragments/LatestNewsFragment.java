@@ -140,7 +140,7 @@ public class LatestNewsFragment extends BaseFragment implements
 //    }
 //
 //    @Override
-//    public void onShareClick(String url) {
+//    public void onTagClicked(String url) {
 //        presenter.shareString(url);
 //    }
 //

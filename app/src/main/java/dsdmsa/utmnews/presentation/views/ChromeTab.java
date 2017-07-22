@@ -16,7 +16,6 @@ import me.zhanghai.android.customtabshelper.CustomTabsHelperFragment;
 public class ChromeTab implements CustomTabsActivityHelper.CustomTabsFallback {
 
     private CustomTabsIntent customTabsIntent;
-    private final String url;
 
     public ChromeTab(Activity context,String url) {
 
@@ -25,7 +24,6 @@ public class ChromeTab implements CustomTabsActivityHelper.CustomTabsFallback {
                 .setToolbarColor(ContextCompat.getColor(context, R.color.primary_dark))
                 .setShowTitle(true)
                 .build();
-        this.url = url;
 
         CustomTabsHelperFragment.open(
                 context,

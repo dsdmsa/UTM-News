@@ -38,7 +38,7 @@ public class TagAdapter extends RecyclerView.Adapter<TagAdapter.ViewHolder> {
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                interact.onShareClick(tagList.get(position).id);
+                interact.onTagClicked(tagList.get(position).id);
             }
         });
     }
@@ -62,7 +62,7 @@ public class TagAdapter extends RecyclerView.Adapter<TagAdapter.ViewHolder> {
     }
 
     public interface TagInteract {
-        void onShareClick(Integer categoryId);
+        void onTagClicked(Integer categoryId);
     }
 
 }

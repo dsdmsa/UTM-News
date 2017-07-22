@@ -131,7 +131,7 @@ public class SearchFragment extends BaseFragment implements
 //    }
 //
 //    @Override
-//    public void onShareClick(String url) {
+//    public void onTagClicked(String url) {
 //        Intent sendIntent = new Intent();
 //        sendIntent.setAction(Intent.ACTION_SEND);
 //        sendIntent.putExtra(Intent.EXTRA_TEXT, url);

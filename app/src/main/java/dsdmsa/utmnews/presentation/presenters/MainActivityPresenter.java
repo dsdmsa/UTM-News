@@ -3,8 +3,6 @@ package dsdmsa.utmnews.presentation.presenters;
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 
-import dsdmsa.utmnews.presentation.fragments.BaseFragment;
-import dsdmsa.utmnews.presentation.mvp.FragmentNavigation;
 import dsdmsa.utmnews.presentation.mvp.MainActivityVP;
 
 /**
@@ -12,20 +10,7 @@ import dsdmsa.utmnews.presentation.mvp.MainActivityVP;
  */
 @InjectViewState
 public class MainActivityPresenter extends MvpPresenter<MainActivityVP.View>
-        implements MainActivityVP.Presenter,
-        FragmentNavigation.Presenter {
-    @Override
-    public void addFragment(BaseFragment fragment) {
-
-    }
-
-    @Override
-    public void setTitle(String title) {
-
-    }
-
-    @Override
-    public void retry() {
+        implements MainActivityVP.Presenter{
 
     }
 
@@ -80,4 +65,4 @@ public class MainActivityPresenter extends MvpPresenter<MainActivityVP.View>
 //        App.getAppComponent().getApp().startActivity(intent);
 //    }
 
-}
+//}

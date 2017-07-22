@@ -16,11 +16,12 @@ import dsdmsa.utmnews.presentation.fragments.LatestNewsFragment;
 import dsdmsa.utmnews.presentation.fragments.SearchFragment;
 import dsdmsa.utmnews.presentation.fragments.TagNewsFragment;
 import dsdmsa.utmnews.presentation.presenters.BookmarksFragmentPresenter;
+import dsdmsa.utmnews.presentation.presenters.BookmarksPresenter;
 import dsdmsa.utmnews.presentation.presenters.CategoryNewsListPresenter;
-import dsdmsa.utmnews.presentation.presenters.ClassificationPresenter;
 import dsdmsa.utmnews.presentation.presenters.HomeFragmentPresenter;
 import dsdmsa.utmnews.presentation.presenters.NewsListPresenter;
 import dsdmsa.utmnews.presentation.presenters.NewsPresenter;
+import dsdmsa.utmnews.presentation.presenters.TagPresenter;
 import dsdmsa.utmnews.presentation.views.adapters.NewsAdapter;
 
 @Singleton
@@ -43,7 +44,7 @@ public interface AppComponent {
 
     void inject(NewsAdapter __);
 
-    void inject(ClassificationPresenter __);
+    void inject(TagPresenter __);
 
     void inject(BookmarksFragmentPresenter __);
 
@@ -60,4 +61,6 @@ public interface AppComponent {
     void inject(HomeFragmentPresenter homeFragmentPresenter);
 
     void inject(CategoryNewsListPresenter categoryNewsListPresenter);
+
+    void inject(BookmarksPresenter bookmarksPresenter);
 }

@@ -11,10 +11,15 @@ import android.widget.Toast;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.PresenterType;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
+import dsdmsa.utmnews.App;
 import dsdmsa.utmnews.R;
-import dsdmsa.utmnews.presentation.fragments.BaseFragment;
+import dsdmsa.utmnews.domain.utils.FragmentNavigation;
+import dsdmsa.utmnews.presentation.fragments.BookmarksFragment;
 import dsdmsa.utmnews.presentation.fragments.HomeFragment;
+import dsdmsa.utmnews.presentation.fragments.TagListFragment;
 import dsdmsa.utmnews.presentation.mvp.MainActivityVP;
 import dsdmsa.utmnews.presentation.presenters.MainActivityPresenter;
 import es.dmoral.toasty.Toasty;
@@ -33,6 +38,9 @@ public class MainActivity extends BaseActivity implements
     @BindView(R.id.navigation)
     BottomNavigationView navigation;
 
+    @Inject
+    protected FragmentNavigation fragmentNavigation;
+
     private long mBackPressed;
 
     @Override
@@ -43,22 +51,25 @@ public class MainActivity extends BaseActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        addFragment(new HomeFragment());
+        App.getAppComponent().inject(this);
+        fragmentNavigation.init(getSupportFragmentManager(), R.id.fragment_container);
+        fragmentNavigation.showFragment(R.id.menu_home, new HomeFragment());
+
         navigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.menu_home:
-                        addFragment(new HomeFragment());
-                        break;
-                    case R.id.menu_bookmarks:
-                        Toast.makeText(MainActivity.this, "12", Toast.LENGTH_SHORT).show();
+                        fragmentNavigation.showFragment(R.id.menu_home, new HomeFragment());
                         break;
                     case R.id.menu_tags:
-                        Toast.makeText(MainActivity.this, "13", Toast.LENGTH_SHORT).show();
+                        fragmentNavigation.showFragment(R.id.menu_tags, new TagListFragment());
+                        break;
+                    case R.id.menu_bookmarks:
+                        fragmentNavigation.showFragment(R.id.menu_bookmarks, new BookmarksFragment());
                         break;
                     case R.id.menu_search:
-                        Toast.makeText(MainActivity.this, "14x", Toast.LENGTH_SHORT).show();
+//                        fragmentNavigation.showFragment(R.id.menu_search, new HomeFragment());
                         break;
                 }
                 return true;
@@ -66,21 +77,24 @@ public class MainActivity extends BaseActivity implements
         });
     }
 
-    public void addFragment(BaseFragment fragment) {
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.fragment_container, fragment)
-                .commit();
+    @Override
+    public void onBackPressed() {
+        if (fragmentNavigation.getSize() == 1) {
+            if (mBackPressed + TIME_INTERVAL < System.currentTimeMillis()) {
+                Toasty.info(this, "Press again to exit", Toast.LENGTH_SHORT).show();
+                mBackPressed = System.currentTimeMillis();
+                return;
+            }
+            super.onBackPressed();
+        } else {
+            navigation.setSelectedItemId(fragmentNavigation.bakPressed());
+        }
     }
 
     @Override
-    public void onBackPressed() {
-        if (mBackPressed + TIME_INTERVAL < System.currentTimeMillis()) {
-            Toasty.info(this, "Press again to exit", Toast.LENGTH_SHORT).show();
-            mBackPressed = System.currentTimeMillis();
-            return;
-        }
-        super.onBackPressed();
+    protected void onDestroy() {
+        super.onDestroy();
+        fragmentNavigation.onDestory();
     }
 }
 
