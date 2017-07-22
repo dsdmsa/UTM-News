@@ -1,6 +1,7 @@
 package dsdmsa.utmnews.presentation.fragments;
 
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -17,11 +18,15 @@ import dsdmsa.utmnews.R;
 import dsdmsa.utmnews.domain.models.SimplePost;
 import dsdmsa.utmnews.presentation.mvp.NewsContract;
 import dsdmsa.utmnews.presentation.presenters.NewsListPresenter;
+import dsdmsa.utmnews.presentation.views.ChromeTab;
 import dsdmsa.utmnews.presentation.views.adapters.EndlessRecyclerOnScrollListener;
 import dsdmsa.utmnews.presentation.views.adapters.NewsAdapter;
 import es.dmoral.toasty.Toasty;
 
-public class NewsListFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener, NewsContract.View, NewsAdapter.Listener {
+public class NewsListFragment extends BaseFragment implements
+        SwipeRefreshLayout.OnRefreshListener,
+        NewsContract.View,
+        NewsAdapter.Listener {
 
     @BindView(R.id.recycle_view)
     RecyclerView recycleView;
@@ -100,7 +105,7 @@ public class NewsListFragment extends BaseFragment implements SwipeRefreshLayout
 
     @Override
     public void onPostClick(SimplePost post) {
-
+        new ChromeTab(getActivity(), post.getLink()).openUri(getActivity(), Uri.parse(post.getLink()));
     }
 
     public void setCategory(String category) {

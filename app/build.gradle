@@ -99,7 +99,7 @@ dependencies {
     //bus
     compile 'org.greenrobot:eventbus:3.0.0'
     //costum chrome tab
-//    compile 'me.zhanghai.android.customtabshelper:library:1.0.3'
+    compile 'me.zhanghai.android.customtabshelper:library:1.0.3'
     //costum toasts
     compile 'com.github.GrenderG:Toasty:1.1.4'
     //keyboard control
