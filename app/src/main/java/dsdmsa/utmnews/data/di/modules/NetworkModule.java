@@ -25,7 +25,6 @@ public class NetworkModule {
         this.endPoint = endPoint;
     }
 
-
     @Provides
     @Singleton
     Converter.Factory provideConverterFactory(Gson gson) {

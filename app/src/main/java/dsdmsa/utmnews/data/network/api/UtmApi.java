@@ -45,5 +45,4 @@ public interface UtmApi {
             @Query("page") int page
     );
 
-
 }

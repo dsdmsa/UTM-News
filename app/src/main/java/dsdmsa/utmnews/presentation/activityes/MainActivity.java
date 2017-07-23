@@ -1,5 +1,7 @@
 package dsdmsa.utmnews.presentation.activityes;
 
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -12,7 +14,6 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
-import com.arellomobile.mvp.presenter.PresenterType;
 import com.jakewharton.rxbinding2.widget.RxTextView;
 
 import org.greenrobot.eventbus.EventBus;
@@ -25,7 +26,9 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import dsdmsa.utmnews.App;
 import dsdmsa.utmnews.R;
+import dsdmsa.utmnews.data.brodcast.ConnectionChangeReceiver;
 import dsdmsa.utmnews.data.network.api.UtmApi;
+import dsdmsa.utmnews.domain.utils.Constants;
 import dsdmsa.utmnews.domain.utils.FragmentNavigation;
 import dsdmsa.utmnews.presentation.fragments.AboutFragment;
 import dsdmsa.utmnews.presentation.fragments.BaseFragment;
@@ -47,7 +50,7 @@ import static dsdmsa.utmnews.domain.utils.Constants.TIME_INTERVAL;
 public class MainActivity extends BaseActivity implements
         MainActivityVP.View {
 
-    @InjectPresenter(type = PresenterType.GLOBAL)
+    @InjectPresenter
     MainActivityPresenter presenter;
 
     @BindView(R.id.toolbar)
@@ -61,8 +64,10 @@ public class MainActivity extends BaseActivity implements
 
     @BindView(R.id.et_search)
     EditText etSearch;
+
     @Inject
     UtmApi utmApi;
+
     @Inject
     protected FragmentNavigation fragmentNavigation;
 
@@ -71,9 +76,27 @@ public class MainActivity extends BaseActivity implements
 
     private long mBackPressed;
 
+    private ConnectionChangeReceiver receiver;
+
     @Override
     protected int getLayout() {
         return R.layout.activity_main;
+    }
+
+    @Override
+    protected void onResume() {
+        receiver = new ConnectionChangeReceiver();
+        registerReceiver(receiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
+        super.onResume();
+        fragmentNavigation.init(getSupportFragmentManager(), R.id.fragment_container);
+        fragmentNavigation.showLastFragment();
+    }
+
+    @Override
+    protected void onPause() {
+        fragmentNavigation.onPause();
+        unregisterReceiver(receiver);
+        super.onPause();
     }
 
     @Override
@@ -102,16 +125,14 @@ public class MainActivity extends BaseActivity implements
                         break;
                     case R.id.menu_search:
                         search();
-//                        fragmentNavigation.showFragment(R.id.menu_search, new HomeFragment());
                         break;
                 }
                 return true;
             }
         });
 
-
         RxTextView.textChanges(etSearch)
-                .debounce(600, TimeUnit.MILLISECONDS)
+                .debounce(Constants.DEBOUNCH_TIMEOUT, TimeUnit.MILLISECONDS)
                 .filter(new Predicate<CharSequence>() {
                     @Override
                     public boolean test(CharSequence charSequence) throws Exception {
@@ -146,7 +167,6 @@ public class MainActivity extends BaseActivity implements
 
                     }
                 });
-
     }
 
     @Override
@@ -163,15 +183,9 @@ public class MainActivity extends BaseActivity implements
         }
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        fragmentNavigation.onDestory();
-    }
-
     @OnClick(R.id.btn_about)
     public void onViewClicked() {
-        fragmentNavigation.showFragment(-15, new AboutFragment());
+        fragmentNavigation.showFragment(Constants.ABOUT_FRAGMENT_ID, new AboutFragment());
     }
 
     public void openFragment(BaseFragment fragment, int id) {
@@ -188,11 +202,11 @@ public class MainActivity extends BaseActivity implements
             etSearch.setVisibility(View.VISIBLE);
             btnSearch.setVisibility(View.VISIBLE);
             etSearch.requestFocus();
-            openFragment(new SearchNewsListFragment(), -35);
+            openFragment(new SearchNewsListFragment(), Constants.SEARCH_FRAGMENT_ID);
         }
     }
 
-    private void hideSearch(){
+    private void hideSearch() {
         if (etSearch.getVisibility() == View.VISIBLE) {
             etSearch.setVisibility(View.GONE);
             btnSearch.setVisibility(View.GONE);
@@ -200,7 +214,6 @@ public class MainActivity extends BaseActivity implements
             navigation.setSelectedItemId(fragmentNavigation.bakPressed());
         }
     }
-
 
 }
 

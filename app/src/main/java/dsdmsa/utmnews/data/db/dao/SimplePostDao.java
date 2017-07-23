@@ -29,9 +29,6 @@ public interface SimplePostDao {
     @Query("SELECT * FROM simplePost")
     List<SimplePost> getAll();
 
-//    @Query("SELECT * FROM simplePost WERE id LIKE :postId ")
-//    SimplePost getPost(int postId);
-
     @Delete
     void delete(SimplePost post);
 }

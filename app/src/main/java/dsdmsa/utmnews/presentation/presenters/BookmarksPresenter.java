@@ -21,7 +21,8 @@ import io.reactivex.schedulers.Schedulers;
 
 
 @InjectViewState
-public class BookmarksPresenter extends MvpPresenter<BookmarsContract.View> implements BookmarsContract.Presenter {
+public class BookmarksPresenter extends MvpPresenter<BookmarsContract.View> implements
+        BookmarsContract.Presenter {
 
     @Inject
     AppDb appDb;

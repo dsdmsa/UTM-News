@@ -20,7 +20,6 @@ import dsdmsa.utmnews.presentation.presenters.CategoryNewsListPresenter;
 import dsdmsa.utmnews.presentation.presenters.HomeFragmentPresenter;
 import dsdmsa.utmnews.presentation.presenters.MainActivityPresenter;
 import dsdmsa.utmnews.presentation.presenters.NewsListPresenter;
-import dsdmsa.utmnews.presentation.presenters.NewsPresenter;
 import dsdmsa.utmnews.presentation.presenters.SearchNewsListPresenter;
 import dsdmsa.utmnews.presentation.presenters.TagNewsListPresenter;
 import dsdmsa.utmnews.presentation.presenters.TagPresenter;
@@ -40,8 +39,6 @@ public interface AppComponent {
     void inject(MainActivity __);
 
     void inject(UtmServices __);
-
-    void inject(NewsPresenter __);
 
     void inject(TagPresenter __);
 

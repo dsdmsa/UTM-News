@@ -30,6 +30,7 @@ public class App extends Application {
                 .networkModule(new NetworkModule(END_POINT))
                 .build();
 
+
         if (Utils.isOnline(this)) {
             App.getAppComponent().getPrefs().edit().putBoolean(IN_INTERNET_AVAIBLE, true).apply();
         } else {

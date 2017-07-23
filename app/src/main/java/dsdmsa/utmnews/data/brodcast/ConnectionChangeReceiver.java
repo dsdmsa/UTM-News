@@ -13,12 +13,13 @@ import dsdmsa.utmnews.domain.utils.Utils;
 import static dsdmsa.utmnews.domain.utils.Constants.IN_INTERNET_AVAIBLE;
 
 public class ConnectionChangeReceiver extends BroadcastReceiver {
+
     @Override
     public void onReceive(Context context, Intent intent) {
         if (Utils.isOnline(context)) {
             EventBus.getDefault().post(NetState.ONLINE);
             App.getAppComponent().getPrefs().edit().putBoolean(IN_INTERNET_AVAIBLE, true).apply();
-        }else {
+        } else {
             EventBus.getDefault().post(NetState.OFFLINE);
             App.getAppComponent().getPrefs().edit().putBoolean(IN_INTERNET_AVAIBLE, false).apply();
         }

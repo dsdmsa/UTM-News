@@ -15,7 +15,9 @@ import dsdmsa.utmnews.data.interactor.TagInteractor;
 import dsdmsa.utmnews.domain.models.Category;
 import dsdmsa.utmnews.domain.models.Tag;
 
-public class SplashScreenActivity extends AppCompatActivity implements CategoryInteractor.Callback, TagInteractor.Callback {
+public class SplashScreenActivity extends AppCompatActivity implements
+        CategoryInteractor.Callback,
+        TagInteractor.Callback {
 
     @Inject
     CategoryInteractor categoryInteractor;
@@ -26,12 +28,9 @@ public class SplashScreenActivity extends AppCompatActivity implements CategoryI
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         App.getAppComponent().inject(this);
-
         categoryInteractor.getCategories(this);
         tagInteractor.getTags(this);
-
     }
 
     @Override
@@ -42,11 +41,6 @@ public class SplashScreenActivity extends AppCompatActivity implements CategoryI
 
     @Override
     public void onTagLoaded(List<Tag> tagList) {
-
-    }
-
-    @Override
-    public void onTagNewsLoaded() {
 
     }
 

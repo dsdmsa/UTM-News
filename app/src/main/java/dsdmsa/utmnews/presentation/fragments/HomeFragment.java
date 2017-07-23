@@ -21,20 +21,22 @@ import es.dmoral.toasty.Toasty;
 import timber.log.Timber;
 
 
-public class HomeFragment extends BaseFragment implements HomeContract.View {
+public class HomeFragment extends BaseFragment implements
+        HomeContract.View {
 
     @BindView(R.id.view_pager)
     ViewPager viewPager;
+
     @BindView(R.id.tab_layout)
     SmartTabLayout tabLayout;
-
-    private CategoryViewPagerAdapter pagerAdapter;
 
     @InjectPresenter
     HomeFragmentPresenter presenter;
 
     @BindView(R.id.progress_bar)
     ProgressBar progressBar;
+
+    private CategoryViewPagerAdapter pagerAdapter;
 
     @Override
     protected int getLayout() {
@@ -50,7 +52,6 @@ public class HomeFragment extends BaseFragment implements HomeContract.View {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         presenter.getCategories();
-
     }
 
     @Override
@@ -65,7 +66,12 @@ public class HomeFragment extends BaseFragment implements HomeContract.View {
 
     @Override
     public void hideProgressDialog() {
-        progressBar.setVisibility(View.GONE);
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                progressBar.setVisibility(View.GONE);
+            }
+        });
     }
 
     @Override
@@ -81,10 +87,9 @@ public class HomeFragment extends BaseFragment implements HomeContract.View {
         tabLayout.setViewPager(viewPager);
         tabLayout.setDefaultTabTextColor(Color.CYAN);
         setTabAlpha(0);
-            tabLayout.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        tabLayout.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
             }
 
             @Override
@@ -94,7 +99,6 @@ public class HomeFragment extends BaseFragment implements HomeContract.View {
 
             @Override
             public void onPageScrollStateChanged(int state) {
-
             }
         });
     }

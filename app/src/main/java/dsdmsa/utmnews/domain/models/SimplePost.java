@@ -10,21 +10,21 @@ import android.arch.persistence.room.PrimaryKey;
 public class SimplePost {
 
     @PrimaryKey
-    public Integer id;
+    public int id;
     private String date;
     private String link;
     @Embedded
     private Title title;
     private String imageUrl;
     private String description;
-    private int category;
+    private String category;
     private boolean isBookmarked = false;
 
-    public int getCategory() {
+    public String getCategory() {
         return category;
     }
 
-    public void setCategory(int category) {
+    public void setCategory(String category) {
         this.category = category;
     }
 
@@ -44,11 +44,11 @@ public class SimplePost {
         isBookmarked = bookmarked;
     }
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -87,7 +87,7 @@ public class SimplePost {
     @Override
     public boolean equals(Object obj) {
         if (obj != null) {
-            return id.equals(((SimplePost) obj).id);
+            return id == (((SimplePost) obj).id);
         } else {
             return false;
         }

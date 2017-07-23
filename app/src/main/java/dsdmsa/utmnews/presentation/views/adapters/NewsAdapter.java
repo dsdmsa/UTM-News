@@ -103,7 +103,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
         holder.tvTime.setText(newsList.get(position).getDate());
         holder.tvTitle.setText(newsList.get(position).getTitle().getRendered());
         holder.tvDescription.setText(newsList.get(position).getDescription());
-        holder.tvCategory.setText(getCategory(newsList.get(position).getCategory()));
+        holder.tvCategory.setText(newsList.get(position).getCategory());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -164,17 +164,6 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
         void onShareClick(SimplePost post);
 
         void onBookmark(SimplePost post);
-    }
-
-    private String getCategory(int id) {
-        if (categories != null) {
-            for (Category category : categories) {
-                if (category.getId().equals(id)) {
-                    return category.name;
-                }
-            }
-        }
-        return "Noutati";
     }
 
 }

@@ -28,7 +28,7 @@ public class FragmentNavigation {
         this.fragmentContainerId = fragmentContainerId;
     }
 
-    public void onDestory() {
+    public void onPause() {
         this.fragmentContainerId = -1;
         this.fm = null;
     }
@@ -89,4 +89,13 @@ public class FragmentNavigation {
         return navigationIndex.size();
     }
 
+    public void showLastFragment(){
+        fm.beginTransaction()
+                .show(fragemntMap.get(navigationIndex.get(navigationIndex.size() - 1)))
+                .commit();
+    }
+
+    public Fragment getLastFragment(){
+        return fragemntMap.get(navigationIndex.get(navigationIndex.size() - 1));
+    }
 }

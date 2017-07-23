@@ -21,7 +21,8 @@ import io.reactivex.schedulers.Schedulers;
 
 @InjectViewState
 public class SearchNewsListPresenter extends MvpPresenter<SearchNewsContract.View> implements
-        SearchNewsContract.Presenter, SearchNewsInteractor.Callback {
+        SearchNewsContract.Presenter,
+        SearchNewsInteractor.Callback {
 
     @Inject
     SearchNewsInteractor interactor;

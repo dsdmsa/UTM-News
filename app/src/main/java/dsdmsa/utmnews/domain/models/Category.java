@@ -17,7 +17,7 @@ public class Category implements Parcelable{
     @PrimaryKey
     @SerializedName("id")
     @Expose
-    public Integer id;
+    public int id;
     @SerializedName("count")
     @Expose
     public Integer count;
@@ -60,11 +60,11 @@ public class Category implements Parcelable{
         }
     };
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 

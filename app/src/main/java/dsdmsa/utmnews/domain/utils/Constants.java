@@ -24,4 +24,7 @@ public class Constants {
     public static final int ITEMS_TO_ANIMATE_IN_ADAPTER = 2;
     public static final String IN_INTERNET_AVAIBLE = "inInternetAvaible";
     public static final String DATABASE = "utn_database";
+    public static final int ABOUT_FRAGMENT_ID = -15;
+    public static final int SEARCH_FRAGMENT_ID = -35;
+    public static final int DEBOUNCH_TIMEOUT = 600;
 }

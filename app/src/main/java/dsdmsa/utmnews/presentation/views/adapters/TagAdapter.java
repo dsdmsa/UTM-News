@@ -9,6 +9,8 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import dsdmsa.utmnews.R;
 import dsdmsa.utmnews.domain.models.Tag;
 
@@ -33,7 +35,8 @@ public class TagAdapter extends RecyclerView.Adapter<TagAdapter.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, final int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int pos) {
+        final int position = holder.getAdapterPosition();
         holder.name.setText(tagList.get(position).name);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,11 +56,13 @@ public class TagAdapter extends RecyclerView.Adapter<TagAdapter.ViewHolder> {
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        private final TextView name;
+
+        @BindView(R.id.tv_name)
+        public TextView name;
 
         ViewHolder(View itemView) {
             super(itemView);
-            name = (TextView) itemView.findViewById(R.id.tv_name);
+            ButterKnife.bind(this,itemView);
         }
     }
 

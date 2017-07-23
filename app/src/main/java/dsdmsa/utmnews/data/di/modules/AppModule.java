@@ -17,6 +17,7 @@ import static dsdmsa.utmnews.domain.utils.Constants.UTM_SHARED_PRESFS;
 
 @Module
 public class AppModule {
+
     private App mApp;
 
     public AppModule(App mAApp) {
