@@ -243,7 +243,7 @@ public class Post {
         this.format = format;
     }
 
-    public String getCategory() {
-        return getCategories().get(0).toString();
+    public int getCategory() {
+        return getCategories().get(0);
     }
 }

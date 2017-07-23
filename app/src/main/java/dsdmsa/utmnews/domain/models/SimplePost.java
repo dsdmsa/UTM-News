@@ -17,14 +17,14 @@ public class SimplePost {
     private Title title;
     private String imageUrl;
     private String description;
-    private String category;
+    private int category;
     private boolean isBookmarked = false;
 
-    public String getCategory() {
+    public int getCategory() {
         return category;
     }
 
-    public void setCategory(String category) {
+    public void setCategory(int category) {
         this.category = category;
     }
 

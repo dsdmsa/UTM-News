@@ -68,7 +68,12 @@ public class SearchNewsListPresenter extends MvpPresenter<SearchNewsContract.Vie
         Single.fromCallable(new Callable<String>() {
             @Override
             public String call() throws Exception {
-                appDb.getPostDao().addPost(post);
+                List<SimplePost> simplePosts = appDb.getPostDao().getAll();
+                if (simplePosts.contains(post)) {
+                    appDb.getPostDao().delete(post);
+                } else {
+                    appDb.getPostDao().addPost(post);
+                }
                 return "";
             }
         }).subscribeOn(Schedulers.io())
