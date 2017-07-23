@@ -16,6 +16,9 @@ public interface SimplePostDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void addPosts(List<SimplePost> posts);
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void addPost(SimplePost post);
+
     @Query("SELECT * FROM simplePost")
     LiveData<List<SimplePost>> getAllPosts();
 

@@ -3,66 +3,44 @@ package dsdmsa.utmnews.presentation.presenters;
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 
-import dsdmsa.utmnews.presentation.mvp.MainActivityVP;
+import java.util.List;
 
-/**
- * Created by dsdmsa on 4/8/17.
- */
+import javax.inject.Inject;
+
+import dsdmsa.utmnews.App;
+import dsdmsa.utmnews.data.network.api.UtmApi;
+import dsdmsa.utmnews.domain.models.Post;
+import dsdmsa.utmnews.presentation.mvp.MainActivityVP;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import timber.log.Timber;
+
 @InjectViewState
 public class MainActivityPresenter extends MvpPresenter<MainActivityVP.View>
-        implements MainActivityVP.Presenter{
+        implements MainActivityVP.Presenter {
 
+    @Inject
+    UtmApi utmApi;
+
+    public MainActivityPresenter() {
+        App.getAppComponent().inject(this);
     }
 
-//    private BaseFragment curentFragment;
-//
-//    public MainActivityPresenter() {
-//        addFragment(LatestNewsFragment.newInstance());
-//    }
-//
-//    @Override
-//    public void addFragment(BaseFragment fragment) {
-//        curentFragment = fragment;
-//        getViewState().addFragment(fragment);
-//    }
-//
-//    @Override
-//    public void setTitle(String title) {
-//        getViewState().setTootlbarTitile(title);
-//    }
-//
-//    @Override
-//    public void retry() {
-//        curentFragment.retry();
-//    }
-//
-//    @Override
-//    public void onItemSelected(MenuItem menuItem) {
-//        BaseFragment fragment = null;
-//        switch (menuItem.getItemId()) {
-//            case R.id.menu_categories:
-//                fragment = new CategoryListFragment();
-//                break;
-//            case R.id.menu_tags:
-//                fragment = new TagListFragment();
-//                break;
-//            case R.id.menu_bookmarks:
-//                fragment = new BookmarksFragment();
-//                break;
-//            case R.id.menu_info:
-//                fragment = new AboutFragment();
-//                break;
-//            default:
-//                fragment = new LatestNewsFragment();
-//        }
-//        getViewState().addFragment(fragment);
-//    }
-//
-//    @Override
-//    public void openNetSettings(){
-//        Intent intent = new Intent(ACTION_PICK_WIFI_NETWORK);
-//        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//        App.getAppComponent().getApp().startActivity(intent);
-//    }
+    @Override
+    public void search(String s) {
+        utmApi.getSearchPosts(s, 3, 1).enqueue(new Callback<List<Post>>() {
+            @Override
+            public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
+                Timber.d("succes"+response.body().size());
+            }
 
-//}
+            @Override
+            public void onFailure(Call<List<Post>> call, Throwable t) {
+                Timber.d("error");
+            }
+        });
+    }
+}
+
+

@@ -5,21 +5,23 @@ import com.arellomobile.mvp.MvpView;
 import java.util.List;
 
 import dsdmsa.utmnews.domain.models.SimplePost;
+import dsdmsa.utmnews.domain.models.Tag;
 
 
-public interface NewsContract {
+public interface TagListContract {
     interface View extends MvpView, LoadingView {
-
         void addNewses(List<SimplePost> newses);
 
-        void clearList();
+        void refreshDatas(List<SimplePost> response);
+
+        void setupRecyclerView();
     }
 
     interface Presenter {
-        void getNews(int page);
+        void getCategoryNewses(int page);
 
-        void refreshNewses();
+        void refresh();
 
-        void savePost(SimplePost post);
+        void setTag(Tag tag);
     }
 }

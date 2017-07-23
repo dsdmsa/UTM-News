@@ -17,17 +17,17 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 
-public class NewsInteractor {
+public class SearchNewsInteractor {
 
     private UtmServices services;
 
     @Inject
-    public NewsInteractor(UtmServices services) {
+    public SearchNewsInteractor(UtmServices services) {
         this.services = services;
     }
 
-    public void getNews(int page, int quantity, final Callback callback) {
-        services.getNews(page, quantity, new OnDataLoaded<List<Post>>() {
+    public void getNews(String key, int page, int quantity, final Callback callback) {
+        services.searchposts(key, page, quantity, new OnDataLoaded<List<Post>>() {
             @Override
             public void onSuccess(final List<Post> response) {
 

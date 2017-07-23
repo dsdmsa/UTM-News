@@ -10,50 +10,54 @@ import javax.inject.Inject;
 
 import dsdmsa.utmnews.App;
 import dsdmsa.utmnews.data.db.AppDb;
-import dsdmsa.utmnews.data.interactor.NewsInteractor;
+import dsdmsa.utmnews.data.interactor.SearchNewsInteractor;
 import dsdmsa.utmnews.domain.models.SimplePost;
-import dsdmsa.utmnews.presentation.mvp.NewsContract;
+import dsdmsa.utmnews.domain.utils.Constants;
+import dsdmsa.utmnews.presentation.mvp.SearchNewsContract;
 import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
-import static dsdmsa.utmnews.domain.utils.Constants.ITEMS_PER_PAGE;
-
 
 @InjectViewState
-public class NewsListPresenter extends MvpPresenter<NewsContract.View> implements NewsContract.Presenter, NewsInteractor.Callback {
+public class SearchNewsListPresenter extends MvpPresenter<SearchNewsContract.View> implements
+        SearchNewsContract.Presenter, SearchNewsInteractor.Callback {
 
     @Inject
-    NewsInteractor interactor;
+    SearchNewsInteractor interactor;
 
     @Inject
     AppDb appDb;
+    private String key;
 
-    public NewsListPresenter() {
+    public SearchNewsListPresenter() {
         App.getAppComponent().inject(this);
+    }
+
+    @Override
+    public void setSearchKey(String key) {
+        this.key = key;
     }
 
     @Override
     public void getNews(int page) {
         getViewState().showProgressDialog();
-        interactor.getNews(page, ITEMS_PER_PAGE, this);
+        interactor.getNews(key, page, Constants.ITEMS_PER_PAGE, this);
     }
 
     @Override
     public void refreshNewses() {
         getViewState().showProgressDialog();
-        interactor.getNews(1, ITEMS_PER_PAGE, new NewsInteractor.Callback() {
+        interactor.getNews(key, 1, Constants.ITEMS_PER_PAGE, new SearchNewsInteractor.Callback() {
             @Override
             public void onSuccess(List<SimplePost> response) {
-                getViewState().hideProgressDialog();
                 getViewState().clearList();
-                getViewState().addNewses(response);
+                SearchNewsListPresenter.this.onSuccess(response);
             }
 
             @Override
             public void onError(String errorMsg) {
-                getViewState().hideProgressDialog();
-                getViewState().showInfoMessage(errorMsg);
+                SearchNewsListPresenter.this.onError(errorMsg);
             }
         });
     }

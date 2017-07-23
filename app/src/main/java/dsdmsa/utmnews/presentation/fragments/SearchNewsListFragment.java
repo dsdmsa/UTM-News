@@ -11,22 +11,26 @@ import android.view.View;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
 import java.util.List;
 
 import butterknife.BindView;
 import dsdmsa.utmnews.R;
 import dsdmsa.utmnews.domain.models.SimplePost;
 import dsdmsa.utmnews.domain.utils.Utils;
-import dsdmsa.utmnews.presentation.mvp.NewsContract;
-import dsdmsa.utmnews.presentation.presenters.NewsListPresenter;
+import dsdmsa.utmnews.presentation.mvp.SearchNewsContract;
+import dsdmsa.utmnews.presentation.presenters.SearchNewsListPresenter;
 import dsdmsa.utmnews.presentation.views.ChromeTab;
 import dsdmsa.utmnews.presentation.views.adapters.EndlessRecyclerOnScrollListener;
 import dsdmsa.utmnews.presentation.views.adapters.NewsAdapter;
 import es.dmoral.toasty.Toasty;
+import timber.log.Timber;
 
-public class NewsListFragment extends BaseFragment implements
+public class SearchNewsListFragment extends BaseFragment implements
         SwipeRefreshLayout.OnRefreshListener,
-        NewsContract.View,
+        SearchNewsContract.View,
         NewsAdapter.Listener {
 
     @BindView(R.id.recycle_view)
@@ -35,7 +39,7 @@ public class NewsListFragment extends BaseFragment implements
     SwipeRefreshLayout swipeRefresh;
 
     @InjectPresenter
-    NewsListPresenter presenter;
+    SearchNewsListPresenter presenter;
 
     private NewsAdapter adapter;
     private LinearLayoutManager layoutManager;
@@ -47,7 +51,7 @@ public class NewsListFragment extends BaseFragment implements
 
     @Override
     public String getName() {
-        return "TOATE";
+        return "Search";
     }
 
     @Override
@@ -69,7 +73,6 @@ public class NewsListFragment extends BaseFragment implements
                 presenter.getNews(page);
             }
         });
-        presenter.getNews(1);
     }
 
     @Override
@@ -79,7 +82,12 @@ public class NewsListFragment extends BaseFragment implements
 
     @Override
     public void showProgressDialog() {
-        swipeRefresh.setRefreshing(true);
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                swipeRefresh.setRefreshing(true);
+            }
+        });
     }
 
     @Override
@@ -117,4 +125,22 @@ public class NewsListFragment extends BaseFragment implements
         presenter.savePost(post);
     }
 
+    @Subscribe
+    public void search(String key) {
+        Timber.d("recieved " + key);
+        presenter.setSearchKey(key);
+        presenter.refreshNewses();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
 }

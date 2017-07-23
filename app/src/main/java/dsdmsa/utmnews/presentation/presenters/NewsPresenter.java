@@ -165,7 +165,7 @@ public class NewsPresenter extends MvpPresenter<NewsFragmentVP.View> implements
 //                        getViewState().refreshDatas(simplePosts);
 //                        isFirstPage = false;
 //                    } else {
-//                        getViewState().addNewses(simplePosts);
+//                        getViewState().addTags(simplePosts);
 //                    }
 //                    getViewState().hideProgressDialog();
 //                }

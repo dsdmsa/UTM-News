@@ -1,8 +1,145 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:background="@color/primary"
-              android:orientation="vertical">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/primary_light"
+    android:orientation="vertical">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:text="Selecteaza una din referintele de mai jos"
+        android:textColor="@color/primary_text" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_marginTop="1dp"
+        android:id="@+id/despre_aplcatie"
+        android:layout_height="wrap_content"
+        android:background="@color/divider"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="36dp"
+            android:layout_margin="16dp"
+            android:tint="@color/primary_dark"
+            android:layout_height="36dp"
+            app:srcCompat="@drawable/ic_app" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:text="Despre Aplicatie"
+            android:textColor="@color/primary_text" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_margin="6dp"
+            app:srcCompat="@drawable/ic_next" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:id="@+id/despre_utm"
+        android:layout_marginTop="1dp"
+        android:layout_height="wrap_content"
+        android:background="@color/divider"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="36dp"
+            android:layout_margin="16dp"
+            android:tint="@color/primary_dark"
+            android:layout_height="36dp"
+            app:srcCompat="@drawable/ic_about" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:text="Despre UTM"
+            android:textColor="@color/primary_text" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_margin="6dp"
+            app:srcCompat="@drawable/ic_next" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_marginTop="1dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/termeni"
+        android:background="@color/divider"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="36dp"
+            android:layout_margin="16dp"
+            android:tint="@color/primary_dark"
+            android:layout_height="36dp"
+            app:srcCompat="@drawable/ic_terms" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:text="Terment si conditii"
+            android:textColor="@color/primary_text" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_margin="6dp"
+            app:srcCompat="@drawable/ic_next" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_marginTop="1dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/contacte"
+        android:background="@color/divider"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="36dp"
+            android:layout_margin="16dp"
+            android:tint="@color/primary_dark"
+            android:layout_height="36dp"
+            app:srcCompat="@drawable/ic_contact" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:text="Contacte"
+            android:textColor="@color/primary_text" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_margin="6dp"
+            app:srcCompat="@drawable/ic_next" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_marginTop="1dp"
+        android:background="@color/divider"
+        android:layout_height="match_parent"/>
 </LinearLayout>

@@ -7,7 +7,7 @@ import java.util.List;
 import dsdmsa.utmnews.domain.models.SimplePost;
 
 
-public interface NewsContract {
+public interface SearchNewsContract {
     interface View extends MvpView, LoadingView {
 
         void addNewses(List<SimplePost> newses);
@@ -16,6 +16,9 @@ public interface NewsContract {
     }
 
     interface Presenter {
+
+        void setSearchKey(String key);
+
         void getNews(int page);
 
         void refreshNewses();

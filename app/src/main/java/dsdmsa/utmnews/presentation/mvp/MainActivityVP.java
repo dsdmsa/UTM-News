@@ -10,5 +10,6 @@ public interface MainActivityVP {
 
     interface Presenter {
 
+        void search(String s);
     }
 }

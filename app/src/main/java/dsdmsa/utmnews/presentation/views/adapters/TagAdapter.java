@@ -21,7 +21,7 @@ public class TagAdapter extends RecyclerView.Adapter<TagAdapter.ViewHolder> {
         this.interact = interact;
     }
 
-    public void addNewses(List<Tag> orderDTOs) {
+    public void addTags(List<Tag> orderDTOs) {
         tagList.addAll(orderDTOs);
         notifyDataSetChanged();
     }
@@ -38,7 +38,7 @@ public class TagAdapter extends RecyclerView.Adapter<TagAdapter.ViewHolder> {
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                interact.onTagClicked(tagList.get(position).id);
+                interact.onTagClicked(tagList.get(position));
             }
         });
     }
@@ -62,7 +62,7 @@ public class TagAdapter extends RecyclerView.Adapter<TagAdapter.ViewHolder> {
     }
 
     public interface TagInteract {
-        void onTagClicked(Integer categoryId);
+        void onTagClicked(Tag tag);
     }
 
 }

@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="primary">#2196F3</color>
+    <color name="primary">#2d5c88</color>
     <color name="primary_dark">#2d5c88</color>
     <color name="primary_light">#ffffff</color>
     <color name="accent">#00c4ff</color>
     <color name="primary_text">#000000</color>
     <color name="secondary_text">#757575</color>
+    <color name="search">#6b86a4</color>
     <color name="icons">#919191</color>
     <color name="divider">#f0f0f0</color>
 </resources>

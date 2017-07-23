@@ -1,39 +1,77 @@
 package dsdmsa.utmnews.presentation.fragments;
 
+import android.net.Uri;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.View;
+
+import com.arellomobile.mvp.presenter.InjectPresenter;
 
 import java.util.List;
 
+import butterknife.BindView;
 import dsdmsa.utmnews.R;
 import dsdmsa.utmnews.domain.models.SimplePost;
-import dsdmsa.utmnews.presentation.mvp.NewsFragmentVP;
+import dsdmsa.utmnews.domain.models.Tag;
+import dsdmsa.utmnews.domain.utils.Utils;
+import dsdmsa.utmnews.presentation.mvp.TagListContract;
+import dsdmsa.utmnews.presentation.presenters.TagNewsListPresenter;
+import dsdmsa.utmnews.presentation.views.ChromeTab;
+import dsdmsa.utmnews.presentation.views.adapters.EndlessRecyclerOnScrollListener;
+import dsdmsa.utmnews.presentation.views.adapters.NewsAdapter;
+import es.dmoral.toasty.Toasty;
 
 
 public class TagNewsFragment extends BaseFragment implements
-        NewsFragmentVP.View,
-        SwipeRefreshLayout.OnRefreshListener {
+        TagListContract.View,
+        SwipeRefreshLayout.OnRefreshListener,
+        NewsAdapter.Listener {
 
-//    @InjectPresenter
-//    NewsPresenter presenter;
-//
-//    @BindView(R.id.recycle_view)
-//    RecyclerView recyclerView;
-//
-//    @BindView(R.id.swipe_refresh)
-//    SwipeRefreshLayout refreshLayout;
-//
-//    private NewsAdapter newsAdapter;
-//    private LinearLayoutManager layoutManager;
-//    private EndlessRecyclerOnScrollListener endlessRecyclerOnScrollListener;
-//
-//    public static TagNewsFragment newInstance(int tagId) {
-//        Bundle args = new Bundle();
-//        args.putInt(Constants.TAG_ID, tagId);
-//        TagNewsFragment fragment = new TagNewsFragment();
-//        fragment.setArguments(args);
-//        return fragment;
-//    }
-//
+    public static final String TAG_ID = "TAG_ID";
+    @InjectPresenter
+    TagNewsListPresenter presenter;
+    @BindView(R.id.recycle_view)
+    RecyclerView recycleView;
+    @BindView(R.id.swipe_refresh)
+    SwipeRefreshLayout swipeRefresh;
+
+    private NewsAdapter adapter;
+    private LinearLayoutManager layoutManager;
+    private Tag tag;
+
+    public void setTag(Tag tag) {
+        this.tag = tag;
+    }
+
+    public static TagNewsFragment newInstance(Tag tag) {
+        Bundle args = new Bundle();
+        args.putParcelable(TAG_ID, tag);
+        TagNewsFragment fragment = new TagNewsFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        tag = (Tag) getArguments().getParcelable(TAG_ID);
+        presenter.setTag(tag);
+
+        adapter = new NewsAdapter(this);
+        layoutManager = new LinearLayoutManager(getContext());
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        swipeRefresh.setOnRefreshListener(this);
+        setupRecyclerView();
+        presenter.refresh();
+    }
+
     @Override
     protected int getLayout() {
         return R.layout.fragment_news_list;
@@ -46,146 +84,59 @@ public class TagNewsFragment extends BaseFragment implements
 
     @Override
     public void onRefresh() {
-
+        presenter.refresh();
     }
 
     @Override
     public void showProgressDialog() {
-
+        swipeRefresh.setRefreshing(true);
     }
 
     @Override
     public void hideProgressDialog() {
-
+        swipeRefresh.setRefreshing(false);
     }
 
     @Override
     public void showInfoMessage(String errorMsg) {
-
+        Toasty.error(getContext(), errorMsg).show();
     }
 
     @Override
     public void addNewses(List<SimplePost> newses) {
-
+        adapter.addNewses(newses);
     }
 
     @Override
     public void refreshDatas(List<SimplePost> response) {
-
+        adapter.clearData();
+        adapter.addNewses(response);
     }
 
     @Override
     public void setupRecyclerView() {
+        recycleView.setLayoutManager(layoutManager);
+        recycleView.setAdapter(adapter);
+        recycleView.addOnScrollListener(new EndlessRecyclerOnScrollListener(layoutManager) {
+            @Override
+            public void onLoadMore(int current_page) {
+                presenter.getCategoryNewses(current_page);
+            }
+        });
+    }
+
+    @Override
+    public void onPostClick(SimplePost post) {
+        new ChromeTab(getActivity(), post.getLink()).openUri(getActivity(), Uri.parse(post.getLink()));
+    }
+
+    @Override
+    public void onShareClick(SimplePost post) {
+        startActivity(Utils.getShareIntent(post.getLink()));
+    }
+
+    @Override
+    public void onBookmark(SimplePost post) {
 
     }
-//
-//    @Override
-//    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-//        super.onViewCreated(view, savedInstanceState);
-//        refreshLayout.setOnRefreshListener(this);
-//        layoutManager = new LinearLayoutManager(getContext());
-//        endlessRecyclerOnScrollListener = new EndlessRecyclerOnScrollListener(layoutManager) {
-//            @Override
-//            public void onLoadMore(int currentPage) {
-//                presenter.getNewsByTag(
-//                        getArguments().getInt(Constants.TAG_ID),
-//                        Constants.ITEMS_PER_PAGE,
-//                        currentPage
-//                );
-//            }
-//        };
-//        newsAdapter = new NewsAdapter(this);
-//        setupRecyclerView();
-//        presenter.getNewsByTag(
-//                getArguments().getInt(Constants.TAG_ID),
-//                Constants.ITEMS_PER_PAGE,
-//                Constants.INITIAL_PAGE
-//        );
-//    }
-//
-//    @Override
-//    public  void setupRecyclerView() {
-//        recyclerView.setLayoutManager(layoutManager);
-//        recyclerView.setHasFixedSize(true);
-//        recyclerView.setAdapter(newsAdapter);
-//        recyclerView.addOnScrollListener(endlessRecyclerOnScrollListener);
-//    }
-//
-//    @Override
-//    public void showProgressDialog() {
-//        refreshLayout.setRefreshing(true);
-//    }
-//
-//    @Override
-//    public void hideProgressDialog() {
-//        refreshLayout.setRefreshing(false);
-//    }
-//
-//    @Override
-//    public void showInfoMessage(String errorMsg) {
-//        Toasty.info(getContext(), errorMsg, Toast.LENGTH_SHORT).show();
-//    }
-//
-//    @Override
-//    public void onTagClicked(String url) {
-//        Intent sendIntent = new Intent();
-//        sendIntent.setAction(Intent.ACTION_SEND);
-//        sendIntent.putExtra(Intent.EXTRA_TEXT, url);
-//        sendIntent.setType(Constants.TEXT_PLAIN);
-//        startActivity(Intent.createChooser(sendIntent, getString(R.string.share_title)));
-//    }
-//
-//    @Override
-//    public void onBookmarkClick(SimplePost post, int position) {
-//        if (post.isBookmarked()) {
-//            post.setBookmarked(false);
-//            presenter.removeBookmarkPost(post);
-//            newsAdapter.notifyItemChanged(position);
-//        } else {
-//            post.setBookmarked(true);
-//            presenter.bookmarkPost(post);
-//            newsAdapter.notifyItemChanged(position);
-//        }
-//    }
-//
-//    @Override
-//    public void onDetailsClick(SimplePost post) {
-//        new ChromeTab(getActivity(), post.getLink());
-//    }
-//
-//    @Override
-//    public void onRefresh() {
-//        presenter.getNewsByTag(
-//                getArguments().getInt(Constants.TAG_ID),
-//                Constants.ITEMS_PER_PAGE,
-//                Constants.INITIAL_PAGE
-//        );
-//    }
-//
-//    @Override
-//    public String getTitle() {
-//        return App.getAppComponent().getApp().getString(R.string.tag_sewses_title);
-//    }
-//
-//    @Override
-//    public void retry() {
-//        presenter.getNewsByTag(
-//                getArguments().getInt(Constants.TAG_ID),
-//                Constants.ITEMS_PER_PAGE,
-//                Constants.INITIAL_PAGE
-//        );
-//    }
-//
-//    @Override
-//    public void addNewses(List<SimplePost> newses) {
-//        newsAdapter.addNewses(newses);
-//        newsAdapter.notifyDataSetChanged();
-//    }
-//
-//    @Override
-//    public void refreshDatas(List<SimplePost> response) {
-//        setupRecyclerView();
-//        newsAdapter.clearData();
-//        newsAdapter.addNewses(response);
-//    }
 }

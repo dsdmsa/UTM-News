@@ -8,40 +8,41 @@ import java.util.List;
 import javax.inject.Inject;
 
 import dsdmsa.utmnews.App;
-import dsdmsa.utmnews.data.interactor.CategoryNewsInteractor;
-import dsdmsa.utmnews.domain.models.Category;
+import dsdmsa.utmnews.data.interactor.TagsNewsInteractor;
 import dsdmsa.utmnews.domain.models.SimplePost;
-import dsdmsa.utmnews.presentation.mvp.CategoryContract;
+import dsdmsa.utmnews.domain.models.Tag;
+import dsdmsa.utmnews.presentation.mvp.TagListContract;
 
 
 @InjectViewState
-public class CategoryNewsListPresenter extends MvpPresenter<CategoryContract.View> implements
-        CategoryContract.Presenter,
-        CategoryNewsInteractor.Callback {
+public class TagNewsListPresenter extends MvpPresenter<TagListContract.View> implements
+        TagListContract.Presenter,
+        TagsNewsInteractor.Callback {
 
     @Inject
-    CategoryNewsInteractor categoryInteractor;
-    private Category category;
+    TagsNewsInteractor interactor;
 
-    public CategoryNewsListPresenter() {
+    private Tag tag;
+
+    public TagNewsListPresenter() {
         App.getAppComponent().inject(this);
     }
 
     @Override
     public void getCategoryNewses(int page) {
         getViewState().showProgressDialog();
-        categoryInteractor.getCategories(category.getId(), page, this);
+        interactor.getNews(tag.id, page, this);
     }
 
     @Override
     public void refresh() {
         getViewState().showProgressDialog();
-        categoryInteractor.getCategories(category.getId(), 1, this);
+        interactor.getNews(tag.id, 1, this);
     }
 
     @Override
-    public void setCategory(Category category) {
-        this.category = category;
+    public void setTag(Tag tag) {
+        this.tag = tag;
     }
 
     @Override

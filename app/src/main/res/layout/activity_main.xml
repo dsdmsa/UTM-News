@@ -16,6 +16,7 @@
 
         <FrameLayout
             android:layout_width="match_parent"
+            android:animateLayoutChanges="true"
             android:layout_height="match_parent">
 
             <ImageView
@@ -26,11 +27,32 @@
 
 
             <ImageView
+                android:id="@+id/btn_about"
                 android:layout_width="34dp"
                 android:layout_height="34dp"
                 android:layout_gravity="right|center_vertical"
                 android:layout_marginRight="24dp"
                 app:srcCompat="@drawable/ic_about" />
+
+            <EditText
+                android:id="@+id/et_search"
+                android:layout_width="match_parent"
+                android:background="@color/primary_dark"
+                android:textColor="@color/divider"
+                android:textColorHint="@color/search"
+                android:hint="Testeaza cuvintul cheie"
+                android:layout_height="match_parent"
+                android:visibility="gone" />
+
+            <ImageView
+                android:layout_width="34dp"
+                android:layout_margin="16dp"
+                android:id="@+id/btn_search"
+                android:tint="@color/search"
+                android:visibility="gone"
+                app:srcCompat="@drawable/ic_search"
+                android:layout_gravity="right|center_vertical"
+                android:layout_height="34dp" />
 
         </FrameLayout>
     </android.support.v7.widget.Toolbar>
@@ -45,8 +67,8 @@
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/navigation"
         android:layout_width="match_parent"
-        android:layout_gravity="start"
         android:layout_height="wrap_content"
+        android:layout_gravity="start"
         android:background="@color/primary_light"
         app:menu="@menu/menu" />
 

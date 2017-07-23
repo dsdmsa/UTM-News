@@ -12,15 +12,15 @@ import dsdmsa.utmnews.presentation.activityes.MainActivity;
 import dsdmsa.utmnews.presentation.activityes.SplashScreenActivity;
 import dsdmsa.utmnews.presentation.fragments.BookmarksFragment;
 import dsdmsa.utmnews.presentation.fragments.CategoryNewsFragment;
-import dsdmsa.utmnews.presentation.fragments.LatestNewsFragment;
-import dsdmsa.utmnews.presentation.fragments.SearchFragment;
-import dsdmsa.utmnews.presentation.fragments.TagNewsFragment;
 import dsdmsa.utmnews.presentation.presenters.BookmarksFragmentPresenter;
 import dsdmsa.utmnews.presentation.presenters.BookmarksPresenter;
 import dsdmsa.utmnews.presentation.presenters.CategoryNewsListPresenter;
 import dsdmsa.utmnews.presentation.presenters.HomeFragmentPresenter;
+import dsdmsa.utmnews.presentation.presenters.MainActivityPresenter;
 import dsdmsa.utmnews.presentation.presenters.NewsListPresenter;
 import dsdmsa.utmnews.presentation.presenters.NewsPresenter;
+import dsdmsa.utmnews.presentation.presenters.SearchNewsListPresenter;
+import dsdmsa.utmnews.presentation.presenters.TagNewsListPresenter;
 import dsdmsa.utmnews.presentation.presenters.TagPresenter;
 import dsdmsa.utmnews.presentation.views.adapters.NewsAdapter;
 
@@ -36,8 +36,6 @@ public interface AppComponent {
 
     void inject(MainActivity __);
 
-    void inject(LatestNewsFragment __);
-
     void inject(UtmServices __);
 
     void inject(NewsPresenter __);
@@ -52,10 +50,6 @@ public interface AppComponent {
 
     void inject(CategoryNewsFragment __);
 
-    void inject(SearchFragment __);
-
-    void inject(TagNewsFragment __);
-
     void inject(NewsListPresenter newsListPresenter);
 
     void inject(HomeFragmentPresenter homeFragmentPresenter);
@@ -63,4 +57,10 @@ public interface AppComponent {
     void inject(CategoryNewsListPresenter categoryNewsListPresenter);
 
     void inject(BookmarksPresenter bookmarksPresenter);
+
+    void inject(TagNewsListPresenter tagNewsListPresenter);
+
+    void inject(MainActivityPresenter mainActivityPresenter);
+
+    void inject(SearchNewsListPresenter searchNewsListPresenter);
 }

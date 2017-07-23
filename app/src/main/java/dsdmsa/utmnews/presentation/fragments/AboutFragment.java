@@ -1,19 +1,21 @@
 package dsdmsa.utmnews.presentation.fragments;
 
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.view.View;
+import android.widget.LinearLayout;
 
+import butterknife.BindView;
 import dsdmsa.utmnews.R;
 
 
 public class AboutFragment extends BaseFragment {
 
-//    @BindView(R.id.app_name)
-//    TextView appNameTextView;
-//
-//    @BindView(R.id.app_version)
-//    TextView appVersionTextView;
+    @BindView(R.id.despre_aplcatie)
+    LinearLayout despreAplcatie;
+    @BindView(R.id.despre_utm)
+    LinearLayout despreUtm;
+    @BindView(R.id.termeni)
+    LinearLayout termeni;
+    @BindView(R.id.contacte)
+    LinearLayout contacte;
 
     @Override
     protected int getLayout() {
@@ -23,15 +25,6 @@ public class AboutFragment extends BaseFragment {
     @Override
     public String getName() {
         return "";
-    }
-
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-//        appNameTextView.setText(getString(R.string.about_name) + getString(R.string.app_name));
-//        appVersionTextView.setText(getString(R.string.about_version) + BuildConfig.VERSION_NAME);
-
     }
 
 }
