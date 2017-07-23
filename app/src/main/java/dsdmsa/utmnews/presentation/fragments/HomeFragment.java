@@ -97,9 +97,6 @@ public class HomeFragment extends BaseFragment implements HomeContract.View {
 
             }
         });
-//        tabLayout.setPivotX(0.15f);
-
-//        tabLayout.setDefaultTabTextColor(new ColorStateList());
     }
 
     private void setTabAlpha(int position) {

@@ -83,4 +83,13 @@ public class SimplePost {
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj != null) {
+            return id.equals(((SimplePost) obj).id);
+        } else {
+            return false;
+        }
+    }
 }

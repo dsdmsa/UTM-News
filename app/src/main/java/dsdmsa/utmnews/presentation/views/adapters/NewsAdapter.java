@@ -1,5 +1,9 @@
 package dsdmsa.utmnews.presentation.views.adapters;
 
+import android.arch.lifecycle.Observer;
+import android.content.Context;
+import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +18,9 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import dsdmsa.utmnews.App;
 import dsdmsa.utmnews.R;
+import dsdmsa.utmnews.data.db.AppDb;
 import dsdmsa.utmnews.domain.models.SimplePost;
 
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> {
@@ -22,8 +28,24 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
     private List<SimplePost> newsList = new ArrayList<>();
     private Listener listener;
 
+    private Context mContext = App.getAppComponent().getApp();
+    protected AppDb appDb = App.getAppComponent().getAppDb();
+
     public NewsAdapter(Listener listener) {
         this.listener = listener;
+
+        appDb.getPostDao().getAllPosts().observeForever(new Observer<List<SimplePost>>() {
+            @Override
+            public void onChanged(@Nullable List<SimplePost> simplePosts) {
+                for (int i = 0; i < newsList.size(); i++) {
+                    if (simplePosts.contains(newsList.get(i))){
+                        newsList.get(i).setBookmarked(true);
+                        notifyItemChanged(i);
+                    }
+                }
+            }
+        });
+
     }
 
     public void addNewses(List<SimplePost> orderDTOs) {
@@ -47,6 +69,12 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
                 .centerCrop()
                 .into(holder.image);
 
+        if (newsList.get(position).isBookmarked()) {
+            holder.ivBookmark.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.ic_bookmarcs));
+        } else {
+            holder.ivBookmark.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.ic_bookmarcs_white));
+        }
+
         holder.tvTime.setText(newsList.get(position).getDate());
         holder.tvTitle.setText(newsList.get(position).getTitle().getRendered());
         holder.tvDescription.setText(newsList.get(position).getDescription());
@@ -67,6 +95,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
             @Override
             public void onClick(View view) {
                 listener.onBookmark(newsList.get(position));
+                notifyItemChanged(position);
             }
         });
     }
@@ -105,7 +134,9 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
 
     public interface Listener {
         void onPostClick(SimplePost post);
+
         void onShareClick(SimplePost post);
+
         void onBookmark(SimplePost post);
     }
 

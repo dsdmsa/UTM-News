@@ -5,9 +5,11 @@ import android.content.SharedPreferences;
 import javax.inject.Singleton;
 
 import dagger.Component;
+import dsdmsa.utmnews.data.db.AppDb;
 import dsdmsa.utmnews.data.di.modules.AppModule;
 import dsdmsa.utmnews.data.di.modules.NetworkModule;
 import dsdmsa.utmnews.data.network.services.UtmServices;
+import dsdmsa.utmnews.domain.utils.SimplePostAdapter;
 import dsdmsa.utmnews.presentation.activityes.MainActivity;
 import dsdmsa.utmnews.presentation.activityes.SplashScreenActivity;
 import dsdmsa.utmnews.presentation.fragments.BookmarksFragment;
@@ -22,7 +24,6 @@ import dsdmsa.utmnews.presentation.presenters.NewsPresenter;
 import dsdmsa.utmnews.presentation.presenters.SearchNewsListPresenter;
 import dsdmsa.utmnews.presentation.presenters.TagNewsListPresenter;
 import dsdmsa.utmnews.presentation.presenters.TagPresenter;
-import dsdmsa.utmnews.presentation.views.adapters.NewsAdapter;
 
 @Singleton
 @Component(modules = {AppModule.class, NetworkModule.class})
@@ -32,6 +33,8 @@ public interface AppComponent {
 
     App getApp();
 
+    AppDb getAppDb();
+
     void inject(SplashScreenActivity __);
 
     void inject(MainActivity __);
@@ -39,8 +42,6 @@ public interface AppComponent {
     void inject(UtmServices __);
 
     void inject(NewsPresenter __);
-
-    void inject(NewsAdapter __);
 
     void inject(TagPresenter __);
 
@@ -63,4 +64,6 @@ public interface AppComponent {
     void inject(MainActivityPresenter mainActivityPresenter);
 
     void inject(SearchNewsListPresenter searchNewsListPresenter);
+
+    void inject(SimplePostAdapter simplePostAdapter);
 }

@@ -106,7 +106,7 @@ public class BookmarksFragment extends BaseFragment implements
 
     @Override
     public void onBookmark(SimplePost post) {
-
+        presenter.bookmark(post);
     }
 
 }

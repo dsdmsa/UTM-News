@@ -19,5 +19,6 @@ public interface BookmarsContract {
 
         void refreshNewses();
 
+        void bookmark(SimplePost post);
     }
 }

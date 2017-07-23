@@ -10,8 +10,8 @@ public class SimplePostAdapter {
     }
 
     public static SimplePost getSimplePost(Post post) {
+//        AppDb appDb = App.getAppComponent().getAppDb();
         SimplePost simplePost = new SimplePost();
-        simplePost.setBookmarked(false);
         simplePost.setDate(post.getDate());
         simplePost.setDescription(post.getContent().getDescription());
         simplePost.setId(post.getId());
@@ -19,6 +19,7 @@ public class SimplePostAdapter {
         simplePost.setLink(post.getLink());
         simplePost.setTitle(post.getTitle());
         simplePost.setCategory(post.getCategory());
+        simplePost.setBookmarked(false);
         return simplePost;
     }
 }

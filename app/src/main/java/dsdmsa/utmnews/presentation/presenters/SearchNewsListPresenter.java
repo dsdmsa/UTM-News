@@ -28,6 +28,7 @@ public class SearchNewsListPresenter extends MvpPresenter<SearchNewsContract.Vie
 
     @Inject
     AppDb appDb;
+
     private String key;
 
     public SearchNewsListPresenter() {
@@ -63,7 +64,7 @@ public class SearchNewsListPresenter extends MvpPresenter<SearchNewsContract.Vie
     }
 
     @Override
-    public void savePost(final SimplePost post) {
+    public void bookmark(final SimplePost post) {
         Single.fromCallable(new Callable<String>() {
             @Override
             public String call() throws Exception {

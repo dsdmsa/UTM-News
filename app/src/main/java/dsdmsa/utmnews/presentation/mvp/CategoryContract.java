@@ -23,5 +23,7 @@ public interface CategoryContract {
         void refresh();
 
         void setCategory(Category category);
+
+        void bookmark(SimplePost post);
     }
 }

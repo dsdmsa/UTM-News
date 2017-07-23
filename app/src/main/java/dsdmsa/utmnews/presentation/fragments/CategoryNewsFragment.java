@@ -135,6 +135,6 @@ public class CategoryNewsFragment extends BaseFragment implements
 
     @Override
     public void onBookmark(SimplePost post) {
-
+        presenter.bookmark(post);
     }
 }

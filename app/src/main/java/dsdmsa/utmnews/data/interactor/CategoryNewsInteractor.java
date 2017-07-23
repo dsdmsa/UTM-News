@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import dsdmsa.utmnews.data.db.AppDb;
 import dsdmsa.utmnews.data.network.OnDataLoaded;
 import dsdmsa.utmnews.data.network.services.UtmServices;
 import dsdmsa.utmnews.domain.models.Post;
@@ -16,10 +17,12 @@ import dsdmsa.utmnews.domain.utils.SimplePostAdapter;
 public class CategoryNewsInteractor {
 
     private UtmServices services;
+    private AppDb appDb;
 
     @Inject
-    public CategoryNewsInteractor(UtmServices services) {
+    public CategoryNewsInteractor(UtmServices services, AppDb appDb) {
         this.services = services;
+        this.appDb = appDb;
     }
 
     public void getCategories(int categoryId, int page, final Callback callback) {
@@ -27,8 +30,13 @@ public class CategoryNewsInteractor {
             @Override
             public void onSuccess(List<Post> response) {
                 List<SimplePost> simplePosts = new ArrayList<>();
+                List<SimplePost> fromDb = appDb.getPostDao().getAllPosts().getValue();
                 for (Post post : response) {
-                    simplePosts.add(SimplePostAdapter.getSimplePost(post));
+                    SimplePost simplePost = SimplePostAdapter.getSimplePost(post);
+                    if (fromDb != null && fromDb.contains(simplePost)) {
+                        simplePost.setBookmarked(true);
+                    }
+                    simplePosts.add(simplePost);
                 }
                 callback.onSuccess(simplePosts);
             }

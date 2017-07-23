@@ -23,6 +23,6 @@ public interface SearchNewsContract {
 
         void refreshNewses();
 
-        void savePost(SimplePost post);
+        void bookmark(SimplePost post);
     }
 }

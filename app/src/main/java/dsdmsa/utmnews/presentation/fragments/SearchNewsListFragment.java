@@ -122,7 +122,7 @@ public class SearchNewsListFragment extends BaseFragment implements
 
     @Override
     public void onBookmark(SimplePost post) {
-        presenter.savePost(post);
+        presenter.bookmark(post);
     }
 
     @Subscribe

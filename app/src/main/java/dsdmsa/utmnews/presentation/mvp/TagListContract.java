@@ -23,5 +23,7 @@ public interface TagListContract {
         void refresh();
 
         void setTag(Tag tag);
+
+        void bookmark(SimplePost post);
     }
 }

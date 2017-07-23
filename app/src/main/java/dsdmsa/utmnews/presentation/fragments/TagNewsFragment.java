@@ -137,6 +137,6 @@ public class TagNewsFragment extends BaseFragment implements
 
     @Override
     public void onBookmark(SimplePost post) {
-
+        presenter.bookmark(post);
     }
 }
