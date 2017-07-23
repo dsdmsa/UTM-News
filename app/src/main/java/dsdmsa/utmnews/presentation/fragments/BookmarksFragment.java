@@ -96,7 +96,7 @@ public class BookmarksFragment extends BaseFragment implements
 
     @Override
     public void onPostClick(SimplePost post) {
-        new ChromeTab(getActivity(), post.getLink()).openUri(getActivity(), Uri.parse(post.getLink()));
+        new ChromeTab(getActivity(), post.getLink());
     }
 
     @Override

@@ -40,8 +40,10 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
                 for (int i = 0; i < newsList.size(); i++) {
                     if (simplePosts.contains(newsList.get(i))){
                         newsList.get(i).setBookmarked(true);
-                        notifyItemChanged(i);
+                    }else {
+                        newsList.get(i).setBookmarked(false);
                     }
+                    notifyItemChanged(i);
                 }
             }
         });

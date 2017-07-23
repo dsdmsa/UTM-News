@@ -1,7 +1,6 @@
 package dsdmsa.utmnews.presentation.fragments;
 
 
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -104,7 +103,7 @@ public class NewsListFragment extends BaseFragment implements
 
     @Override
     public void onPostClick(SimplePost post) {
-        new ChromeTab(getActivity(), post.getLink()).openUri(getActivity(), Uri.parse(post.getLink()));
+        new ChromeTab(getActivity(), post.getLink());
     }
 
     @Override

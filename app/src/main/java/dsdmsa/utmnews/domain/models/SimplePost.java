@@ -10,7 +10,7 @@ import android.arch.persistence.room.PrimaryKey;
 public class SimplePost {
 
     @PrimaryKey
-    protected Integer id;
+    public Integer id;
     private String date;
     private String link;
     @Embedded

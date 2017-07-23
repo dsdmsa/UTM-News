@@ -21,7 +21,7 @@ import io.reactivex.schedulers.Schedulers;
 
 
 @InjectViewState
-public class BookmarksPresenter extends MvpPresenter<BookmarsContract.View> implements BookmarsContract.Presenter{
+public class BookmarksPresenter extends MvpPresenter<BookmarsContract.View> implements BookmarsContract.Presenter {
 
     @Inject
     AppDb appDb;
@@ -47,7 +47,12 @@ public class BookmarksPresenter extends MvpPresenter<BookmarsContract.View> impl
         Single.fromCallable(new Callable<String>() {
             @Override
             public String call() throws Exception {
-                appDb.getPostDao().addPost(post);
+                List<SimplePost> posts = appDb.getPostDao().getAll();
+                if (posts.contains(post)) {
+                    appDb.getPostDao().delete(post);
+                } else {
+                    appDb.getPostDao().addPost(post);
+                }
                 return "";
             }
         }).subscribeOn(Schedulers.io())
