@@ -80,11 +80,7 @@ public class HomeFragment extends BaseFragment implements HomeContract.View {
         viewPager.setAdapter(pagerAdapter);
         tabLayout.setViewPager(viewPager);
         tabLayout.setDefaultTabTextColor(Color.CYAN);
-        for (int i = 0; i < pagerAdapter.getCount(); i++) {
-            float alp = Math.abs(0 - i);
-            alp = 1 - alp / 2.5f;
-            tabLayout.getTabAt(i).setAlpha(alp);
-        }
+        setTabAlpha(0);
             tabLayout.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -93,11 +89,7 @@ public class HomeFragment extends BaseFragment implements HomeContract.View {
 
             @Override
             public void onPageSelected(int position) {
-                for (int i = 0; i < pagerAdapter.getCount(); i++) {
-                    float alp = Math.abs(position - i);
-                    alp = 1 - alp / 2.5f;
-                    tabLayout.getTabAt(i).setAlpha(alp);
-                }
+                setTabAlpha(position);
             }
 
             @Override
@@ -108,6 +100,17 @@ public class HomeFragment extends BaseFragment implements HomeContract.View {
 //        tabLayout.setPivotX(0.15f);
 
 //        tabLayout.setDefaultTabTextColor(new ColorStateList());
+    }
+
+    private void setTabAlpha(int position) {
+        for (int i = 0; i < pagerAdapter.getCount(); i++) {
+            float alp = Math.abs(position - i);
+            alp = 1 - alp / 2.5f;
+            Timber.d("alpha " + alp);
+            if (alp < 0f)
+                alp = 0.1f;
+            tabLayout.getTabAt(i).setAlpha(alp);
+        }
     }
 
 }

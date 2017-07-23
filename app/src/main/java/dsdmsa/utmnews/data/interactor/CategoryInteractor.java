@@ -13,6 +13,7 @@ import dsdmsa.utmnews.domain.models.Category;
 import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import timber.log.Timber;
 
 public class CategoryInteractor {
 
@@ -31,7 +32,8 @@ public class CategoryInteractor {
             @Override
             public String call() throws Exception {
                 List<Category> categories = appDb.getCategoryDao().getAllCategories();
-                if (categories != null) {
+                if (!categories.isEmpty()) {
+                    Timber.d("category not null");
                     callback.onCategoryLoaded(categories);
                     services.getCategories(new OnDataLoaded<List<Category>>() {
                         @Override
@@ -55,21 +57,26 @@ public class CategoryInteractor {
                         }
                     });
                 } else {
+                    Timber.d("categorys al null");
                     services.getCategories(new OnDataLoaded<List<Category>>() {
                         @Override
                         public void onSuccess(final List<Category> response) {
                             Single.fromCallable(new Callable<String>() {
                                 @Override
                                 public String call() throws Exception {
-                                    if (response != null)
+                                    if (response != null) {
                                         appDb.getCategoryDao().addCategories(response);
+                                        callback.onCategoryLoaded(response);
+                                    }else {
+                                        callback.onError("error");
+                                    }
                                     return "";
                                 }
                             })
                                     .subscribeOn(Schedulers.io())
                                     .observeOn(AndroidSchedulers.mainThread())
                                     .subscribe();
-                            callback.onCategoryLoaded(response);
+
                         }
 
                         @Override

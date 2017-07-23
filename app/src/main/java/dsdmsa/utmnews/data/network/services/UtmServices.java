@@ -155,7 +155,8 @@ public class UtmServices {
             api.getSearchPosts(kay, pageItems, page).enqueue(new Callback<List<Post>>() {
                 @Override
                 public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
-                    if (response.body().size() > 0) {
+
+                    if (response.body() != null && !response.body().isEmpty()) {
                         dataLoaded.onSuccess(response.body());
                     } else {
                         dataLoaded.onError(App.getAppComponent().getApp().getString(R.string.no_mer_data_info));

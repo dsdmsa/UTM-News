@@ -89,12 +89,15 @@ public class MainActivity extends BaseActivity implements
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.menu_home:
+                        hideSearch();
                         fragmentNavigation.showFragment(R.id.menu_home, new HomeFragment());
                         break;
                     case R.id.menu_tags:
+                        hideSearch();
                         fragmentNavigation.showFragment(R.id.menu_tags, new TagListFragment());
                         break;
                     case R.id.menu_bookmarks:
+                        hideSearch();
                         fragmentNavigation.showFragment(R.id.menu_bookmarks, new BookmarksFragment());
                         break;
                     case R.id.menu_search:
@@ -186,6 +189,15 @@ public class MainActivity extends BaseActivity implements
             btnSearch.setVisibility(View.VISIBLE);
             etSearch.requestFocus();
             openFragment(new SearchNewsListFragment(), -35);
+        }
+    }
+
+    private void hideSearch(){
+        if (etSearch.getVisibility() == View.VISIBLE) {
+            etSearch.setVisibility(View.GONE);
+            btnSearch.setVisibility(View.GONE);
+            etSearch.clearFocus();
+            navigation.setSelectedItemId(fragmentNavigation.bakPressed());
         }
     }
 
