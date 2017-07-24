@@ -29,4 +29,5 @@
     <string name="about_name">Name :</string>
     <string name="about_version">Version :</string>
     <string name="search_hint">Testează cuvântul cheie</string>
+    <string name="empty_list_warn">Lista este goală</string>
 </resources>

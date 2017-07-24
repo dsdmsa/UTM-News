@@ -1,5 +1,7 @@
 package dsdmsa.utmnews.presentation.presenters;
 
+import android.content.Context;
+
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 
@@ -8,6 +10,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import dsdmsa.utmnews.App;
+import dsdmsa.utmnews.R;
 import dsdmsa.utmnews.data.db.AppDb;
 import dsdmsa.utmnews.domain.models.SimplePost;
 import dsdmsa.utmnews.presentation.mvp.BookmarsContract;
@@ -23,11 +26,17 @@ public class BookmarksPresenter extends MvpPresenter<BookmarsContract.View> impl
     @Inject
     AppDb appDb;
 
+    private Context context = App.getAppComponent().getApp();
+
     public BookmarksPresenter() {
         App.getAppComponent().inject(this);
         appDb.getPostDao().getAllPosts().observeForever(simplePosts -> {
             getViewState().clearList();
-            getViewState().addNewses(simplePosts);
+            if (simplePosts != null && simplePosts.isEmpty()) {
+                getViewState().showInfoMessage(context.getString(R.string.empty_list_warn));
+            } else {
+                getViewState().addNewses(simplePosts);
+            }
         });
     }
 

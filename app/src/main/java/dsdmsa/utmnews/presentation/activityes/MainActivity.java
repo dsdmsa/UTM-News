@@ -127,6 +127,7 @@ public class MainActivity extends BaseActivity implements
                     search();
                     break;
             }
+            setToolbarTitle("");
             return true;
         });
 
@@ -147,6 +148,7 @@ public class MainActivity extends BaseActivity implements
 
     @Override
     public void onBackPressed() {
+        setToolbarTitle("");
         if (fragmentNavigation.getSize() == 1) {
             if (mBackPressed + TIME_INTERVAL < System.currentTimeMillis()) {
                 Toasty.info(this, getString(R.string.tab_again_exit_info), Toast.LENGTH_SHORT).show();
@@ -201,6 +203,10 @@ public class MainActivity extends BaseActivity implements
     @OnClick(R.id.et_search)
     public void onSearchViewClicked() {
         teleprinter.showKeyboard(etSearch);
+    }
+
+    public void setToolbarTitle(String title) {
+        tabTitle.setText(title);
     }
 }
 

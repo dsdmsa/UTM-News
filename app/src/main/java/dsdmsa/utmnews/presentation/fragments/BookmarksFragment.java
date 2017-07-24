@@ -1,7 +1,6 @@
 package dsdmsa.utmnews.presentation.fragments;
 
 
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -81,7 +80,8 @@ public class BookmarksFragment extends BaseFragment implements
 
     @Override
     public void showInfoMessage(String errorMsg) {
-        Toasty.error(getContext(), errorMsg).show();
+        Toasty.info(getContext(),errorMsg).show();
+//        Toasty.error(getContext(), errorMsg).show();
     }
 
     @Override

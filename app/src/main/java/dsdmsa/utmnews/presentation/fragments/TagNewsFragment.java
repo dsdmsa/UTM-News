@@ -16,12 +16,12 @@ import dsdmsa.utmnews.R;
 import dsdmsa.utmnews.domain.models.SimplePost;
 import dsdmsa.utmnews.domain.models.Tag;
 import dsdmsa.utmnews.domain.utils.Utils;
+import dsdmsa.utmnews.presentation.activityes.MainActivity;
 import dsdmsa.utmnews.presentation.mvp.TagListContract;
 import dsdmsa.utmnews.presentation.presenters.TagNewsListPresenter;
 import dsdmsa.utmnews.presentation.views.ChromeTab;
 import dsdmsa.utmnews.presentation.views.adapters.EndlessRecyclerOnScrollListener;
 import dsdmsa.utmnews.presentation.views.adapters.NewsAdapter;
-import es.dmoral.toasty.Toasty;
 
 
 public class TagNewsFragment extends BaseFragment implements
@@ -69,6 +69,7 @@ public class TagNewsFragment extends BaseFragment implements
         swipeRefresh.setOnRefreshListener(this);
         setupRecyclerView();
         presenter.refresh();
+        ((MainActivity)getActivity()).setToolbarTitle(tag.name);
     }
 
     @Override
@@ -104,7 +105,7 @@ public class TagNewsFragment extends BaseFragment implements
 
     @Override
     public void showInfoMessage(String errorMsg) {
-        Toasty.error(getContext(), errorMsg).show();
+//        Toasty.error(getContext(), errorMsg).show();
     }
 
     @Override

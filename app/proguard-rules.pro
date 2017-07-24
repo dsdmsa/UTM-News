@@ -22,7 +22,7 @@
 
 
 -keep class dsdmsa.utmnews.** { *; }
-
+-dontwarn java.lang.invoke**
 
 ##---------------Begin: proguard configuration for Gson  ----------
 # Gson uses generic type information stored in a class file when working with fields. Proguard
