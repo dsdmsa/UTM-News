@@ -43,4 +43,5 @@ public abstract class BaseFragment extends MvpAppCompatFragment implements Lifec
     public Lifecycle getLifecycle() {
         return new LifecycleRegistry(this);
     }
+
 }

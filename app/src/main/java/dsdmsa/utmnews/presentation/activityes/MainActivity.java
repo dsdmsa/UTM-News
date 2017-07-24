@@ -6,14 +6,18 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.commit451.teleprinter.Teleprinter;
 import com.jakewharton.rxbinding2.widget.RxTextView;
 
 import org.greenrobot.eventbus.EventBus;
@@ -74,9 +78,11 @@ public class MainActivity extends BaseActivity implements
 
     @BindView(R.id.btn_search)
     ImageView btnSearch;
+    @BindView(R.id.tab_title)
+    TextView tabTitle;
 
     private long mBackPressed;
-
+    private Teleprinter teleprinter;
     private ConnectionChangeReceiver receiver;
 
     @Override
@@ -105,7 +111,7 @@ public class MainActivity extends BaseActivity implements
         BottomNavigationViewHelper.disableShiftMode(navigation);
         App.getAppComponent().inject(this);
         fragmentNavigation.init(getSupportFragmentManager(), R.id.fragment_container);
-
+        teleprinter = new Teleprinter(this);
         fragmentNavigation.showFragment(R.id.menu_home, new HomeFragment());
 
         navigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -168,13 +174,24 @@ public class MainActivity extends BaseActivity implements
 
                     }
                 });
+
+        etSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    EventBus.getDefault().post(v.getText().toString());
+                    return true;
+                }
+                return false;
+            }
+        });
     }
 
     @Override
     public void onBackPressed() {
         if (fragmentNavigation.getSize() == 1) {
             if (mBackPressed + TIME_INTERVAL < System.currentTimeMillis()) {
-                Toasty.info(this, "Press again to exit", Toast.LENGTH_SHORT).show();
+                Toasty.info(this, getString(R.string.tab_again_exit_info), Toast.LENGTH_SHORT).show();
                 mBackPressed = System.currentTimeMillis();
                 return;
             }
@@ -198,11 +215,13 @@ public class MainActivity extends BaseActivity implements
             etSearch.setVisibility(View.GONE);
             btnSearch.setVisibility(View.GONE);
             etSearch.clearFocus();
+            teleprinter.hideKeyboard();
             navigation.setSelectedItemId(fragmentNavigation.bakPressed());
         } else {
             etSearch.setVisibility(View.VISIBLE);
             btnSearch.setVisibility(View.VISIBLE);
             etSearch.requestFocus();
+            teleprinter.showKeyboard(etSearch);
             openFragment(new SearchNewsListFragment(), Constants.SEARCH_FRAGMENT_ID);
         }
     }
@@ -216,6 +235,14 @@ public class MainActivity extends BaseActivity implements
         }
     }
 
+    public void setTitleName(String name) {
+        tabTitle.setText(name);
+    }
+
+    @OnClick(R.id.et_search)
+    public void onSearchClicked() {
+        teleprinter.hideKeyboard();
+    }
 }
 
 

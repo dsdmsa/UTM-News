@@ -34,8 +34,8 @@ public class CategoryViewPagerAdapter extends FragmentStatePagerAdapter {
         return fragments.get(position).getName();
     }
 
-    @Override
-    public float getPageWidth(int position) {
-        return(0.95f);
-    }
+//    @Override
+//    public float getPageWidth(int position) {
+//        return(0.95f);
+//    }
 }

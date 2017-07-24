@@ -99,6 +99,12 @@ public class NewsListFragment extends BaseFragment implements
     @Override
     public void clearList() {
         adapter.clearData();
+        recycleView.addOnScrollListener(new EndlessRecyclerOnScrollListener(layoutManager) {
+            @Override
+            public void onLoadMore(int page) {
+                presenter.getNews(page);
+            }
+        });
     }
 
     @Override

@@ -10,13 +10,15 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import dsdmsa.utmnews.presentation.fragments.BaseFragment;
+
 @Singleton
 public class FragmentNavigation {
 
     private int fragmentContainerId;
     private FragmentManager fm;
 
-    private HashMap<Integer, Fragment> fragemntMap = new HashMap<>();
+    private HashMap<Integer, BaseFragment> fragemntMap = new HashMap<>();
     private List<Integer> navigationIndex = new ArrayList<>();
 
     @Inject
@@ -31,9 +33,11 @@ public class FragmentNavigation {
     public void onPause() {
         this.fragmentContainerId = -1;
         this.fm = null;
+        fragemntMap.clear();
+        navigationIndex.clear();
     }
 
-    public void showFragment(int fragmentId, Fragment fragment) {
+    public void showFragment(int fragmentId, BaseFragment fragment) {
         if (navigationIndex.contains(fragmentId)) {
             navigationIndex.remove(navigationIndex.indexOf(fragmentId));
             navigationIndex.add(fragmentId);
@@ -89,13 +93,4 @@ public class FragmentNavigation {
         return navigationIndex.size();
     }
 
-    public void showLastFragment(){
-        fm.beginTransaction()
-                .show(fragemntMap.get(navigationIndex.get(navigationIndex.size() - 1)))
-                .commit();
-    }
-
-    public Fragment getLastFragment(){
-        return fragemntMap.get(navigationIndex.get(navigationIndex.size() - 1));
-    }
 }

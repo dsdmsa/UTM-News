@@ -84,7 +84,7 @@ public class TagNewsFragment extends BaseFragment implements
 
     @Override
     public String getName() {
-        return "";
+        return tag.name;
     }
 
     @Override
