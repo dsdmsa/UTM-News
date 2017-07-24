@@ -19,6 +19,7 @@ import butterknife.BindView;
 import dsdmsa.utmnews.R;
 import dsdmsa.utmnews.domain.models.SimplePost;
 import dsdmsa.utmnews.domain.utils.Utils;
+import dsdmsa.utmnews.presentation.activityes.MainActivity;
 import dsdmsa.utmnews.presentation.mvp.SearchNewsContract;
 import dsdmsa.utmnews.presentation.presenters.SearchNewsListPresenter;
 import dsdmsa.utmnews.presentation.views.ChromeTab;
@@ -70,6 +71,11 @@ public class SearchNewsListFragment extends BaseFragment implements
             @Override
             public void onLoadMore(int page) {
                 presenter.getNews(page);
+            }
+
+            @Override
+            public void isScrolling() {
+                ((MainActivity)getActivity()).onSearchClicked();
             }
         });
     }

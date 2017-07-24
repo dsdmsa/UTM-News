@@ -22,7 +22,6 @@ import dsdmsa.utmnews.presentation.presenters.CategoryNewsListPresenter;
 import dsdmsa.utmnews.presentation.views.ChromeTab;
 import dsdmsa.utmnews.presentation.views.adapters.EndlessRecyclerOnScrollListener;
 import dsdmsa.utmnews.presentation.views.adapters.NewsAdapter;
-import es.dmoral.toasty.Toasty;
 
 
 public class CategoryNewsFragment extends BaseFragment implements
@@ -98,7 +97,7 @@ public class CategoryNewsFragment extends BaseFragment implements
 
     @Override
     public void showInfoMessage(String errorMsg) {
-        Toasty.error(getContext(), errorMsg).show();
+//        Toasty.error(getContext(), errorMsg).show();
     }
 
     @Override
@@ -120,6 +119,11 @@ public class CategoryNewsFragment extends BaseFragment implements
             @Override
             public void onLoadMore(int current_page) {
                 presenter.getCategoryNewses(current_page);
+            }
+
+            @Override
+            public void isScrolling() {
+
             }
         });
     }

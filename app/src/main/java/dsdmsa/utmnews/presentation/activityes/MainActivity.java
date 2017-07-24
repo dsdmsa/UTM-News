@@ -178,7 +178,7 @@ public class MainActivity extends BaseActivity implements
         }
     }
 
-    private void hideSearch() {
+    public void hideSearch() {
         if (etSearch.getVisibility() == View.VISIBLE) {
             etSearch.setVisibility(View.GONE);
             btnSearch.setVisibility(View.GONE);
@@ -190,6 +190,11 @@ public class MainActivity extends BaseActivity implements
     @OnClick(R.id.et_search)
     public void onSearchClicked() {
         teleprinter.hideKeyboard();
+    }
+
+    @OnClick(R.id.et_search)
+    public void onSearchViewClicked() {
+        teleprinter.showKeyboard(etSearch);
     }
 }
 

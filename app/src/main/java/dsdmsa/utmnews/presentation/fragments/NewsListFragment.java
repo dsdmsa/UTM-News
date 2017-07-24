@@ -46,7 +46,7 @@ public class NewsListFragment extends BaseFragment implements
 
     @Override
     public String getName() {
-        return "TOATE";
+        return "   TOATE";
     }
 
     @Override
@@ -66,6 +66,11 @@ public class NewsListFragment extends BaseFragment implements
             @Override
             public void onLoadMore(int page) {
                 presenter.getNews(page);
+            }
+
+            @Override
+            public void isScrolling() {
+
             }
         });
         presenter.getNews(1);
@@ -103,6 +108,11 @@ public class NewsListFragment extends BaseFragment implements
             @Override
             public void onLoadMore(int page) {
                 presenter.getNews(page);
+            }
+
+            @Override
+            public void isScrolling() {
+
             }
         });
     }
