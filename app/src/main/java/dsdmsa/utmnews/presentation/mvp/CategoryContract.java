@@ -15,6 +15,8 @@ public interface CategoryContract {
         void refreshDatas(List<SimplePost> response);
 
         void setupRecyclerView();
+
+        void clearDatas();
     }
 
     interface Presenter {

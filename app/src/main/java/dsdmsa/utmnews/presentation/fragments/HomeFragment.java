@@ -69,12 +69,7 @@ public class HomeFragment extends BaseFragment implements
 
     @Override
     public void hideProgressDialog() {
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                progressBar.setVisibility(View.GONE);
-            }
-        });
+        getActivity().runOnUiThread(() -> progressBar.setVisibility(View.GONE));
     }
 
     @Override

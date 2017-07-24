@@ -19,6 +19,7 @@ import dsdmsa.utmnews.domain.utils.Constants;
 import dsdmsa.utmnews.domain.utils.Utils;
 import dsdmsa.utmnews.presentation.mvp.CategoryContract;
 import dsdmsa.utmnews.presentation.presenters.CategoryNewsListPresenter;
+import dsdmsa.utmnews.presentation.views.ChromeTab;
 import dsdmsa.utmnews.presentation.views.adapters.EndlessRecyclerOnScrollListener;
 import dsdmsa.utmnews.presentation.views.adapters.NewsAdapter;
 import es.dmoral.toasty.Toasty;
@@ -124,8 +125,13 @@ public class CategoryNewsFragment extends BaseFragment implements
     }
 
     @Override
-    public void onPostClick(SimplePost post) {
+    public void clearDatas() {
+        adapter.clearData();
+    }
 
+    @Override
+    public void onPostClick(SimplePost post) {
+        new ChromeTab(getActivity(), post.getLink());
     }
 
     @Override

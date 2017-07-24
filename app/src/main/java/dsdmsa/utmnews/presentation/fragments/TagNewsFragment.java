@@ -131,6 +131,11 @@ public class TagNewsFragment extends BaseFragment implements
     }
 
     @Override
+    public void clear() {
+        adapter.clearData();
+    }
+
+    @Override
     public void onPostClick(SimplePost post) {
         new ChromeTab(getActivity(), post.getLink());
     }

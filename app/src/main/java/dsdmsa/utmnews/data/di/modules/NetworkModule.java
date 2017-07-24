@@ -3,6 +3,7 @@ package dsdmsa.utmnews.data.di.modules;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 import javax.inject.Singleton;
 
@@ -60,6 +61,7 @@ public class NetworkModule {
                 .baseUrl(endPoint)
                 .addConverterFactory(factory)
                 .callFactory(httpClientBuilder.build())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build().create(UtmApi.class);
     }
 

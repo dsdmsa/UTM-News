@@ -86,12 +86,7 @@ public class TagListFragment extends BaseFragment implements
 
     @Override
     public void showTags(final List<Tag> response) {
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                adapter.addTags(response);
-            }
-        });
+        getActivity().runOnUiThread(() -> adapter.addTags(response));
     }
 
     @Override

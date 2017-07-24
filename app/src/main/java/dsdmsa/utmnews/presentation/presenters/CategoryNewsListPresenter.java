@@ -4,7 +4,6 @@ import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 
 import java.util.List;
-import java.util.concurrent.Callable;
 
 import javax.inject.Inject;
 
@@ -21,8 +20,7 @@ import io.reactivex.schedulers.Schedulers;
 
 @InjectViewState
 public class CategoryNewsListPresenter extends MvpPresenter<CategoryContract.View> implements
-        CategoryContract.Presenter,
-        CategoryNewsInteractor.Callback {
+        CategoryContract.Presenter{
 
     @Inject
     CategoryNewsInteractor categoryInteractor;
@@ -39,13 +37,34 @@ public class CategoryNewsListPresenter extends MvpPresenter<CategoryContract.Vie
     @Override
     public void getCategoryNewses(int page) {
         getViewState().showProgressDialog();
-        categoryInteractor.getCategories(category.getId(), page, this);
+        categoryInteractor.getCategories(category.getId(), page)
+        .subscribe(
+                simplePosts -> {
+                    getViewState().hideProgressDialog();
+                    getViewState().addNewses(simplePosts);
+                },
+                error ->{
+                    getViewState().hideProgressDialog();
+                    getViewState().showInfoMessage(error.getMessage());
+                }
+        );
     }
 
     @Override
     public void refresh() {
         getViewState().showProgressDialog();
-        categoryInteractor.getCategories(category.getId(), 1, this);
+        categoryInteractor.getCategories(category.getId(), 1)
+                .subscribe(
+                        simplePosts -> {
+                            getViewState().hideProgressDialog();
+                            getViewState().clearDatas();
+                            getViewState().addNewses(simplePosts);
+                        },
+                        error ->{
+                            getViewState().hideProgressDialog();
+                            getViewState().showInfoMessage(error.getMessage());
+                        }
+                );
     }
 
     @Override
@@ -55,31 +74,16 @@ public class CategoryNewsListPresenter extends MvpPresenter<CategoryContract.Vie
 
     @Override
     public void bookmark(final SimplePost post) {
-        Single.fromCallable(new Callable<String>() {
-            @Override
-            public String call() throws Exception {
-                List<SimplePost> simplePosts = appDb.getPostDao().getAll();
-                if (simplePosts.contains(post)) {
-                    appDb.getPostDao().delete(post);
-                } else {
-                    appDb.getPostDao().addPost(post);
-                }
-                return "";
+        Single.fromCallable(() -> {
+            List<SimplePost> simplePosts = appDb.getPostDao().getAll();
+            if (simplePosts.contains(post)) {
+                appDb.getPostDao().delete(post);
+            } else {
+                appDb.getPostDao().addPost(post);
             }
+            return "";
         }).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe();
-    }
-
-    @Override
-    public void onSuccess(List<SimplePost> response) {
-        getViewState().hideProgressDialog();
-        getViewState().addNewses(response);
-    }
-
-    @Override
-    public void onError(String errorMsg) {
-        getViewState().hideProgressDialog();
-        getViewState().showInfoMessage(errorMsg);
     }
 }

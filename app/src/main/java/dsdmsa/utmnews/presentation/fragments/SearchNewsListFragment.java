@@ -1,7 +1,6 @@
 package dsdmsa.utmnews.presentation.fragments;
 
 
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -82,12 +81,7 @@ public class SearchNewsListFragment extends BaseFragment implements
 
     @Override
     public void showProgressDialog() {
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                swipeRefresh.setRefreshing(true);
-            }
-        });
+        getActivity().runOnUiThread(() -> swipeRefresh.setRefreshing(true));
     }
 
     @Override

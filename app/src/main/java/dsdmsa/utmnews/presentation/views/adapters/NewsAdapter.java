@@ -1,8 +1,6 @@
 package dsdmsa.utmnews.presentation.views.adapters;
 
-import android.arch.lifecycle.Observer;
 import android.content.Context;
-import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -15,25 +13,18 @@ import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Callable;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import dsdmsa.utmnews.App;
 import dsdmsa.utmnews.R;
 import dsdmsa.utmnews.data.db.AppDb;
-import dsdmsa.utmnews.domain.models.Category;
 import dsdmsa.utmnews.domain.models.SimplePost;
-import io.reactivex.Single;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Consumer;
-import io.reactivex.schedulers.Schedulers;
 
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> {
 
     private List<SimplePost> newsList = new ArrayList<>();
     private Listener listener;
-    private List<Category> categories;
 
     private Context mContext = App.getAppComponent().getApp();
     protected AppDb appDb = App.getAppComponent().getAppDb();
@@ -41,33 +32,16 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
     public NewsAdapter(Listener listener) {
         this.listener = listener;
 
-        Single.fromCallable(new Callable<List<Category>>() {
-            @Override
-            public List<Category> call() throws Exception {
-                return appDb.getCategoryDao().getAllCategories();
-            }
-        })
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<List<Category>>() {
-                    @Override
-                    public void accept(List<Category> categories) throws Exception {
-                        NewsAdapter.this.categories = categories;
-                    }
-                });
-
-
-        appDb.getPostDao().getAllPosts().observeForever(new Observer<List<SimplePost>>() {
-            @Override
-            public void onChanged(@Nullable List<SimplePost> simplePosts) {
-                for (int i = 0; i < newsList.size(); i++) {
+        appDb.getPostDao().getAllPosts().observeForever(simplePosts -> {
+            for (int i = 0; i < newsList.size(); i++) {
+                if (simplePosts != null) {
                     if (simplePosts.contains(newsList.get(i))) {
                         newsList.get(i).setBookmarked(true);
                     } else {
                         newsList.get(i).setBookmarked(false);
                     }
-                    notifyItemChanged(i);
                 }
+                notifyItemChanged(i);
             }
         });
 
@@ -105,24 +79,11 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
         holder.tvDescription.setText(newsList.get(position).getDescription());
         holder.tvCategory.setText(newsList.get(position).getCategory());
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                listener.onPostClick(newsList.get(position));
-            }
-        });
-        holder.ivShare.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                listener.onShareClick(newsList.get(position));
-            }
-        });
-        holder.ivBookmark.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                listener.onBookmark(newsList.get(position));
-                notifyItemChanged(position);
-            }
+        holder.itemView.setOnClickListener(view -> listener.onPostClick(newsList.get(position)));
+        holder.ivShare.setOnClickListener(view -> listener.onShareClick(newsList.get(position)));
+        holder.ivBookmark.setOnClickListener(view -> {
+            listener.onBookmark(newsList.get(position));
+            notifyItemChanged(position);
         });
     }
 

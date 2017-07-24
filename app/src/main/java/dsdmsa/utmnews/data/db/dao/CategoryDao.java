@@ -20,4 +20,7 @@ public interface CategoryDao {
 
     @Query("DELETE FROM Category")
     void removeAll();
+
+    @Query("SELECT * FROM Category WHERE id LIKE :id LIMIT 1")
+    Category getCategory(int id);
 }

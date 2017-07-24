@@ -8,7 +8,6 @@ import dagger.Component;
 import dsdmsa.utmnews.data.db.AppDb;
 import dsdmsa.utmnews.data.di.modules.AppModule;
 import dsdmsa.utmnews.data.di.modules.NetworkModule;
-import dsdmsa.utmnews.data.network.services.UtmServices;
 import dsdmsa.utmnews.domain.utils.SimplePostAdapter;
 import dsdmsa.utmnews.presentation.activityes.MainActivity;
 import dsdmsa.utmnews.presentation.activityes.SplashScreenActivity;
@@ -37,8 +36,6 @@ public interface AppComponent {
     void inject(SplashScreenActivity __);
 
     void inject(MainActivity __);
-
-    void inject(UtmServices __);
 
     void inject(TagPresenter __);
 

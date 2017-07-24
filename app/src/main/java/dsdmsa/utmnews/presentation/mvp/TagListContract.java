@@ -15,6 +15,8 @@ public interface TagListContract {
         void refreshDatas(List<SimplePost> response);
 
         void setupRecyclerView();
+
+        void clear();
     }
 
     interface Presenter {
