@@ -38,6 +38,7 @@ import dsdmsa.utmnews.presentation.fragments.SearchNewsListFragment;
 import dsdmsa.utmnews.presentation.fragments.TagListFragment;
 import dsdmsa.utmnews.presentation.mvp.MainActivityVP;
 import dsdmsa.utmnews.presentation.presenters.MainActivityPresenter;
+import dsdmsa.utmnews.presentation.views.BottomNavigationViewHelper;
 import es.dmoral.toasty.Toasty;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
@@ -101,6 +102,7 @@ public class MainActivity extends BaseActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        BottomNavigationViewHelper.disableShiftMode(navigation);
         App.getAppComponent().inject(this);
         fragmentNavigation.init(getSupportFragmentManager(), R.id.fragment_container);
 

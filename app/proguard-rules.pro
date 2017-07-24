@@ -16,6 +16,10 @@
 #   public *;
 #}
 
+-keepclassmembers class android.support.design.internal.BottomNavigationMenuView {
+    boolean mShiftingMode;
+}
+
 
 -keep class dsdmsa.utmnews.** { *; }
 
