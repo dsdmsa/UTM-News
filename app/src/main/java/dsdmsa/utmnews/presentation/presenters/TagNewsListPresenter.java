@@ -63,7 +63,6 @@ public class TagNewsListPresenter extends MvpPresenter<TagListContract.View> imp
                             getViewState().showInfoMessage(error.getMessage());
                         }
                 );
-//        interactor.getNews(tag.id, 1, this);
     }
 
     @Override
@@ -85,16 +84,4 @@ public class TagNewsListPresenter extends MvpPresenter<TagListContract.View> imp
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe();
     }
-
-//    @Override
-//    public void onSuccess(List<SimplePost> response) {
-//        getViewState().hideProgressDialog();
-//        getViewState().addNewses(response);
-//    }
-//
-//    @Override
-//    public void onError(String errorMsg) {
-//        getViewState().hideProgressDialog();
-//        getViewState().showInfoMessage(errorMsg);
-//    }
 }

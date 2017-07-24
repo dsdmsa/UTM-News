@@ -57,6 +57,7 @@ public class HomeFragment extends BaseFragment implements
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        viewPager.setOffscreenPageLimit(10);
         viewPager.setPageMargin(20);
         viewPager.setClipToPadding(false);
         viewPager.setPadding(80,0,80,0);

@@ -70,18 +70,6 @@ public class SearchNewsListPresenter extends MvpPresenter<SearchNewsContract.Vie
                             getViewState().showInfoMessage(error.getMessage());
                         }
                 );
-//        interactor.getNews(key, 1, Constants.ITEMS_PER_PAGE, new SearchNewsInteractor.Callback() {
-//            @Override
-//            public void onSuccess(List<SimplePost> response) {
-//                getViewState().clearList();
-//                SearchNewsListPresenter.this.onSuccess(response);
-//            }
-//
-//            @Override
-//            public void onError(String errorMsg) {
-//                SearchNewsListPresenter.this.onError(errorMsg);
-//            }
-//        });
     }
 
     @Override
@@ -99,15 +87,4 @@ public class SearchNewsListPresenter extends MvpPresenter<SearchNewsContract.Vie
                 .subscribe();
     }
 
-//    @Override
-//    public void onSuccess(List<SimplePost> response) {
-//        getViewState().hideProgressDialog();
-//        getViewState().addNewses(response);
-//    }
-//
-//    @Override
-//    public void onError(String errorMsg) {
-//        getViewState().hideProgressDialog();
-//        getViewState().showInfoMessage(errorMsg);
-//    }
 }

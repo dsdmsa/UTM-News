@@ -35,7 +35,6 @@ public class TagInteractor {
                     return tags;
                 }).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
-
     }
 
 }

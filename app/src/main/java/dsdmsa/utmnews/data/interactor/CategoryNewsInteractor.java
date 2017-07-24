@@ -30,7 +30,7 @@ public class CategoryNewsInteractor {
 
     public Observable<List<SimplePost>> getCategories(int categoryId, int page) {
 
-        return api.getPostsByCategories(categoryId, page, Constants.ITEMS_PER_PAGE)
+        return api.getPostsByCategories(categoryId, Constants.ITEMS_PER_PAGE, page)
                 .map(posts -> {
                     List<SimplePost> simplePosts = new ArrayList<>();
                     for (Post post : posts) {
