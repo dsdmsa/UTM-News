@@ -17,7 +17,7 @@
 #}
 
 
--keep class dsdmsa.utmnews.models.** { *; }
+-keep class dsdmsa.utmnews.** { *; }
 
 
 ##---------------Begin: proguard configuration for Gson  ----------

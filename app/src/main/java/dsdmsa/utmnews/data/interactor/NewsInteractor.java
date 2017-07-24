@@ -43,11 +43,9 @@ public class NewsInteractor {
                         List<SimplePost> fromDb = appDb.getPostDao().getAllPosts().getValue();
                         List<SimplePost> simplePosts = new ArrayList<>();
 
-
                         for (Category category : categories) {
                             catsegs.put(category.id, category.name);
                         }
-
 
                         for (Post post : response) {
                             SimplePost simplePost = SimplePostAdapter.getSimplePost(post);

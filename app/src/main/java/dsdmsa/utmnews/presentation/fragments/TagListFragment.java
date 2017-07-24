@@ -101,6 +101,6 @@ public class TagListFragment extends BaseFragment implements
 
     @Override
     public void onTagClicked(Tag tag) {
-        ((MainActivity) getActivity()).openFragment(TagNewsFragment.newInstance(tag), -25);
+        ((MainActivity) getActivity()).openFragment(TagNewsFragment.newInstance(tag), tag.id);
     }
 }

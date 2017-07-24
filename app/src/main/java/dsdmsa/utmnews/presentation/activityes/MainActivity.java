@@ -85,11 +85,10 @@ public class MainActivity extends BaseActivity implements
 
     @Override
     protected void onResume() {
+        fragmentNavigation.init(getSupportFragmentManager(), R.id.fragment_container);
         receiver = new ConnectionChangeReceiver();
         registerReceiver(receiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
         super.onResume();
-        fragmentNavigation.init(getSupportFragmentManager(), R.id.fragment_container);
-        fragmentNavigation.showLastFragment();
     }
 
     @Override

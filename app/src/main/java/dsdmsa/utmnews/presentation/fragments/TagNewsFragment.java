@@ -72,6 +72,12 @@ public class TagNewsFragment extends BaseFragment implements
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        presenter.setTag(tag);
+    }
+
+    @Override
     protected int getLayout() {
         return R.layout.fragment_news_list;
     }
