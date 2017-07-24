@@ -40,7 +40,7 @@
                 android:background="@color/primary_dark"
                 android:textColor="@color/divider"
                 android:textColorHint="@color/search"
-                android:hint="Testeaza cuvintul cheie"
+                android:hint="@string/search_hint"
                 android:layout_height="match_parent"
                 android:visibility="gone" />
 
