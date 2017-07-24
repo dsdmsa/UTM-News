@@ -3,11 +3,8 @@ package dsdmsa.utmnews.presentation.activityes;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.widget.Toolbar;
-import android.view.KeyEvent;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
@@ -31,7 +28,6 @@ import butterknife.OnClick;
 import dsdmsa.utmnews.App;
 import dsdmsa.utmnews.R;
 import dsdmsa.utmnews.data.brodcast.ConnectionChangeReceiver;
-import dsdmsa.utmnews.data.network.api.UtmApi;
 import dsdmsa.utmnews.domain.utils.Constants;
 import dsdmsa.utmnews.domain.utils.FragmentNavigation;
 import dsdmsa.utmnews.presentation.fragments.AboutFragment;
@@ -44,11 +40,6 @@ import dsdmsa.utmnews.presentation.mvp.MainActivityVP;
 import dsdmsa.utmnews.presentation.presenters.MainActivityPresenter;
 import dsdmsa.utmnews.presentation.views.BottomNavigationViewHelper;
 import es.dmoral.toasty.Toasty;
-import io.reactivex.Observer;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Function;
-import io.reactivex.functions.Predicate;
-import timber.log.Timber;
 
 import static dsdmsa.utmnews.domain.utils.Constants.TIME_INTERVAL;
 
@@ -71,13 +62,11 @@ public class MainActivity extends BaseActivity implements
     EditText etSearch;
 
     @Inject
-    UtmApi utmApi;
-
-    @Inject
     protected FragmentNavigation fragmentNavigation;
 
     @BindView(R.id.btn_search)
     ImageView btnSearch;
+
     @BindView(R.id.tab_title)
     TextView tabTitle;
 
@@ -114,76 +103,39 @@ public class MainActivity extends BaseActivity implements
         teleprinter = new Teleprinter(this);
         fragmentNavigation.showFragment(R.id.menu_home, new HomeFragment());
 
-        navigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.menu_home:
-                        hideSearch();
-                        fragmentNavigation.showFragment(R.id.menu_home, new HomeFragment());
-                        break;
-                    case R.id.menu_tags:
-                        hideSearch();
-                        fragmentNavigation.showFragment(R.id.menu_tags, new TagListFragment());
-                        break;
-                    case R.id.menu_bookmarks:
-                        hideSearch();
-                        fragmentNavigation.showFragment(R.id.menu_bookmarks, new BookmarksFragment());
-                        break;
-                    case R.id.menu_search:
-                        search();
-                        break;
-                }
-                return true;
+        navigation.setOnNavigationItemSelectedListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.menu_home:
+                    hideSearch();
+                    fragmentNavigation.showFragment(R.id.menu_home, new HomeFragment());
+                    break;
+                case R.id.menu_tags:
+                    hideSearch();
+                    fragmentNavigation.showFragment(R.id.menu_tags, new TagListFragment());
+                    break;
+                case R.id.menu_bookmarks:
+                    hideSearch();
+                    fragmentNavigation.showFragment(R.id.menu_bookmarks, new BookmarksFragment());
+                    break;
+                case R.id.menu_search:
+                    search();
+                    break;
             }
+            return true;
         });
 
         RxTextView.textChanges(etSearch)
                 .debounce(Constants.DEBOUNCH_TIMEOUT, TimeUnit.MILLISECONDS)
-                .filter(new Predicate<CharSequence>() {
-                    @Override
-                    public boolean test(CharSequence charSequence) throws Exception {
-                        return !charSequence.toString().isEmpty();
-                    }
-                })
-                .map(new Function<CharSequence, String>() {
-                    @Override
-                    public String apply(CharSequence charSequence) throws Exception {
-                        return charSequence.toString();
-                    }
-                })
-                .subscribeWith(new Observer<String>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
+                .filter(charSequence -> !charSequence.toString().isEmpty())
+                .map(CharSequence::toString)
+                .subscribe(value -> EventBus.getDefault().post(value));
 
-                    }
-
-                    @Override
-                    public void onNext(String value) {
-                        Timber.d("send " + value);
-                        EventBus.getDefault().post(value);
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onComplete() {
-
-                    }
-                });
-
-        etSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    EventBus.getDefault().post(v.getText().toString());
-                    return true;
-                }
-                return false;
+        etSearch.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                EventBus.getDefault().post(v.getText().toString());
+                return true;
             }
+            return false;
         });
     }
 
@@ -233,10 +185,6 @@ public class MainActivity extends BaseActivity implements
             etSearch.clearFocus();
             navigation.setSelectedItemId(fragmentNavigation.bakPressed());
         }
-    }
-
-    public void setTitleName(String name) {
-        tabTitle.setText(name);
     }
 
     @OnClick(R.id.et_search)
