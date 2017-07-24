@@ -89,9 +89,15 @@ public class MainActivity extends BaseActivity implements
 
     @Override
     protected void onPause() {
-        fragmentNavigation.onPause();
         unregisterReceiver(receiver);
         super.onPause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        fragmentNavigation.onPause();
+
     }
 
     @Override
