@@ -105,7 +105,7 @@ public class TagNewsFragment extends BaseFragment implements
 
     @Override
     public void showInfoMessage(String errorMsg) {
-//        Toasty.error(getContext(), errorMsg).show();
+//        Toasty.info(getContext(), errorMsg).show();
     }
 
     @Override
@@ -125,8 +125,8 @@ public class TagNewsFragment extends BaseFragment implements
         recycleView.setAdapter(adapter);
         recycleView.addOnScrollListener(new EndlessRecyclerOnScrollListener(layoutManager) {
             @Override
-            public void onLoadMore(int current_page) {
-                presenter.getCategoryNewses(current_page);
+            public void onLoadMore(int currentPage) {
+                presenter.getCategoryNewses(currentPage);
             }
 
             @Override

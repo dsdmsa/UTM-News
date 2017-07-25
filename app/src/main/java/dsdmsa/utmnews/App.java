@@ -3,9 +3,12 @@ package dsdmsa.utmnews;
 
 import android.app.Application;
 
+import com.squareup.leakcanary.LeakCanary;
+
 import dsdmsa.utmnews.data.di.modules.AppModule;
 import dsdmsa.utmnews.data.di.modules.NetworkModule;
 import dsdmsa.utmnews.domain.utils.Utils;
+import timber.log.Timber;
 
 import static dsdmsa.utmnews.domain.utils.Constants.END_POINT;
 import static dsdmsa.utmnews.domain.utils.Constants.IN_INTERNET_AVAIBLE;
@@ -33,12 +36,12 @@ public class App extends Application {
             App.getAppComponent().getPrefs().edit().putBoolean(IN_INTERNET_AVAIBLE, false).apply();
         }
 
-//        if (BuildConfig.DEBUG) {
-//            Timber.plant(new Timber.DebugTree());
-//            if (LeakCanary.isInAnalyzerProcess(this)) {
-//                return;
-//            }
-//            LeakCanary.install(this);
-//        }
+        if (BuildConfig.DEBUG) {
+            Timber.plant(new Timber.DebugTree());
+            if (LeakCanary.isInAnalyzerProcess(this)) {
+                return;
+            }
+            LeakCanary.install(this);
+        }
     }
 }

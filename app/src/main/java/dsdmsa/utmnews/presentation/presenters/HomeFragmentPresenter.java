@@ -57,28 +57,4 @@ public class HomeFragmentPresenter extends MvpPresenter<HomeContract.View> imple
                 );
     }
 
-//    @Override
-//    public void onCategoryLoaded(final List<Category> categories) {
-//        Single.fromCallable(() -> {
-//            List<BaseFragment> fragments = new ArrayList<>();
-//            fragments.add(new NewsListFragment());
-//            for (Category category : categories) {
-//                CategoryNewsFragment categoryNewsFragment = CategoryNewsFragment.newInstance(category);
-//                categoryNewsFragment.setCategory(category);
-//                fragments.add(categoryNewsFragment);
-//            }
-//            return fragments;
-//        }).subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(baseFragments -> {
-//                    getViewState().displayPages(baseFragments);
-//                    getViewState().hideProgressDialog();
-//                });
-//    }
-//
-//    @Override
-//    public void onError(String errorMsg) {
-//        getViewState().hideProgressDialog();
-//        getViewState().showInfoMessage(errorMsg);
-//    }
 }
