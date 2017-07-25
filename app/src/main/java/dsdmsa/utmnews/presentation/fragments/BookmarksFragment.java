@@ -7,6 +7,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.TextView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 
@@ -20,7 +21,6 @@ import dsdmsa.utmnews.presentation.mvp.BookmarsContract;
 import dsdmsa.utmnews.presentation.presenters.BookmarksPresenter;
 import dsdmsa.utmnews.presentation.views.ChromeTab;
 import dsdmsa.utmnews.presentation.views.adapters.NewsAdapter;
-import es.dmoral.toasty.Toasty;
 
 public class BookmarksFragment extends BaseFragment implements
         SwipeRefreshLayout.OnRefreshListener,
@@ -29,11 +29,15 @@ public class BookmarksFragment extends BaseFragment implements
 
     @BindView(R.id.recycle_view)
     RecyclerView recycleView;
+
     @BindView(R.id.swipe_refresh)
     SwipeRefreshLayout swipeRefresh;
 
     @InjectPresenter
     BookmarksPresenter presenter;
+
+    @BindView(R.id.info_msg)
+    TextView infoMsg;
 
     private NewsAdapter adapter;
     private LinearLayoutManager layoutManager;
@@ -80,8 +84,8 @@ public class BookmarksFragment extends BaseFragment implements
 
     @Override
     public void showInfoMessage(String errorMsg) {
-        Toasty.info(getContext(),errorMsg).show();
-//        Toasty.error(getContext(), errorMsg).show();
+        infoMsg.setVisibility(View.VISIBLE);
+        infoMsg.setText(errorMsg);
     }
 
     @Override
@@ -92,6 +96,11 @@ public class BookmarksFragment extends BaseFragment implements
     @Override
     public void clearList() {
         adapter.clearData();
+    }
+
+    @Override
+    public void hideInfoMessage() {
+        infoMsg.setVisibility(View.GONE);
     }
 
     @Override

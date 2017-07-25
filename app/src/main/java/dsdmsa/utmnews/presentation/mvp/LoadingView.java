@@ -7,4 +7,6 @@ public interface LoadingView {
     void hideProgressDialog();
 
     void showInfoMessage(String errorMsg);
+
+    void showInfoToast(String string);
 }

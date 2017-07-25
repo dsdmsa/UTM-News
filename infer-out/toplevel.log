@@ -1,0 +1,24 @@
+[INFO] output of locale.getdefaultlocale(): ('en_US', 'UTF-8')
+[INFO] encoding we chose in the end: UTF-8
+[INFO] Running command /usr/local/Cellar/infer/0.12.0/lib/infer/infer/bin/../lib/python/infer.py --analyzer infer -j 8 --project-root /Users/dsdmsa/Work/utm/news_app --out /Users/dsdmsa/Work/utm/news_app/infer-out -- ./gradlew build
+[INFO] Path to infer script /usr/local/Cellar/infer/0.12.0/lib/infer/infer/bin/../lib/python/infer.py (/usr/local/Cellar/infer/0.12.0/lib/infer/infer/lib/python/infer.py)
+[INFO] Platform: Darwin-16.7.0-x86_64-i386-64bit
+[INFO] PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
+[INFO] SHELL=/bin/zsh
+[INFO] PWD=/Users/dsdmsa/Work/utm/news_app
+[INFO] Running with:
+
+------------------------------------------------------------
+Gradle 3.3
+------------------------------------------------------------
+
+Build time:   2017-01-03 15:31:04 UTC
+Revision:     075893a3d0798c0c1f322899b41ceca82e4e134b
+
+Groovy:       2.4.7
+Ant:          Apache Ant(TM) version 1.9.6 compiled on June 29 2015
+JVM:          1.8.0_131 (Oracle Corporation 25.131-b11)
+OS:           Mac OS X 10.12.6 x86_64
+
+
+[INFO] Capture phase was successful

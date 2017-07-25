@@ -1,5 +1,7 @@
 package dsdmsa.utmnews.presentation.presenters;
 
+import android.content.Context;
+
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 
@@ -8,6 +10,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import dsdmsa.utmnews.App;
+import dsdmsa.utmnews.R;
 import dsdmsa.utmnews.data.db.AppDb;
 import dsdmsa.utmnews.data.interactor.SearchNewsInteractor;
 import dsdmsa.utmnews.domain.models.SimplePost;
@@ -28,6 +31,9 @@ public class SearchNewsListPresenter extends MvpPresenter<SearchNewsContract.Vie
     @Inject
     AppDb appDb;
 
+    @Inject
+    Context context;
+
     private String key;
 
     public SearchNewsListPresenter() {
@@ -47,10 +53,15 @@ public class SearchNewsListPresenter extends MvpPresenter<SearchNewsContract.Vie
                     response -> {
                         getViewState().hideProgressDialog();
                         getViewState().addNewses(response);
+                        if (response.isEmpty()){
+                            getViewState().showInfoMessage(context.getString(R.string.search_no_results));
+                        }else {
+                            getViewState().hideInfoMessage();
+                        }
                     },
                     error -> {
                         getViewState().hideProgressDialog();
-                        getViewState().showInfoMessage(error.getMessage());
+//                        getViewState().showInfoMessage(error.getMessage());
                     }
             );
     }
@@ -64,10 +75,15 @@ public class SearchNewsListPresenter extends MvpPresenter<SearchNewsContract.Vie
                             getViewState().hideProgressDialog();
                             getViewState().clearList();
                             getViewState().addNewses(response);
+                            if (response.isEmpty()){
+                                getViewState().showInfoMessage(context.getString(R.string.search_no_results));
+                            }else {
+                                getViewState().hideInfoMessage();
+                            }
                         },
                         error -> {
                             getViewState().hideProgressDialog();
-                            getViewState().showInfoMessage(error.getMessage());
+//                            getViewState().showInfoMessage(error.getMessage());
                         }
                 );
     }
@@ -77,8 +93,10 @@ public class SearchNewsListPresenter extends MvpPresenter<SearchNewsContract.Vie
         Single.fromCallable(() -> {
             List<SimplePost> simplePosts = appDb.getPostDao().getAll();
             if (simplePosts.contains(post)) {
+                getViewState().showInfoToast(context.getString(R.string.boocmark_removed));
                 appDb.getPostDao().delete(post);
             } else {
+                getViewState().showInfoToast(context.getString(R.string.boocmark_added));
                 appDb.getPostDao().addPost(post);
             }
             return "";

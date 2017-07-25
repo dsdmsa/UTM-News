@@ -22,14 +22,13 @@ import dsdmsa.utmnews.presentation.presenters.NewsListPresenter;
 import dsdmsa.utmnews.presentation.presenters.SearchNewsListPresenter;
 import dsdmsa.utmnews.presentation.presenters.TagNewsListPresenter;
 import dsdmsa.utmnews.presentation.presenters.TagPresenter;
+import dsdmsa.utmnews.presentation.views.adapters.NewsAdapter;
 
 @Singleton
 @Component(modules = {AppModule.class, NetworkModule.class})
 public interface AppComponent {
 
     SharedPreferences getPrefs();
-
-    App getApp();
 
     AppDb getAppDb();
 
@@ -60,4 +59,6 @@ public interface AppComponent {
     void inject(SearchNewsListPresenter searchNewsListPresenter);
 
     void inject(SimplePostAdapter simplePostAdapter);
+
+    void inject(NewsAdapter newsAdapter);
 }

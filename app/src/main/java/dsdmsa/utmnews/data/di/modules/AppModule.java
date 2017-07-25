@@ -25,18 +25,18 @@ public class AppModule {
     }
 
     @Provides
-    App provideContext() {
+    Context provideContext() {
         return mApp;
     }
 
     @Provides
-    SharedPreferences provideSharedPrefs(App context) {
+    SharedPreferences provideSharedPrefs(Context context) {
         return context.getSharedPreferences(UTM_SHARED_PRESFS, Context.MODE_PRIVATE);
     }
 
     @Singleton
     @Provides
-    AppDb provideAppDb(App context){
+    AppDb provideAppDb(Context context){
         return Room.databaseBuilder(context,AppDb.class, Constants.DATABASE).build();
     }
 }

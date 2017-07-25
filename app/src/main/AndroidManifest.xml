@@ -24,6 +24,9 @@
         <activity
             android:name="dsdmsa.utmnews.presentation.activityes.MainActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".presentation.activityes.AppInfoActivity"
+            android:screenOrientation="portrait" />
 
         <receiver
             android:name=".data.brodcast.ConnectionChangeReceiver"

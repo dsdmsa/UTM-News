@@ -13,6 +13,9 @@ public interface BookmarsContract {
         void addNewses(List<SimplePost> newses);
 
         void clearList();
+
+        void hideInfoMessage();
+
     }
 
     interface Presenter {

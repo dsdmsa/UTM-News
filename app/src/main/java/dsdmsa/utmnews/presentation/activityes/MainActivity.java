@@ -140,6 +140,7 @@ public class MainActivity extends BaseActivity implements
         etSearch.setOnEditorActionListener((v, actionId, event) -> {
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 EventBus.getDefault().post(v.getText().toString());
+                teleprinter.hideKeyboard();
                 return true;
             }
             return false;

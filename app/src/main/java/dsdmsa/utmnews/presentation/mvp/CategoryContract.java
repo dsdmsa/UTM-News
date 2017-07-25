@@ -17,6 +17,8 @@ public interface CategoryContract {
         void setupRecyclerView();
 
         void clearDatas();
+
+        void hideInfoMessage();
     }
 
     interface Presenter {

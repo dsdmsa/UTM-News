@@ -15,6 +15,8 @@ import com.bumptech.glide.Glide;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import dsdmsa.utmnews.App;
@@ -27,10 +29,13 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
     private List<SimplePost> newsList = new ArrayList<>();
     private Listener listener;
 
-    private Context mContext = App.getAppComponent().getApp();
+    @Inject
+    Context mContext;
+
     protected AppDb appDb = App.getAppComponent().getAppDb();
 
     public NewsAdapter(Listener listener) {
+        App.getAppComponent().inject(this);
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
         this.listener = listener;
 

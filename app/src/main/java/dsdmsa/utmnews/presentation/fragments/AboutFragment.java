@@ -1,21 +1,16 @@
 package dsdmsa.utmnews.presentation.fragments;
 
-import android.widget.LinearLayout;
+import android.content.Intent;
+import android.view.View;
 
-import butterknife.BindView;
+import butterknife.OnClick;
 import dsdmsa.utmnews.R;
+import dsdmsa.utmnews.domain.utils.Constants;
+import dsdmsa.utmnews.presentation.activityes.AppInfoActivity;
+import dsdmsa.utmnews.presentation.views.ChromeTab;
 
 
 public class AboutFragment extends BaseFragment {
-
-    @BindView(R.id.despre_aplcatie)
-    LinearLayout despreAplcatie;
-    @BindView(R.id.despre_utm)
-    LinearLayout despreUtm;
-    @BindView(R.id.termeni)
-    LinearLayout termeni;
-    @BindView(R.id.contacte)
-    LinearLayout contacte;
 
     @Override
     protected int getLayout() {
@@ -27,4 +22,19 @@ public class AboutFragment extends BaseFragment {
         return "";
     }
 
+
+    @OnClick({R.id.despre_aplcatie, R.id.despre_utm, R.id.contacte})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.despre_aplcatie:
+                startActivity(new Intent(getContext(), AppInfoActivity.class));
+                break;
+            case R.id.despre_utm:
+                new ChromeTab(getActivity(), Constants.URL_DESPRE_UTM);
+                break;
+            case R.id.contacte:
+                new ChromeTab(getActivity(), Constants.URL_CONTACTE_UTM);
+                break;
+        }
+    }
 }

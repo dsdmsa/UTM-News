@@ -6,6 +6,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.TextView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 
@@ -22,6 +23,7 @@ import dsdmsa.utmnews.presentation.presenters.CategoryNewsListPresenter;
 import dsdmsa.utmnews.presentation.views.ChromeTab;
 import dsdmsa.utmnews.presentation.views.adapters.EndlessRecyclerOnScrollListener;
 import dsdmsa.utmnews.presentation.views.adapters.NewsAdapter;
+import es.dmoral.toasty.Toasty;
 
 
 public class CategoryNewsFragment extends BaseFragment implements
@@ -35,6 +37,8 @@ public class CategoryNewsFragment extends BaseFragment implements
     RecyclerView recycleView;
     @BindView(R.id.swipe_refresh)
     SwipeRefreshLayout swipeRefresh;
+    @BindView(R.id.info_msg)
+    TextView infoMsg;
 
     private NewsAdapter adapter;
     private LinearLayoutManager layoutManager;
@@ -97,7 +101,8 @@ public class CategoryNewsFragment extends BaseFragment implements
 
     @Override
     public void showInfoMessage(String errorMsg) {
-//        Toasty.error(getContext(), errorMsg).show();
+        infoMsg.setText(errorMsg);
+        infoMsg.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -134,6 +139,16 @@ public class CategoryNewsFragment extends BaseFragment implements
     }
 
     @Override
+    public void showInfoToast(String string) {
+        Toasty.info(getActivity(),string).show();
+    }
+
+    @Override
+    public void hideInfoMessage() {
+        infoMsg.setVisibility(View.GONE);
+    }
+
+    @Override
     public void onPostClick(SimplePost post) {
         new ChromeTab(getActivity(), post.getLink());
     }
@@ -147,4 +162,5 @@ public class CategoryNewsFragment extends BaseFragment implements
     public void onBookmark(SimplePost post) {
         presenter.bookmark(post);
     }
+
 }

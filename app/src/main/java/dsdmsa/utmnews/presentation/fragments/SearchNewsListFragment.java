@@ -7,6 +7,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.TextView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 
@@ -25,7 +26,6 @@ import dsdmsa.utmnews.presentation.presenters.SearchNewsListPresenter;
 import dsdmsa.utmnews.presentation.views.ChromeTab;
 import dsdmsa.utmnews.presentation.views.adapters.EndlessRecyclerOnScrollListener;
 import dsdmsa.utmnews.presentation.views.adapters.NewsAdapter;
-import es.dmoral.toasty.Toasty;
 import timber.log.Timber;
 
 public class SearchNewsListFragment extends BaseFragment implements
@@ -40,6 +40,8 @@ public class SearchNewsListFragment extends BaseFragment implements
 
     @InjectPresenter
     SearchNewsListPresenter presenter;
+    @BindView(R.id.info_msg)
+    TextView infoMsg;
 
     private NewsAdapter adapter;
     private LinearLayoutManager layoutManager;
@@ -75,7 +77,7 @@ public class SearchNewsListFragment extends BaseFragment implements
 
             @Override
             public void isScrolling() {
-                ((MainActivity)getActivity()).onSearchClicked();
+                ((MainActivity) getActivity()).onSearchClicked();
             }
         });
     }
@@ -97,7 +99,8 @@ public class SearchNewsListFragment extends BaseFragment implements
 
     @Override
     public void showInfoMessage(String errorMsg) {
-        Toasty.error(getContext(), errorMsg).show();
+        infoMsg.setText(errorMsg);
+        infoMsg.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -108,6 +111,11 @@ public class SearchNewsListFragment extends BaseFragment implements
     @Override
     public void clearList() {
         adapter.clearData();
+    }
+
+    @Override
+    public void hideInfoMessage() {
+        infoMsg.setVisibility(View.GONE);
     }
 
     @Override

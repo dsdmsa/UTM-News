@@ -17,6 +17,9 @@ public interface TagListContract {
         void setupRecyclerView();
 
         void clear();
+
+        void hideInfoMessage();
+
     }
 
     interface Presenter {

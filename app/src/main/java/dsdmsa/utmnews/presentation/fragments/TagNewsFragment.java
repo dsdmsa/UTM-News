@@ -6,6 +6,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.TextView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 
@@ -36,6 +37,8 @@ public class TagNewsFragment extends BaseFragment implements
     RecyclerView recycleView;
     @BindView(R.id.swipe_refresh)
     SwipeRefreshLayout swipeRefresh;
+    @BindView(R.id.info_msg)
+    TextView infoMsg;
 
     private NewsAdapter adapter;
     private LinearLayoutManager layoutManager;
@@ -69,7 +72,7 @@ public class TagNewsFragment extends BaseFragment implements
         swipeRefresh.setOnRefreshListener(this);
         setupRecyclerView();
         presenter.refresh();
-        ((MainActivity)getActivity()).setToolbarTitle(tag.name);
+        ((MainActivity) getActivity()).setToolbarTitle(tag.name);
     }
 
     @Override
@@ -105,7 +108,8 @@ public class TagNewsFragment extends BaseFragment implements
 
     @Override
     public void showInfoMessage(String errorMsg) {
-//        Toasty.info(getContext(), errorMsg).show();
+        infoMsg.setText(errorMsg);
+        infoMsg.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -141,6 +145,12 @@ public class TagNewsFragment extends BaseFragment implements
         adapter.clearData();
     }
 
+
+    @Override
+    public void hideInfoMessage() {
+        infoMsg.setVisibility(View.GONE);
+    }
+
     @Override
     public void onPostClick(SimplePost post) {
         new ChromeTab(getActivity(), post.getLink());
@@ -155,4 +165,5 @@ public class TagNewsFragment extends BaseFragment implements
     public void onBookmark(SimplePost post) {
         presenter.bookmark(post);
     }
+
 }

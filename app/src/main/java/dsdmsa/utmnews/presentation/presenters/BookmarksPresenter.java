@@ -26,16 +26,18 @@ public class BookmarksPresenter extends MvpPresenter<BookmarsContract.View> impl
     @Inject
     AppDb appDb;
 
-    private Context context = App.getAppComponent().getApp();
+    @Inject
+    Context context;
 
     public BookmarksPresenter() {
         App.getAppComponent().inject(this);
         appDb.getPostDao().getAllPosts().observeForever(simplePosts -> {
             getViewState().clearList();
             if (simplePosts != null && simplePosts.isEmpty()) {
-                getViewState().showInfoMessage(context.getString(R.string.empty_list_warn));
+                getViewState().showInfoMessage(context.getString(R.string.empty_bokmark_list));
             } else {
                 getViewState().addNewses(simplePosts);
+                getViewState().hideInfoMessage();
             }
         });
     }
@@ -50,8 +52,10 @@ public class BookmarksPresenter extends MvpPresenter<BookmarsContract.View> impl
         Single.fromCallable(() -> {
             List<SimplePost> simplePosts = appDb.getPostDao().getAll();
             if (simplePosts.contains(post)) {
+                getViewState().showInfoToast(context.getString(R.string.boocmark_removed));
                 appDb.getPostDao().delete(post);
             } else {
+                getViewState().showInfoToast(context.getString(R.string.boocmark_added));
                 appDb.getPostDao().addPost(post);
             }
             return "";

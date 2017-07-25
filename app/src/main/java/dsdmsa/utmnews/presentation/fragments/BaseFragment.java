@@ -15,8 +15,10 @@ import com.arellomobile.mvp.MvpAppCompatFragment;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import dsdmsa.utmnews.presentation.mvp.LoadingView;
+import es.dmoral.toasty.Toasty;
 
-public abstract class BaseFragment extends MvpAppCompatFragment implements LifecycleOwner {
+public abstract class BaseFragment extends MvpAppCompatFragment implements LifecycleOwner, LoadingView {
 
     protected View rootView;
     protected Unbinder unbinder;
@@ -52,4 +54,24 @@ public abstract class BaseFragment extends MvpAppCompatFragment implements Lifec
         return new LifecycleRegistry(this);
     }
 
+
+    @Override
+    public void showInfoToast(String string) {
+        getActivity().runOnUiThread(() -> Toasty.info(getActivity(), string).show());
+    }
+
+    @Override
+    public void showProgressDialog() {
+
+    }
+
+    @Override
+    public void hideProgressDialog() {
+
+    }
+
+    @Override
+    public void showInfoMessage(String errorMsg) {
+
+    }
 }

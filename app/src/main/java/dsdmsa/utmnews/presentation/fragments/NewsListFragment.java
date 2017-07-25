@@ -7,6 +7,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.TextView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 
@@ -21,7 +22,6 @@ import dsdmsa.utmnews.presentation.presenters.NewsListPresenter;
 import dsdmsa.utmnews.presentation.views.ChromeTab;
 import dsdmsa.utmnews.presentation.views.adapters.EndlessRecyclerOnScrollListener;
 import dsdmsa.utmnews.presentation.views.adapters.NewsAdapter;
-import es.dmoral.toasty.Toasty;
 
 public class NewsListFragment extends BaseFragment implements
         SwipeRefreshLayout.OnRefreshListener,
@@ -35,6 +35,8 @@ public class NewsListFragment extends BaseFragment implements
 
     @InjectPresenter
     NewsListPresenter presenter;
+    @BindView(R.id.info_msg)
+    TextView infoMsg;
 
     private NewsAdapter adapter;
     private LinearLayoutManager layoutManager;
@@ -93,7 +95,9 @@ public class NewsListFragment extends BaseFragment implements
 
     @Override
     public void showInfoMessage(String errorMsg) {
-        Toasty.error(getContext(), errorMsg).show();
+        infoMsg.setText(errorMsg);
+        infoMsg.setVisibility(View.VISIBLE);
+
     }
 
     @Override
@@ -115,6 +119,11 @@ public class NewsListFragment extends BaseFragment implements
 
             }
         });
+    }
+
+    @Override
+    public void hideInfoMessage() {
+        infoMsg.setVisibility(View.GONE);
     }
 
     @Override
