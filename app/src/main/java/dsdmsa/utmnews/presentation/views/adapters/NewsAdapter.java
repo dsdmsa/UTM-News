@@ -2,6 +2,7 @@ package dsdmsa.utmnews.presentation.views.adapters;
 
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,6 +31,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
     protected AppDb appDb = App.getAppComponent().getAppDb();
 
     public NewsAdapter(Listener listener) {
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
         this.listener = listener;
 
         appDb.getPostDao().getAllPosts().observeForever(simplePosts -> {
