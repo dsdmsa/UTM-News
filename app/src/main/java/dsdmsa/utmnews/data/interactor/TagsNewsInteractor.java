@@ -1,21 +1,19 @@
 package dsdmsa.utmnews.data.interactor;
 
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
 
 import dsdmsa.utmnews.data.db.AppDb;
 import dsdmsa.utmnews.data.network.api.UtmApi;
-import dsdmsa.utmnews.domain.models.Category;
-import dsdmsa.utmnews.domain.models.Post;
 import dsdmsa.utmnews.domain.models.SimplePost;
 import dsdmsa.utmnews.domain.utils.Constants;
 import dsdmsa.utmnews.domain.utils.SimplePostAdapter;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import timber.log.Timber;
 
 public class TagsNewsInteractor {
 
@@ -29,30 +27,21 @@ public class TagsNewsInteractor {
     }
 
     public Observable<List<SimplePost>> getNews(int tagId, int page) {
-
-        return api.getPostsByTags(tagId,Constants.ITEMS_PER_PAGE,page)
-                .map(posts -> {
-                    List<SimplePost> simplePosts = new ArrayList<>();
-                    for (Post post : posts) {
-                        SimplePost simplePost = SimplePostAdapter.getSimplePost(post);
-                        Category category = appDb.getCategoryDao().getCategory(post.getCategory());
-                        String categoryName = "";
-                        if (category != null)
-                            categoryName = category.getName();
-                        simplePost.setCategory(categoryName);
-                        simplePosts.add(simplePost);
-                    }
-                    return simplePosts;
+        return api.getPostsByTags(tagId, Constants.ITEMS_PER_PAGE, page)
+                .flatMapIterable(list -> list)
+                .map(SimplePostAdapter::getSimplePost)
+                .map(post -> {
+                    post.setCategory(appDb.getCategoryDao().getCategory(post.getCategoryId()).getName());
+                    return post;
                 })
-                .map(simplePosts -> {
-                    List<SimplePost> fromDb = appDb.getPostDao().getAllPosts().getValue();
-                    for (int i = 0; i < simplePosts.size(); i++) {
-                        if (fromDb != null && fromDb.contains(simplePosts.get(i))) {
-                            simplePosts.get(i).setBookmarked(true);
-                        }
-                    }
-                    return simplePosts;
-                }).subscribeOn(Schedulers.io())
+                .map(post -> {
+                    post.setBookmarked(appDb.getPostDao().getPostById(post.getId()) != null);
+                    Timber.d("post is bookmrked " + post.isBookmarked());
+                    return post;
+                })
+                .toList()
+                .toObservable()
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
 
     }

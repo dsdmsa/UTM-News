@@ -18,6 +18,7 @@ public class SimplePostAdapter {
         simplePost.setLink(post.getLink());
         simplePost.setTitle(post.getTitle());
         simplePost.setBookmarked(false);
+        simplePost.setCategoryId(post.getCategories().get(0));
         return simplePost;
     }
 }

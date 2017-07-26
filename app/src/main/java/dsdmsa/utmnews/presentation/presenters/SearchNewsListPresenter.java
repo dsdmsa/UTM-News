@@ -14,7 +14,6 @@ import dsdmsa.utmnews.R;
 import dsdmsa.utmnews.data.db.AppDb;
 import dsdmsa.utmnews.data.interactor.SearchNewsInteractor;
 import dsdmsa.utmnews.domain.models.SimplePost;
-import dsdmsa.utmnews.domain.utils.Constants;
 import dsdmsa.utmnews.presentation.mvp.SearchNewsContract;
 import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -48,7 +47,7 @@ public class SearchNewsListPresenter extends MvpPresenter<SearchNewsContract.Vie
     @Override
     public void getNews(int page) {
         getViewState().showProgressDialog();
-        interactor.getNews(key, page, Constants.ITEMS_PER_PAGE)
+        interactor.getNews(key, page)
                 .subscribe(
                         response -> {
                             getViewState().hideProgressDialog();
@@ -68,7 +67,7 @@ public class SearchNewsListPresenter extends MvpPresenter<SearchNewsContract.Vie
     @Override
     public void refreshNewses() {
         getViewState().showProgressDialog();
-        interactor.getNews(key, 1, Constants.ITEMS_PER_PAGE)
+        interactor.getNews(key, 1)
                 .subscribe(
                         response -> {
                             getViewState().hideProgressDialog();

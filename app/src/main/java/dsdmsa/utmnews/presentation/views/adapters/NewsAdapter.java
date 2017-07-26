@@ -23,6 +23,7 @@ import dsdmsa.utmnews.App;
 import dsdmsa.utmnews.R;
 import dsdmsa.utmnews.data.db.AppDb;
 import dsdmsa.utmnews.domain.models.SimplePost;
+import timber.log.Timber;
 
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> {
 
@@ -30,33 +31,27 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
     private Listener listener;
 
     @Inject
-    Context mContext;
+    protected Context mContext;
 
-    protected AppDb appDb = App.getAppComponent().getAppDb();
+    @Inject
+    protected AppDb appDb;
 
     public NewsAdapter(Listener listener) {
         App.getAppComponent().inject(this);
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
         this.listener = listener;
+        appDb.getPostDao().getAllPosts().observeForever(this::updateBookmarkIcon);
+    }
 
-        appDb.getPostDao().getAllPosts().observeForever(simplePosts -> {
-            for (int i = 0; i < newsList.size(); i++) {
-                if (simplePosts != null) {
-                    if (simplePosts.contains(newsList.get(i))) {
-                        newsList.get(i).setBookmarked(true);
-                    } else {
-                        newsList.get(i).setBookmarked(false);
-                    }
-                }
-                notifyItemChanged(i);
-            }
-        });
-
+    private void updateBookmarkIcon(List<SimplePost> simplePosts) {
+        newsList.forEach(post -> post.setBookmarked(simplePosts.contains(post)));
+        notifyDataSetChanged();
     }
 
     public void addNewses(List<SimplePost> orderDTOs) {
+        orderDTOs.forEach(post -> Timber.d("is bookmarkeed " + post.isBookmarked()));
         newsList.addAll(orderDTOs);
-        notifyDataSetChanged();
+        notifyItemRangeInserted(newsList.size() - 1, orderDTOs.size() - 1);
     }
 
     @Override

@@ -19,6 +19,7 @@ public class SimplePost {
     private String description;
     private String category;
     private boolean isBookmarked = false;
+    private int categoryId = 0;
 
     public String getCategory() {
         return category;
@@ -91,5 +92,13 @@ public class SimplePost {
         } else {
             return false;
         }
+    }
+
+    public int getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(int categoryId) {
+        this.categoryId = categoryId;
     }
 }

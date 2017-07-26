@@ -20,8 +20,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
-import static dsdmsa.utmnews.domain.utils.Constants.ITEMS_PER_PAGE;
-
 
 @InjectViewState
 public class NewsListPresenter extends MvpPresenter<NewsContract.View> implements NewsContract.Presenter {
@@ -43,7 +41,7 @@ public class NewsListPresenter extends MvpPresenter<NewsContract.View> implement
     public void getNews(int page) {
         getViewState().showProgressDialog();
         Timber.d("GET NEWS ON PAGE " + page);
-        interactor.getNews(page, ITEMS_PER_PAGE)
+        interactor.getNews(page)
                 .subscribe(simplePosts -> {
                             getViewState().hideProgressDialog();
                             if (simplePosts != null && simplePosts.isEmpty()) {
@@ -61,7 +59,7 @@ public class NewsListPresenter extends MvpPresenter<NewsContract.View> implement
     @Override
     public void refreshNewses() {
         getViewState().showProgressDialog();
-        interactor.getNews(1, ITEMS_PER_PAGE)
+        interactor.getNews(1)
                 .subscribe(simplePosts -> {
                             getViewState().hideProgressDialog();
                             getViewState().clearList();

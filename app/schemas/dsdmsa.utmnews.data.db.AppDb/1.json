@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "a72c45816317ae4b019960e2af4c8ec5",
+    "identityHash": "4020e86fc7f4b9a6b8ef01ebf8c0257a",
     "entities": [
       {
         "tableName": "Category",
@@ -60,7 +60,7 @@
       },
       {
         "tableName": "SimplePost",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER, `date` TEXT, `link` TEXT, `imageUrl` TEXT, `description` TEXT, `category` TEXT, `isBookmarked` INTEGER, `rendered` TEXT, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER, `date` TEXT, `link` TEXT, `imageUrl` TEXT, `description` TEXT, `category` TEXT, `isBookmarked` INTEGER, `categoryId` INTEGER, `rendered` TEXT, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -95,6 +95,11 @@
           {
             "fieldPath": "isBookmarked",
             "columnName": "isBookmarked",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "categoryId",
+            "columnName": "categoryId",
             "affinity": "INTEGER"
           },
           {
@@ -164,7 +169,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"a72c45816317ae4b019960e2af4c8ec5\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"4020e86fc7f4b9a6b8ef01ebf8c0257a\")"
     ]
   }
 }

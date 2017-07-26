@@ -23,7 +23,6 @@ import dsdmsa.utmnews.presentation.presenters.CategoryNewsListPresenter;
 import dsdmsa.utmnews.presentation.views.ChromeTab;
 import dsdmsa.utmnews.presentation.views.adapters.EndlessRecyclerOnScrollListener;
 import dsdmsa.utmnews.presentation.views.adapters.NewsAdapter;
-import es.dmoral.toasty.Toasty;
 
 
 public class CategoryNewsFragment extends BaseFragment implements
@@ -138,11 +137,6 @@ public class CategoryNewsFragment extends BaseFragment implements
     @Override
     public void clearDatas() {
         adapter.clearData();
-    }
-
-    @Override
-    public void showInfoToast(String string) {
-        Toasty.info(getActivity(),string).show();
     }
 
     @Override
