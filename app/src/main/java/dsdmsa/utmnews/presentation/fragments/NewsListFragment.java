@@ -100,7 +100,6 @@ public class NewsListFragment extends BaseFragment implements
     public void showInfoMessage(String errorMsg) {
         infoMsg.setText(errorMsg);
         infoMsg.setVisibility(View.VISIBLE);
-
     }
 
     @Override

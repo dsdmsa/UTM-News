@@ -1,5 +1,6 @@
 package dsdmsa.utmnews.presentation.fragments;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
@@ -83,6 +84,7 @@ public class HomeFragment extends BaseFragment implements
         pagerAdapter = new CategoryViewPagerAdapter(getFragmentManager(), baseFragments);
         viewPager.setAdapter(pagerAdapter);
         tabLayout.setViewPager(viewPager);
+        tabLayout.setDefaultTabTextColor(Color.CYAN);
         setTabAlpha(0);
         tabLayout.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override

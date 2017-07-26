@@ -91,7 +91,7 @@ public class CategoryNewsFragment extends BaseFragment implements
 
     @Override
     public String getName() {
-        return category.getName();
+        return category != null ? category.getName() : "";
     }
 
     @Override

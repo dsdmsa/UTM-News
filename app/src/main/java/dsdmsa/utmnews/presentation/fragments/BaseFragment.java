@@ -23,7 +23,6 @@ public abstract class BaseFragment extends MvpAppCompatFragment implements Lifec
     protected View rootView;
     protected Unbinder unbinder;
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,7 +56,7 @@ public abstract class BaseFragment extends MvpAppCompatFragment implements Lifec
 
     @Override
     public void showInfoToast(String string) {
-        getActivity().runOnUiThread(() -> Toasty.info(getActivity(), string).show());
+        Toasty.info(getActivity(), string).show();
     }
 
     @Override

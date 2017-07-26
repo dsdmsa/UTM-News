@@ -71,7 +71,6 @@ public class NewsListPresenter extends MvpPresenter<NewsContract.View> implement
                             }
                         }, error -> {
                             getViewState().hideProgressDialog();
-//                            getViewState().showInfoMessage(error.getMessage());
                         }
                 );
     }
@@ -81,15 +80,14 @@ public class NewsListPresenter extends MvpPresenter<NewsContract.View> implement
         Single.fromCallable(() -> {
             List<SimplePost> simplePosts = appDb.getPostDao().getAll();
             if (simplePosts.contains(post)) {
-                getViewState().showInfoToast(context.getString(R.string.boocmark_removed));
                 appDb.getPostDao().delete(post);
+                return context.getString(R.string.boocmark_removed);
             } else {
-                getViewState().showInfoToast(context.getString(R.string.boocmark_added));
                 appDb.getPostDao().addPost(post);
+                return context.getString(R.string.boocmark_added);
             }
-            return "";
         }).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe();
+                .subscribe(msg -> getViewState().showInfoToast(msg));
     }
 }
