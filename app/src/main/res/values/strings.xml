@@ -28,7 +28,7 @@
     <string name="no_net_error">nu este conexiune la internet</string>
     <string name="about_name">Name :</string>
     <string name="about_version">Versiunea :</string>
-    <string name="search_hint">Testează cuvântul cheie</string>
+    <string name="search_hint">Tastează cuvântul cheie</string>
     <string name="empty_list_warn">Lista este goală</string>
 
     <string name="search_no_results">Nu aveți rezultate pentru căutarea dată</string>

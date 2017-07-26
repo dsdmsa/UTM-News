@@ -1,7 +1,5 @@
 package dsdmsa.utmnews.presentation.activityes;
 
-import android.content.IntentFilter;
-import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.widget.Toolbar;
@@ -27,7 +25,6 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import dsdmsa.utmnews.App;
 import dsdmsa.utmnews.R;
-import dsdmsa.utmnews.data.brodcast.ConnectionChangeReceiver;
 import dsdmsa.utmnews.domain.utils.Constants;
 import dsdmsa.utmnews.domain.utils.FragmentNavigation;
 import dsdmsa.utmnews.presentation.fragments.AboutFragment;
@@ -72,7 +69,6 @@ public class MainActivity extends BaseActivity implements
 
     private long mBackPressed;
     private Teleprinter teleprinter;
-    private ConnectionChangeReceiver receiver;
 
     @Override
     protected int getLayout() {
@@ -82,15 +78,7 @@ public class MainActivity extends BaseActivity implements
     @Override
     protected void onResume() {
         fragmentNavigation.init(getSupportFragmentManager(), R.id.fragment_container);
-        receiver = new ConnectionChangeReceiver();
-        registerReceiver(receiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
         super.onResume();
-    }
-
-    @Override
-    protected void onPause() {
-        unregisterReceiver(receiver);
-        super.onPause();
     }
 
     @Override

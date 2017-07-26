@@ -1,7 +1,5 @@
 package dsdmsa.utmnews;
 
-import android.content.SharedPreferences;
-
 import javax.inject.Singleton;
 
 import dagger.Component;
@@ -27,8 +25,6 @@ import dsdmsa.utmnews.presentation.views.adapters.NewsAdapter;
 @Singleton
 @Component(modules = {AppModule.class, NetworkModule.class})
 public interface AppComponent {
-
-    SharedPreferences getPrefs();
 
     AppDb getAppDb();
 
