@@ -11,7 +11,7 @@ import dsdmsa.utmnews.App;
 import dsdmsa.utmnews.data.interactor.CategoryInteractor;
 import dsdmsa.utmnews.data.interactor.TagInteractor;
 
-public class SplashScreenActivity extends AppCompatActivity  {
+public class SplashScreenActivity extends AppCompatActivity {
 
     @Inject
     CategoryInteractor categoryInteractor;
@@ -24,12 +24,16 @@ public class SplashScreenActivity extends AppCompatActivity  {
         super.onCreate(savedInstanceState);
         App.getAppComponent().inject(this);
         categoryInteractor.getCategories().subscribe(
-                categories -> {},
-                error->{}
+                categories -> {
+                },
+                error -> {
+                }
         );
         tagInteractor.getTags().subscribe(
-                tags ->{},
-                error ->{}
+                tags -> {
+                },
+                error -> {
+                }
         );
         startActivity(new Intent(this, MainActivity.class));
         finish();

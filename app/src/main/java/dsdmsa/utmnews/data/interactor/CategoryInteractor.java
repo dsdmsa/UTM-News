@@ -29,18 +29,31 @@ public class CategoryInteractor {
     }
 
     public Observable<List<Category>> getCategories() {
-        if (Utils.isOnline(context)) {
-            return api.getCategories()
-                    .map(categories -> {
-                        appDb.getCategoryDao().addCategories(categories);
-                        return categories;
-                    }).observeOn(AndroidSchedulers.mainThread())
-                    .subscribeOn(Schedulers.io());
-        } else {
-            return Observable.fromCallable(() -> appDb.getCategoryDao().getAllCategories())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribeOn(Schedulers.io());
-        }
+        updateCategories();
+        return Observable.fromCallable(() -> appDb.getCategoryDao().getAllCategories())
+                .flatMap(local -> {
+                    if (local.isEmpty() && Utils.isOnline(context)) {
+                        return api.getCategories()
+                                .map(categories -> {
+                                    appDb.getCategoryDao().addCategories(categories);
+                                    return categories;
+                                });
+                    } else {
+                        return Observable.just(local);
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
+
+    private void updateCategories() {
+        api.getCategories()
+                .map(categories -> {
+                    appDb.getCategoryDao().addCategories(categories);
+                    return categories;
+                }).observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe();
     }
 
 }

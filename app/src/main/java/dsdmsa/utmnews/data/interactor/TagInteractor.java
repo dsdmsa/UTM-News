@@ -30,18 +30,31 @@ public class TagInteractor {
     }
 
     public Observable<List<Tag>> getTags() {
-        if (Utils.isOnline(context)) {
-            return api.getTags()
-                    .map(tags -> {
-                        appDb.getTagDao().addTag(tags);
-                        return tags;
-                    }).subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread());
-        } else {
-            return Observable.fromCallable(() -> appDb.getTagDao().getAllTags())
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread());
-        }
+        updateTagDb();
+        return Observable.fromCallable(() -> appDb.getTagDao().getAllTags())
+                .flatMap(local -> {
+                    if (local.isEmpty() && Utils.isOnline(context)) {
+                        return api.getTags()
+                                .map(tags -> {
+                                    appDb.getTagDao().addTag(tags);
+                                    return tags;
+                                });
+                    } else {
+                        return Observable.just(local);
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io());
+    }
+
+    private void updateTagDb() {
+        api.getTags()
+                .map(tags -> {
+                    appDb.getTagDao().addTag(tags);
+                    return tags;
+                }).observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe();
     }
 
 }
