@@ -18,6 +18,7 @@ import dsdmsa.utmnews.presentation.mvp.NewsContract;
 import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import timber.log.Timber;
 
 import static dsdmsa.utmnews.domain.utils.Constants.ITEMS_PER_PAGE;
 
@@ -41,19 +42,18 @@ public class NewsListPresenter extends MvpPresenter<NewsContract.View> implement
     @Override
     public void getNews(int page) {
         getViewState().showProgressDialog();
+        Timber.d("GET NEWS ON PAGE " + page);
         interactor.getNews(page, ITEMS_PER_PAGE)
                 .subscribe(simplePosts -> {
                             getViewState().hideProgressDialog();
-                            getViewState().addNewses(simplePosts);
-                    if (simplePosts != null && simplePosts.isEmpty()) {
-                        getViewState().showInfoMessage(context.getString(R.string.empty_news_list));
-                    } else {
-                        getViewState().addNewses(simplePosts);
-                        getViewState().hideInfoMessage();
-                    }
+                            if (simplePosts != null && simplePosts.isEmpty()) {
+                                getViewState().showInfoMessage(context.getString(R.string.empty_news_list));
+                            } else {
+                                getViewState().addNewses(simplePosts);
+                                getViewState().hideInfoMessage();
+                            }
                         }, error -> {
                             getViewState().hideProgressDialog();
-//                            getViewState().showInfoMessage(error.getMessage());
                         }
                 );
     }
@@ -65,13 +65,12 @@ public class NewsListPresenter extends MvpPresenter<NewsContract.View> implement
                 .subscribe(simplePosts -> {
                             getViewState().hideProgressDialog();
                             getViewState().clearList();
-                            getViewState().addNewses(simplePosts);
-                    if (simplePosts != null && simplePosts.isEmpty()) {
-                        getViewState().showInfoMessage(context.getString(R.string.empty_news_list));
-                    } else {
-                        getViewState().addNewses(simplePosts);
-                        getViewState().hideInfoMessage();
-                    }
+                            if (simplePosts != null && simplePosts.isEmpty()) {
+                                getViewState().showInfoMessage(context.getString(R.string.empty_news_list));
+                            } else {
+                                getViewState().addNewses(simplePosts);
+                                getViewState().hideInfoMessage();
+                            }
                         }, error -> {
                             getViewState().hideProgressDialog();
 //                            getViewState().showInfoMessage(error.getMessage());

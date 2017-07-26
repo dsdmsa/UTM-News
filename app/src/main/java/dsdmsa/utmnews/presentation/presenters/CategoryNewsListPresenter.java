@@ -23,7 +23,7 @@ import io.reactivex.schedulers.Schedulers;
 
 @InjectViewState
 public class CategoryNewsListPresenter extends MvpPresenter<CategoryContract.View> implements
-        CategoryContract.Presenter{
+        CategoryContract.Presenter {
 
     @Inject
     CategoryNewsInteractor categoryInteractor;
@@ -44,22 +44,20 @@ public class CategoryNewsListPresenter extends MvpPresenter<CategoryContract.Vie
     public void getCategoryNewses(int page) {
         getViewState().showProgressDialog();
         categoryInteractor.getCategories(category.getId(), page)
-        .subscribe(
-                simplePosts -> {
-                    getViewState().hideProgressDialog();
-                    getViewState().addNewses(simplePosts);
-                    if (simplePosts != null && simplePosts.isEmpty()) {
-                        getViewState().showInfoMessage(context.getString(R.string.empty_news_list));
-                    } else {
-                        getViewState().addNewses(simplePosts);
-                        getViewState().hideInfoMessage();
-                    }
-                },
-                error ->{
-                    getViewState().hideProgressDialog();
-//                    getViewState().showInfoMessage(error.getMessage());
-                }
-        );
+                .subscribe(
+                        simplePosts -> {
+                            getViewState().hideProgressDialog();
+                            if (simplePosts != null && simplePosts.isEmpty()) {
+                                getViewState().showInfoMessage(context.getString(R.string.empty_news_list));
+                            } else {
+                                getViewState().addNewses(simplePosts);
+                                getViewState().hideInfoMessage();
+                            }
+                        },
+                        error -> {
+                            getViewState().hideProgressDialog();
+                        }
+                );
     }
 
     @Override
@@ -70,7 +68,6 @@ public class CategoryNewsListPresenter extends MvpPresenter<CategoryContract.Vie
                         simplePosts -> {
                             getViewState().hideProgressDialog();
                             getViewState().clearDatas();
-                            getViewState().addNewses(simplePosts);
                             if (simplePosts != null && simplePosts.isEmpty()) {
                                 getViewState().showInfoMessage(context.getString(R.string.empty_news_list));
                             } else {
@@ -78,9 +75,8 @@ public class CategoryNewsListPresenter extends MvpPresenter<CategoryContract.Vie
                                 getViewState().hideInfoMessage();
                             }
                         },
-                        error ->{
+                        error -> {
                             getViewState().hideProgressDialog();
-//                            getViewState().showInfoMessage(error.getMessage());
                         }
                 );
     }

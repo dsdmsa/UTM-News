@@ -23,7 +23,7 @@ import io.reactivex.schedulers.Schedulers;
 
 @InjectViewState
 public class SearchNewsListPresenter extends MvpPresenter<SearchNewsContract.View> implements
-        SearchNewsContract.Presenter{
+        SearchNewsContract.Presenter {
 
     @Inject
     SearchNewsInteractor interactor;
@@ -49,21 +49,20 @@ public class SearchNewsListPresenter extends MvpPresenter<SearchNewsContract.Vie
     public void getNews(int page) {
         getViewState().showProgressDialog();
         interactor.getNews(key, page, Constants.ITEMS_PER_PAGE)
-            .subscribe(
-                    response -> {
-                        getViewState().hideProgressDialog();
-                        getViewState().addNewses(response);
-                        if (response.isEmpty()){
-                            getViewState().showInfoMessage(context.getString(R.string.search_no_results));
-                        }else {
-                            getViewState().hideInfoMessage();
+                .subscribe(
+                        response -> {
+                            getViewState().hideProgressDialog();
+                            if (response.isEmpty()) {
+                                getViewState().showInfoMessage(context.getString(R.string.search_no_results));
+                            } else {
+                                getViewState().addNewses(response);
+                                getViewState().hideInfoMessage();
+                            }
+                        },
+                        error -> {
+                            getViewState().hideProgressDialog();
                         }
-                    },
-                    error -> {
-                        getViewState().hideProgressDialog();
-//                        getViewState().showInfoMessage(error.getMessage());
-                    }
-            );
+                );
     }
 
     @Override
@@ -74,16 +73,15 @@ public class SearchNewsListPresenter extends MvpPresenter<SearchNewsContract.Vie
                         response -> {
                             getViewState().hideProgressDialog();
                             getViewState().clearList();
-                            getViewState().addNewses(response);
-                            if (response.isEmpty()){
+                            if (response.isEmpty()) {
                                 getViewState().showInfoMessage(context.getString(R.string.search_no_results));
-                            }else {
+                            } else {
+                                getViewState().addNewses(response);
                                 getViewState().hideInfoMessage();
                             }
                         },
                         error -> {
                             getViewState().hideProgressDialog();
-//                            getViewState().showInfoMessage(error.getMessage());
                         }
                 );
     }

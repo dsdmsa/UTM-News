@@ -47,7 +47,6 @@ public class TagNewsListPresenter extends MvpPresenter<TagListContract.View> imp
         .subscribe(
                 simplePosts -> {
                     getViewState().hideProgressDialog();
-                    getViewState().addNewses(simplePosts);
                     if (simplePosts != null && simplePosts.isEmpty()) {
                         getViewState().showInfoMessage(context.getString(R.string.empty_news_list));
                     } else {
@@ -56,7 +55,6 @@ public class TagNewsListPresenter extends MvpPresenter<TagListContract.View> imp
                     }
                 },error -> {
                     getViewState().hideProgressDialog();
-//                    getViewState().showInfoMessage(error.getMessage());
                 }
         );
     }
@@ -69,7 +67,6 @@ public class TagNewsListPresenter extends MvpPresenter<TagListContract.View> imp
                         simplePosts -> {
                             getViewState().hideProgressDialog();
                             getViewState().clear();
-                            getViewState().addNewses(simplePosts);
                             if (simplePosts != null && simplePosts.isEmpty()) {
                                 getViewState().showInfoMessage(context.getString(R.string.empty_news_list));
                             } else {
@@ -78,7 +75,6 @@ public class TagNewsListPresenter extends MvpPresenter<TagListContract.View> imp
                             }
                         },error -> {
                             getViewState().hideProgressDialog();
-//                            getViewState().showInfoMessage(error.getMessage());
                         }
                 );
     }

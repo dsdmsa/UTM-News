@@ -42,6 +42,7 @@ public class TagNewsFragment extends BaseFragment implements
 
     private NewsAdapter adapter;
     private LinearLayoutManager layoutManager;
+    private EndlessRecyclerOnScrollListener endlessRecyclerOnScrollListener;
     private Tag tag;
 
     public void setTag(Tag tag) {
@@ -64,6 +65,17 @@ public class TagNewsFragment extends BaseFragment implements
 
         adapter = new NewsAdapter(this);
         layoutManager = new LinearLayoutManager(getContext());
+        endlessRecyclerOnScrollListener = new EndlessRecyclerOnScrollListener(layoutManager) {
+            @Override
+            public void onLoadMore(int currentPage) {
+                presenter.getCategoryNewses(currentPage);
+            }
+
+            @Override
+            public void isScrolling() {
+
+            }
+        };
     }
 
     @Override
@@ -94,6 +106,7 @@ public class TagNewsFragment extends BaseFragment implements
     @Override
     public void onRefresh() {
         presenter.refresh();
+        endlessRecyclerOnScrollListener.resetPages();
     }
 
     @Override
@@ -127,17 +140,7 @@ public class TagNewsFragment extends BaseFragment implements
     public void setupRecyclerView() {
         recycleView.setLayoutManager(layoutManager);
         recycleView.setAdapter(adapter);
-        recycleView.addOnScrollListener(new EndlessRecyclerOnScrollListener(layoutManager) {
-            @Override
-            public void onLoadMore(int currentPage) {
-                presenter.getCategoryNewses(currentPage);
-            }
-
-            @Override
-            public void isScrolling() {
-
-            }
-        });
+        recycleView.addOnScrollListener(endlessRecyclerOnScrollListener);
     }
 
     @Override

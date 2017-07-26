@@ -1,0 +1,152 @@
+{
+  "project_info": {
+    "project_number": "104316212233",
+    "firebase_url": "https://utm-news-da658.firebaseio.com",
+    "project_id": "utm-news-da658",
+    "storage_bucket": "utm-news-da658.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:104316212233:android:48dd6ddcddf61b85",
+        "android_client_info": {
+          "package_name": "dsdmsa.utmnews.dev"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "104316212233-v4krqgl03h694gdkj6ifo4gujnm27q76.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "dsdmsa.utmnews.dev",
+            "certificate_hash": "31440ba65db2cfead4858b4d051f68311127b105"
+          }
+        },
+        {
+          "client_id": "104316212233-o3qb3co05o2d6jdgq4rakd4jcn8k5418.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDOEstwWiVT_E5arn-HECSk9gia6yyWUSk"
+        },
+        {
+          "current_key": "AIzaSyDSgaxv0TZW_y-H-mi6E4nwGKZIK1OkK_I"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "104316212233-o3qb3co05o2d6jdgq4rakd4jcn8k5418.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:104316212233:android:29ec7537a572f86c",
+        "android_client_info": {
+          "package_name": "dsdmsa.utmnews.prod"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "104316212233-pkhj4h755uvnl9iat2cqbtro86s1h025.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "dsdmsa.utmnews.prod",
+            "certificate_hash": "31440ba65db2cfead4858b4d051f68311127b105"
+          }
+        },
+        {
+          "client_id": "104316212233-o3qb3co05o2d6jdgq4rakd4jcn8k5418.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDOEstwWiVT_E5arn-HECSk9gia6yyWUSk"
+        },
+        {
+          "current_key": "AIzaSyDSgaxv0TZW_y-H-mi6E4nwGKZIK1OkK_I"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "104316212233-o3qb3co05o2d6jdgq4rakd4jcn8k5418.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:104316212233:android:671e64aab353e945",
+        "android_client_info": {
+          "package_name": "dsdmsa.utmnews"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "104316212233-n4of65r569mrdk5igatjm0kpo5n7ohtb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "dsdmsa.utmnews",
+            "certificate_hash": "31440ba65db2cfead4858b4d051f68311127b105"
+          }
+        },
+        {
+          "client_id": "104316212233-o3qb3co05o2d6jdgq4rakd4jcn8k5418.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDOEstwWiVT_E5arn-HECSk9gia6yyWUSk"
+        },
+        {
+          "current_key": "AIzaSyDSgaxv0TZW_y-H-mi6E4nwGKZIK1OkK_I"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "104316212233-o3qb3co05o2d6jdgq4rakd4jcn8k5418.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -45,6 +45,7 @@ public class SearchNewsListFragment extends BaseFragment implements
 
     private NewsAdapter adapter;
     private LinearLayoutManager layoutManager;
+    private EndlessRecyclerOnScrollListener endlessRecyclerOnScrollListener;
 
     @Override
     protected int getLayout() {
@@ -61,6 +62,17 @@ public class SearchNewsListFragment extends BaseFragment implements
         super.onCreate(savedInstanceState);
         adapter = new NewsAdapter(this);
         layoutManager = new LinearLayoutManager(getContext());
+        endlessRecyclerOnScrollListener = new EndlessRecyclerOnScrollListener(layoutManager) {
+            @Override
+            public void onLoadMore(int currentPage) {
+                presenter.getNews(currentPage);
+            }
+
+            @Override
+            public void isScrolling() {
+                ((MainActivity) getActivity()).onSearchClicked();
+            }
+        };
     }
 
     @Override
@@ -69,21 +81,12 @@ public class SearchNewsListFragment extends BaseFragment implements
         swipeRefresh.setOnRefreshListener(this);
         recycleView.setLayoutManager(layoutManager);
         recycleView.setAdapter(adapter);
-        recycleView.addOnScrollListener(new EndlessRecyclerOnScrollListener(layoutManager) {
-            @Override
-            public void onLoadMore(int page) {
-                presenter.getNews(page);
-            }
-
-            @Override
-            public void isScrolling() {
-                ((MainActivity) getActivity()).onSearchClicked();
-            }
-        });
+        recycleView.addOnScrollListener(endlessRecyclerOnScrollListener);
     }
 
     @Override
     public void onRefresh() {
+        endlessRecyclerOnScrollListener.resetPages();
         presenter.refreshNewses();
     }
 

@@ -43,6 +43,7 @@ public class CategoryNewsFragment extends BaseFragment implements
     private NewsAdapter adapter;
     private LinearLayoutManager layoutManager;
     private Category category;
+    private EndlessRecyclerOnScrollListener endlessRecyclerOnScrollListener;
 
     public void setCategory(Category category) {
         this.category = category;
@@ -64,6 +65,16 @@ public class CategoryNewsFragment extends BaseFragment implements
 
         adapter = new NewsAdapter(this);
         layoutManager = new LinearLayoutManager(getContext());
+        endlessRecyclerOnScrollListener = new EndlessRecyclerOnScrollListener(layoutManager) {
+            @Override
+            public void onLoadMore(int currentPage) {
+                presenter.getCategoryNewses(currentPage);
+            }
+
+            @Override
+            public void isScrolling() {
+            }
+        };
     }
 
     @Override
@@ -86,6 +97,7 @@ public class CategoryNewsFragment extends BaseFragment implements
 
     @Override
     public void onRefresh() {
+        endlessRecyclerOnScrollListener.resetPages();
         presenter.refresh();
     }
 
@@ -120,17 +132,7 @@ public class CategoryNewsFragment extends BaseFragment implements
     public void setupRecyclerView() {
         recycleView.setLayoutManager(layoutManager);
         recycleView.setAdapter(adapter);
-        recycleView.addOnScrollListener(new EndlessRecyclerOnScrollListener(layoutManager) {
-            @Override
-            public void onLoadMore(int current_page) {
-                presenter.getCategoryNewses(current_page);
-            }
-
-            @Override
-            public void isScrolling() {
-
-            }
-        });
+        recycleView.addOnScrollListener(endlessRecyclerOnScrollListener);
     }
 
     @Override
