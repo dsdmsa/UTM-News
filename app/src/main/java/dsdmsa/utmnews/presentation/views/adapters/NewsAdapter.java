@@ -23,7 +23,6 @@ import dsdmsa.utmnews.App;
 import dsdmsa.utmnews.R;
 import dsdmsa.utmnews.data.db.AppDb;
 import dsdmsa.utmnews.domain.models.SimplePost;
-import timber.log.Timber;
 
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> {
 
@@ -44,12 +43,13 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
     }
 
     private void updateBookmarkIcon(List<SimplePost> simplePosts) {
-        newsList.forEach(post -> post.setBookmarked(simplePosts.contains(post)));
+        for (int i = 0; i < newsList.size(); i++) {
+            newsList.get(i).setBookmarked(simplePosts.contains( newsList.get(i)));
+        }
         notifyDataSetChanged();
     }
 
     public void addNewses(List<SimplePost> orderDTOs) {
-        orderDTOs.forEach(post -> Timber.d("is bookmarkeed " + post.isBookmarked()));
         newsList.addAll(orderDTOs);
         notifyItemRangeInserted(newsList.size() - 1, orderDTOs.size() - 1);
     }

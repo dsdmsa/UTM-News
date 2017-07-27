@@ -1,6 +1,5 @@
 package dsdmsa.utmnews.presentation.fragments;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
@@ -18,7 +17,6 @@ import dsdmsa.utmnews.presentation.mvp.HomeContract;
 import dsdmsa.utmnews.presentation.presenters.HomeFragmentPresenter;
 import dsdmsa.utmnews.presentation.views.adapters.CategoryViewPagerAdapter;
 import es.dmoral.toasty.Toasty;
-import timber.log.Timber;
 
 
 public class HomeFragment extends BaseFragment implements
@@ -80,11 +78,9 @@ public class HomeFragment extends BaseFragment implements
 
     @Override
     public void displayPages(List<BaseFragment> baseFragments) {
-        Timber.d(" adding fragments " + baseFragments.size());
         pagerAdapter = new CategoryViewPagerAdapter(getFragmentManager(), baseFragments);
         viewPager.setAdapter(pagerAdapter);
         tabLayout.setViewPager(viewPager);
-        tabLayout.setDefaultTabTextColor(Color.CYAN);
         setTabAlpha(0);
         tabLayout.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -106,7 +102,6 @@ public class HomeFragment extends BaseFragment implements
         for (int i = 0; i < pagerAdapter.getCount(); i++) {
             float alp = Math.abs(position - i);
             alp = 1 - alp / 2.5f;
-            Timber.d("alpha " + alp);
             if (alp < 0f)
                 alp = 0.1f;
             tabLayout.getTabAt(i).setAlpha(alp);

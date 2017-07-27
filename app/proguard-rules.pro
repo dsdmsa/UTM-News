@@ -20,7 +20,8 @@
     boolean mShiftingMode;
 }
 
-
+-dontwarn java.lang.invoke.*
+-dontwarn **$$Lambda$*
 -keep class dsdmsa.utmnews.** { *; }
 -dontwarn java.lang.invoke**
 
