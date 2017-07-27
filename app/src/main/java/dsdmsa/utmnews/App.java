@@ -23,10 +23,7 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
 
-        appComponent = DaggerAppComponent.builder()
-                .appModule(new AppModule(this))
-                .networkModule(new NetworkModule(END_POINT))
-                .build();
+        initModules();
 
         if (BuildConfig.DEBUG) {
             Timber.plant(new Timber.DebugTree());
@@ -35,5 +32,12 @@ public class App extends Application {
             }
             LeakCanary.install(this);
         }
+    }
+
+    public void initModules() {
+        appComponent = DaggerAppComponent.builder()
+                .appModule(new AppModule(this))
+                .networkModule(new NetworkModule(END_POINT))
+                .build();
     }
 }

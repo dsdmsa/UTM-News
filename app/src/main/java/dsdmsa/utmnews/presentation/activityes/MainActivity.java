@@ -2,6 +2,7 @@ package dsdmsa.utmnews.presentation.activityes;
 
 import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -77,6 +78,7 @@ public class MainActivity extends BaseActivity implements
 
     @Override
     protected void onResume() {
+        App.getAppComponent().inject(this);
         fragmentNavigation.init(getSupportFragmentManager(), R.id.fragment_container);
         super.onResume();
     }
@@ -140,7 +142,10 @@ public class MainActivity extends BaseActivity implements
         setToolbarTitle("");
         if (fragmentNavigation.getSize() == 1) {
             if (mBackPressed + TIME_INTERVAL < System.currentTimeMillis()) {
-                Toasty.info(this, getString(R.string.tab_again_exit_info), Toast.LENGTH_SHORT).show();
+                Toasty.custom(this, getString(R.string.tab_again_exit_info), null,
+                        ContextCompat.getColor(this, R.color.primary_light),
+                        ContextCompat.getColor(this, R.color.primary_dark),
+                        Toast.LENGTH_SHORT, false, true).show();
                 mBackPressed = System.currentTimeMillis();
                 return;
             }
