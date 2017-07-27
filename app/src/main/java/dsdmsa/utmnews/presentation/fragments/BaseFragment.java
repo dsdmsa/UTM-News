@@ -6,15 +6,18 @@ import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.LifecycleRegistry;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatDelegate;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.arellomobile.mvp.MvpAppCompatFragment;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import dsdmsa.utmnews.R;
 import dsdmsa.utmnews.presentation.mvp.LoadingView;
 import es.dmoral.toasty.Toasty;
 
@@ -56,7 +59,10 @@ public abstract class BaseFragment extends MvpAppCompatFragment implements Lifec
 
     @Override
     public void showInfoToast(String string) {
-        Toasty.info(getActivity(), string).show();
+        Toasty.custom(getContext(), string, null,
+                ContextCompat.getColor(getContext(), R.color.primary_light),
+                ContextCompat.getColor(getContext(), R.color.primary_dark),
+                Toast.LENGTH_SHORT, false, true).show();
     }
 
     @Override
