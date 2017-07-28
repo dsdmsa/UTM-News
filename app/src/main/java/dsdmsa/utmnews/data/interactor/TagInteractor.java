@@ -35,7 +35,10 @@ public class TagInteractor {
         return Observable.merge(
                 local.subscribeOn(Schedulers.io()),
                 network.subscribeOn(Schedulers.io())
-        )
+        ).flatMapIterable(tags -> tags)
+                .distinct(tag -> tag.id)
+                .toList()
+                .toObservable()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
     }

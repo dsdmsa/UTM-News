@@ -24,6 +24,9 @@ public class GetNewsUseCase {
                 .map(PostUtils::setBookmarked)
                 .map(PostUtils::setCategory)
                 .map(PostUtils::setDate)
+                .onErrorResumeNext(throwable -> {
+                    return Observable.just(new SimplePost());
+                })
                 .toList()
                 .toObservable()
                 .subscribeOn(Schedulers.io())

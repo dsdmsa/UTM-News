@@ -10,14 +10,14 @@ import android.arch.persistence.room.PrimaryKey;
 public class SimplePost {
 
     @PrimaryKey
-    public int id;
-    private String date;
-    private String link;
+    public int id = -1;
+    private String date = "";
+    private String link = "";
     @Embedded
-    private Title title;
-    private String imageUrl;
-    private String description;
-    private String category;
+    private Title title = new Title();
+    private String imageUrl = "";
+    private String description = "";
+    private String category = "";
     private boolean isBookmarked = false;
     private int categoryId = 0;
 

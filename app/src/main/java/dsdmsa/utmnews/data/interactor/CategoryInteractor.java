@@ -34,7 +34,10 @@ public class CategoryInteractor {
         return Observable.merge(
                 local.subscribeOn(Schedulers.io()),
                 network.subscribeOn(Schedulers.io())
-        )
+        ).flatMapIterable(categories -> categories)
+                .distinct(category -> category.id)
+                .toList()
+                .toObservable()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
 

@@ -17,6 +17,9 @@ import dsdmsa.utmnews.presentation.mvp.HomeContract;
 import dsdmsa.utmnews.presentation.presenters.HomeFragmentPresenter;
 import dsdmsa.utmnews.presentation.views.adapters.CategoryViewPagerAdapter;
 import es.dmoral.toasty.Toasty;
+import io.reactivex.Single;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import timber.log.Timber;
 
 
 public class HomeFragment extends BaseFragment implements
@@ -58,7 +61,7 @@ public class HomeFragment extends BaseFragment implements
         viewPager.setOffscreenPageLimit(10);
         viewPager.setPageMargin(20);
         viewPager.setClipToPadding(false);
-        viewPager.setPadding(80,0,80,0);
+        viewPager.setPadding(80, 0, 80, 0);
     }
 
     @Override
@@ -78,10 +81,22 @@ public class HomeFragment extends BaseFragment implements
 
     @Override
     public void displayPages(List<BaseFragment> baseFragments) {
-        pagerAdapter = new CategoryViewPagerAdapter(getFragmentManager(), baseFragments);
-        viewPager.setAdapter(pagerAdapter);
-        tabLayout.setViewPager(viewPager);
-        setTabAlpha(0);
+        Timber.d("fragemsnts to add in pager : " + baseFragments.size());
+
+        Single.fromCallable(() -> new CategoryViewPagerAdapter(getFragmentManager(), baseFragments))
+                .observeOn(AndroidSchedulers.mainThread())
+                .map(categoryViewPagerAdapter -> {
+                    viewPager.setAdapter(categoryViewPagerAdapter);
+                    tabLayout.setViewPager(viewPager);
+                    return categoryViewPagerAdapter;
+                })
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .subscribe(adapter -> {
+                    pagerAdapter = adapter;
+                    setTabAlpha(0);
+                    Timber.d("added fragments ot pager finished");
+                });
+
         tabLayout.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -99,13 +114,14 @@ public class HomeFragment extends BaseFragment implements
     }
 
     private void setTabAlpha(int position) {
-        for (int i = 0; i < pagerAdapter.getCount(); i++) {
-            float alp = Math.abs(position - i);
-            alp = 1 - alp / 2.5f;
-            if (alp < 0f)
-                alp = 0.1f;
-            tabLayout.getTabAt(i).setAlpha(alp);
-        }
+        if (pagerAdapter != null)
+            for (int i = 0; i < pagerAdapter.getCount(); i++) {
+                float alp = Math.abs(position - i);
+                alp = 1 - alp / 2.5f;
+                if (alp < 0f)
+                    alp = 0.1f;
+                tabLayout.getTabAt(i).setAlpha(alp);
+            }
     }
 
 }
