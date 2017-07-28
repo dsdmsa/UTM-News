@@ -87,7 +87,6 @@ public class MainActivity extends BaseActivity implements
     protected void onDestroy() {
         super.onDestroy();
         fragmentNavigation.onPause();
-
     }
 
     @Override
@@ -165,19 +164,19 @@ public class MainActivity extends BaseActivity implements
     }
 
     private void search() {
-        if (etSearch.getVisibility() == View.VISIBLE) {
-            etSearch.setVisibility(View.GONE);
-            btnSearch.setVisibility(View.GONE);
-            etSearch.clearFocus();
-            teleprinter.hideKeyboard();
-            navigation.setSelectedItemId(fragmentNavigation.bakPressed());
-        } else {
+//        if (etSearch.getVisibility() == View.VISIBLE) {
+//            etSearch.setVisibility(View.GONE);
+//            btnSearch.setVisibility(View.GONE);
+//            etSearch.clearFocus();
+//            teleprinter.hideKeyboard();
+//            navigation.setSelectedItemId(fragmentNavigation.bakPressed());
+//        } else {
             etSearch.setVisibility(View.VISIBLE);
             btnSearch.setVisibility(View.VISIBLE);
             etSearch.requestFocus();
             teleprinter.showKeyboard(etSearch);
             openFragment(new SearchNewsListFragment(), Constants.SEARCH_FRAGMENT_ID);
-        }
+//        }
     }
 
     public void hideSearch() {

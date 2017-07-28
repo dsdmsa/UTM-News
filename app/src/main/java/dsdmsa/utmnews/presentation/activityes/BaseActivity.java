@@ -28,4 +28,6 @@ public abstract class BaseActivity extends MvpAppCompatActivity implements Lifec
     public Lifecycle getLifecycle() {
         return new LifecycleRegistry(this);
     }
+
+
 }

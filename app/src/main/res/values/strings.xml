@@ -37,7 +37,11 @@
     <string name="boocmark_removed">Marcaj eliminat</string>
     <string name="boocmark_added">Marcaj adăugat</string>
     <string name="empty_news_list">Lista de noutăți este goală. Încercați altă categorie sau etichetă</string>
-
+    <string name="selecteaza_una_din_referintele_de_mai_jos">Selectează una din referințele de mai jos</string>
+    <string name="despre_aplicatie">Despre Aplicație</string>
+    <string name="despre_utm">Despre UTM</string>
+    <string name="terment_si_conditii">Termeni și condiții</string>
+    <string name="contacte">Contacte</string>
 
 
 </resources>

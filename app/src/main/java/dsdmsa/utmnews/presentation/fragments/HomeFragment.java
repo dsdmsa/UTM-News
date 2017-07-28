@@ -19,6 +19,7 @@ import dsdmsa.utmnews.presentation.views.adapters.CategoryViewPagerAdapter;
 import es.dmoral.toasty.Toasty;
 import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
 
@@ -90,7 +91,8 @@ public class HomeFragment extends BaseFragment implements
                     tabLayout.setViewPager(viewPager);
                     return categoryViewPagerAdapter;
                 })
-                .subscribeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.computation())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(adapter -> {
                     pagerAdapter = adapter;
                     setTabAlpha(0);

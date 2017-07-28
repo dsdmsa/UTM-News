@@ -99,6 +99,10 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
         notifyDataSetChanged();
     }
 
+    public boolean isEmpty() {
+        return newsList.isEmpty();
+    }
+
     static class MyViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.image)
         ImageView image;

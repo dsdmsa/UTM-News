@@ -38,6 +38,7 @@ public class TagNewsListPresenter extends MvpPresenter<TagListContract.View> imp
 
     public TagNewsListPresenter() {
         App.getAppComponent().inject(this);
+        getViewState().hideInfoMessage();
     }
 
     @Override
@@ -47,6 +48,7 @@ public class TagNewsListPresenter extends MvpPresenter<TagListContract.View> imp
         .subscribe(
                 simplePosts -> {
                     getViewState().hideProgressDialog();
+                    getViewState().hideInfoMessage();
                     if (simplePosts != null && simplePosts.isEmpty()) {
                         getViewState().showInfoMessage(context.getString(R.string.empty_news_list));
                     } else {
@@ -66,6 +68,7 @@ public class TagNewsListPresenter extends MvpPresenter<TagListContract.View> imp
                 .subscribe(
                         simplePosts -> {
                             getViewState().hideProgressDialog();
+                            getViewState().hideInfoMessage();
                             getViewState().clear();
                             if (simplePosts != null && simplePosts.isEmpty()) {
                                 getViewState().showInfoMessage(context.getString(R.string.empty_news_list));

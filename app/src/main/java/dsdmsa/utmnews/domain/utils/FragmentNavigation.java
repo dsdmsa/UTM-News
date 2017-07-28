@@ -38,6 +38,7 @@ public class FragmentNavigation {
     }
 
     public void showFragment(int fragmentId, BaseFragment fragment) {
+
         if (navigationIndex.contains(fragmentId)) {
             navigationIndex.remove(navigationIndex.indexOf(fragmentId));
             navigationIndex.add(fragmentId);

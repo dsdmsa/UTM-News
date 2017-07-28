@@ -91,6 +91,7 @@ public class TagNewsFragment extends BaseFragment implements
     public void onResume() {
         super.onResume();
         presenter.setTag(tag);
+        hideInfoMessage();
     }
 
     @Override
@@ -121,8 +122,10 @@ public class TagNewsFragment extends BaseFragment implements
 
     @Override
     public void showInfoMessage(String errorMsg) {
-        infoMsg.setText(errorMsg);
-        infoMsg.setVisibility(View.VISIBLE);
+        if (adapter.isEmpty()) {
+            infoMsg.setText(errorMsg);
+            infoMsg.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
