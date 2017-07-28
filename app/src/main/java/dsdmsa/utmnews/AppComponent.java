@@ -6,7 +6,6 @@ import dagger.Component;
 import dsdmsa.utmnews.data.db.AppDb;
 import dsdmsa.utmnews.data.di.modules.AppModule;
 import dsdmsa.utmnews.data.di.modules.NetworkModule;
-import dsdmsa.utmnews.domain.utils.SimplePostAdapter;
 import dsdmsa.utmnews.presentation.activityes.MainActivity;
 import dsdmsa.utmnews.presentation.activityes.SplashScreenActivity;
 import dsdmsa.utmnews.presentation.fragments.BookmarksFragment;
@@ -53,8 +52,6 @@ public interface AppComponent {
     void inject(MainActivityPresenter mainActivityPresenter);
 
     void inject(SearchNewsListPresenter searchNewsListPresenter);
-
-    void inject(SimplePostAdapter simplePostAdapter);
 
     void inject(NewsAdapter newsAdapter);
 }
