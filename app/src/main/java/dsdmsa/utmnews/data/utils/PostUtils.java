@@ -23,7 +23,7 @@ public class PostUtils {
         if (post.getContent() != null)
             simplePost.setImageUrl(post.getContent().getUrl());
         simplePost.setLink(post.getLink());
-        simplePost.setTitle(post.getTitle());
+        simplePost.setTitle(post.getTitle().getRendered());
         simplePost.setBookmarked(false);
         if (post.getCategories() != null && !post.getCategories().isEmpty())
             simplePost.setCategoryId(post.getCategories().get(0));

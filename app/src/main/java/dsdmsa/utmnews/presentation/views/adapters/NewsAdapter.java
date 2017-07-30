@@ -77,7 +77,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
         }
 
         holder.tvTime.setText(newsList.get(position).getDate());
-        holder.tvTitle.setText(newsList.get(position).getTitle().getRendered());
+        holder.tvTitle.setText(newsList.get(position).getTitle());
         holder.tvDescription.setText(newsList.get(position).getDescription());
         holder.tvCategory.setText(newsList.get(position).getCategory());
 

@@ -14,7 +14,7 @@ public class SimplePost {
     private String date = "";
     private String link = "";
     @Embedded
-    private Title title = new Title();
+    private String title = "";
     private String imageUrl = "";
     private String description = "";
     private String category = "";
@@ -69,11 +69,11 @@ public class SimplePost {
         this.link = link;
     }
 
-    public Title getTitle() {
+    public String getTitle() {
         return title;
     }
 
-    public void setTitle(Title title) {
+    public void setTitle(String title) {
         this.title = title;
     }
 
