@@ -31,10 +31,9 @@ public class CategoryInteractor {
                     appDb.getCategoryDao().addCategories(categories);
                     return categories;
                 });
-        return Observable.merge(
-                local.subscribeOn(Schedulers.io()),
-                network.subscribeOn(Schedulers.io())
-        ).flatMapIterable(categories -> categories)
+
+        return local.mergeWith(network)
+                .flatMapIterable(categories -> categories)
                 .distinct(category -> category.id)
                 .toList()
                 .toObservable()
