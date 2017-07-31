@@ -102,8 +102,10 @@ public class SearchNewsListFragment extends BaseFragment implements
 
     @Override
     public void showInfoMessage(String errorMsg) {
-        infoMsg.setText(errorMsg);
-        infoMsg.setVisibility(View.VISIBLE);
+        if (adapter.isEmpty()) {
+            infoMsg.setText(errorMsg);
+            infoMsg.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
