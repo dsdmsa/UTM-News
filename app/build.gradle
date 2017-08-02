@@ -1,7 +1,21 @@
+buildscript {
+    repositories {
+        maven { url 'https://maven.fabric.io/public' }
+    }
+
+    dependencies {
+        classpath 'io.fabric.tools:gradle:1.+'
+    }
+}
 import java.text.SimpleDateFormat
+
+repositories {
+    maven { url 'https://maven.fabric.io/public' }
+}
 
 apply plugin: 'com.android.application'
 apply plugin: 'me.tatarka.retrolambda'
+apply plugin: 'io.fabric'
 
 def final DEV = "dsdmsa.utmnews.dev"
 def final PROD = "dsdmsa.utmnews.prod"
@@ -22,10 +36,8 @@ android {
                 arguments = ["room.schemaLocation": "$projectDir/schemas".toString()]
             }
         }
-//        jackOptions {
-//            enabled true
-//        }
     }
+
     buildTypes {
         release {
             minifyEnabled true
@@ -64,8 +76,6 @@ android {
 
     lintOptions {
         checkReleaseBuilds false
-        // Or, if you prefer, you can continue to check for errors in release builds,
-        // but continue the build even when errors are found:
         abortOnError false
     }
 
@@ -124,6 +134,9 @@ dependencies {
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
     provided 'javax.annotation:jsr250-api:1.0'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
+    compile('com.crashlytics.sdk.android:crashlytics:2.6.8@aar') {
+        transitive = true;
+    }
 
 }
 
