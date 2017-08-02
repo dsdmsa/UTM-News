@@ -27,10 +27,7 @@ public class CategoryInteractor {
         Observable<List<Category>> local = Observable.fromCallable(() -> appDb.getCategoryDao().getAllCategories());
         Observable<List<Category>> network = api.getCategories()
                 .onErrorResumeNext(throwable -> local)
-                .map(categories -> {
-                    appDb.getCategoryDao().addCategories(categories);
-                    return categories;
-                });
+                .doOnNext(categories -> appDb.getCategoryDao().addCategories(categories));
 
         return local.mergeWith(network)
                 .flatMapIterable(categories -> categories)

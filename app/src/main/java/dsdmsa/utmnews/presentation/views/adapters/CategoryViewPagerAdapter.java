@@ -34,4 +34,8 @@ public class CategoryViewPagerAdapter extends FragmentStatePagerAdapter {
         return fragments.get(position).getName();
     }
 
+    public void clear() {
+        fragments = new ArrayList<>();
+        notifyDataSetChanged();
+    }
 }

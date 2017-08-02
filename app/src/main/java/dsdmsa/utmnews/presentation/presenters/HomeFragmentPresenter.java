@@ -1,5 +1,7 @@
 package dsdmsa.utmnews.presentation.presenters;
 
+import android.content.Context;
+
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 
@@ -9,6 +11,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import dsdmsa.utmnews.App;
+import dsdmsa.utmnews.R;
 import dsdmsa.utmnews.data.interactor.CategoryInteractor;
 import dsdmsa.utmnews.presentation.fragments.BaseFragment;
 import dsdmsa.utmnews.presentation.fragments.CategoryNewsFragment;
@@ -25,6 +28,9 @@ public class HomeFragmentPresenter extends MvpPresenter<HomeContract.View> imple
     @Inject
     CategoryInteractor categoryInteractor;
 
+    @Inject
+    Context context;
+
     public HomeFragmentPresenter() {
         App.getAppComponent().inject(this);
     }
@@ -32,6 +38,7 @@ public class HomeFragmentPresenter extends MvpPresenter<HomeContract.View> imple
     @Override
     public void getCategories() {
         getViewState().showProgressDialog();
+        getViewState().showInfoMessage(context.getString(R.string.loaging_categories_info));
         categoryInteractor.getCategories()
                 .flatMapIterable(categories -> categories)
                 .map(CategoryNewsFragment::newInstance)
@@ -40,10 +47,14 @@ public class HomeFragmentPresenter extends MvpPresenter<HomeContract.View> imple
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         fragments -> {
-                            List<BaseFragment> baseFragments = new ArrayList<>();
-                            baseFragments.add(new NewsListFragment());
-                            baseFragments.addAll(fragments);
-                            getViewState().displayPages(baseFragments);
+                            if (!fragments.isEmpty()) {
+                                List<BaseFragment> baseFragments = new ArrayList<>();
+                                baseFragments.addAll(fragments);
+                                baseFragments.add(0, new NewsListFragment());
+                                getViewState().displayPages(baseFragments);
+                            } else {
+                                getViewState().showInfoMessage(context.getString(R.string.error_loading_categories));
+                            }
                             getViewState().hideProgressDialog();
                         },
                         error -> {

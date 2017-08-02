@@ -28,10 +28,7 @@ public class TagInteractor {
         Observable<List<Tag>> local = Observable.fromCallable(() -> appDb.getTagDao().getAllTags());
         Observable<List<Tag>> network = api.getTags()
                 .onErrorResumeNext(throwable -> local)
-                .map(tags -> {
-                    appDb.getTagDao().addTag(tags);
-                    return tags;
-                });
+                .doOnNext(tags -> appDb.getTagDao().addTag(tags));
         return Observable.merge(
                 local.subscribeOn(Schedulers.io()),
                 network.subscribeOn(Schedulers.io())

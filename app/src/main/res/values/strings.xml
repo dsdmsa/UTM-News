@@ -42,6 +42,8 @@
     <string name="despre_utm">Despre UTM</string>
     <string name="terment_si_conditii">Termeni și condiții</string>
     <string name="contacte">Contacte</string>
+    <string name="loaging_categories_info">Se încarcă categoriile</string>
+    <string name="error_loading_categories">Nu se poate obține categoriile</string>
 
 
 </resources>
