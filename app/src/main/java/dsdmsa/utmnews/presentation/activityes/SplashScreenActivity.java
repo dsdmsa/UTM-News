@@ -7,28 +7,9 @@ import android.support.v7.app.AppCompatActivity;
 
 public class SplashScreenActivity extends AppCompatActivity {
 
-//    @Inject
-//    CategoryInteractor categoryInteractor;
-//
-//    @Inject
-//    TagInteractor tagInteractor;
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        App.getAppComponent().inject(this);
-//        categoryInteractor.getCategories().subscribe(
-//                categories -> {
-//                },
-//                error -> {
-//                }
-//        );
-//        tagInteractor.getTags().subscribe(
-//                tags -> {
-//                },
-//                error -> {
-//                }
-//        );
         startActivity(new Intent(this, MainActivity.class));
         finish();
     }
