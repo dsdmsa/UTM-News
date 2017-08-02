@@ -76,15 +76,16 @@ public class MainActivity extends BaseActivity implements
         return R.layout.activity_main;
     }
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         teleprinter = new Teleprinter(this);
-        App.getAppComponent().inject(this);
 
+        App.getAppComponent().inject(this);
+        fragmentNavigation.onPause();
         fragmentNavigation.init(getSupportFragmentManager(), R.id.fragment_container);
         fragmentNavigation.showFragment(R.id.menu_home, new HomeFragment());
-
         navigation.setOnNavigationItemSelectedListener(item -> {
             switch (item.getItemId()) {
                 case R.id.menu_home:
