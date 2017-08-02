@@ -82,6 +82,9 @@ public class HomeFragment extends BaseFragment implements
 
     @Override
     public void displayPages(List<BaseFragment> baseFragments) {
+
+        viewPager.setAdapter(null);
+
         Timber.d("fragemsnts to add in pager : " + baseFragments.size());
 
         Single.fromCallable(() -> new CategoryViewPagerAdapter(getFragmentManager(), baseFragments))

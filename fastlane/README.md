@@ -29,6 +29,14 @@ xcode-select --install
 </table>
 
 # Available Actions
+### screenshots
+```
+fastlane screenshots
+```
+
+
+----
+
 ## Android
 ### android test
 ```

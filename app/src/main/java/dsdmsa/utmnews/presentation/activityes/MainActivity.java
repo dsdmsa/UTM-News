@@ -77,25 +77,12 @@ public class MainActivity extends BaseActivity implements
     }
 
     @Override
-    protected void onResume() {
-        App.getAppComponent().inject(this);
-        fragmentNavigation.init(getSupportFragmentManager(), R.id.fragment_container);
-        super.onResume();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        fragmentNavigation.onPause();
-    }
-
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        BottomNavigationViewHelper.disableShiftMode(navigation);
-        App.getAppComponent().inject(this);
-        fragmentNavigation.init(getSupportFragmentManager(), R.id.fragment_container);
         teleprinter = new Teleprinter(this);
+        App.getAppComponent().inject(this);
+
+        fragmentNavigation.init(getSupportFragmentManager(), R.id.fragment_container);
         fragmentNavigation.showFragment(R.id.menu_home, new HomeFragment());
 
         navigation.setOnNavigationItemSelectedListener(item -> {
@@ -119,6 +106,8 @@ public class MainActivity extends BaseActivity implements
             setToolbarTitle("");
             return true;
         });
+
+        BottomNavigationViewHelper.disableShiftMode(navigation);
 
         RxTextView.textChanges(etSearch)
                 .debounce(Constants.DEBOUNCH_TIMEOUT, TimeUnit.MILLISECONDS)
@@ -164,19 +153,11 @@ public class MainActivity extends BaseActivity implements
     }
 
     private void search() {
-//        if (etSearch.getVisibility() == View.VISIBLE) {
-//            etSearch.setVisibility(View.GONE);
-//            btnSearch.setVisibility(View.GONE);
-//            etSearch.clearFocus();
-//            teleprinter.hideKeyboard();
-//            navigation.setSelectedItemId(fragmentNavigation.bakPressed());
-//        } else {
             etSearch.setVisibility(View.VISIBLE);
             btnSearch.setVisibility(View.VISIBLE);
             etSearch.requestFocus();
             teleprinter.showKeyboard(etSearch);
             openFragment(new SearchNewsListFragment(), Constants.SEARCH_FRAGMENT_ID);
-//        }
     }
 
     public void hideSearch() {
@@ -188,7 +169,7 @@ public class MainActivity extends BaseActivity implements
         }
     }
 
-    @OnClick(R.id.et_search)
+    @OnClick(R.id.btn_search)
     public void onSearchClicked() {
         teleprinter.hideKeyboard();
     }
