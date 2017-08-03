@@ -38,6 +38,7 @@ import dsdmsa.utmnews.presentation.mvp.MainActivityVP;
 import dsdmsa.utmnews.presentation.presenters.MainActivityPresenter;
 import dsdmsa.utmnews.presentation.views.BottomNavigationViewHelper;
 import es.dmoral.toasty.Toasty;
+import io.reactivex.Completable;
 
 import static dsdmsa.utmnews.domain.utils.Constants.TIME_INTERVAL;
 
@@ -85,28 +86,33 @@ public class MainActivity extends BaseActivity implements
         App.getAppComponent().inject(this);
         fragmentNavigation.onPause();
         fragmentNavigation.init(getSupportFragmentManager(), R.id.fragment_container);
-        fragmentNavigation.showFragment(R.id.menu_home, new HomeFragment());
-        navigation.setOnNavigationItemSelectedListener(item -> {
-            switch (item.getItemId()) {
-                case R.id.menu_home:
-                    hideSearch();
+
+        Completable.fromCallable(() -> true)
+                .delay(500, TimeUnit.MILLISECONDS)
+                .subscribe(() -> {
                     fragmentNavigation.showFragment(R.id.menu_home, new HomeFragment());
-                    break;
-                case R.id.menu_tags:
-                    hideSearch();
-                    fragmentNavigation.showFragment(R.id.menu_tags, new TagListFragment());
-                    break;
-                case R.id.menu_bookmarks:
-                    hideSearch();
-                    fragmentNavigation.showFragment(R.id.menu_bookmarks, new BookmarksFragment());
-                    break;
-                case R.id.menu_search:
-                    search();
-                    break;
-            }
-            setToolbarTitle("");
-            return true;
-        });
+                    navigation.setOnNavigationItemSelectedListener(item -> {
+                        switch (item.getItemId()) {
+                            case R.id.menu_home:
+                                hideSearch();
+                                fragmentNavigation.showFragment(R.id.menu_home, new HomeFragment());
+                                break;
+                            case R.id.menu_tags:
+                                hideSearch();
+                                fragmentNavigation.showFragment(R.id.menu_tags, new TagListFragment());
+                                break;
+                            case R.id.menu_bookmarks:
+                                hideSearch();
+                                fragmentNavigation.showFragment(R.id.menu_bookmarks, new BookmarksFragment());
+                                break;
+                            case R.id.menu_search:
+                                search();
+                                break;
+                        }
+                        setToolbarTitle("");
+                        return true;
+                    });
+                });
 
         BottomNavigationViewHelper.disableShiftMode(navigation);
 
@@ -154,11 +160,11 @@ public class MainActivity extends BaseActivity implements
     }
 
     private void search() {
-            etSearch.setVisibility(View.VISIBLE);
-            btnSearch.setVisibility(View.VISIBLE);
-            etSearch.requestFocus();
-            teleprinter.showKeyboard(etSearch);
-            openFragment(new SearchNewsListFragment(), Constants.SEARCH_FRAGMENT_ID);
+        etSearch.setVisibility(View.VISIBLE);
+        btnSearch.setVisibility(View.VISIBLE);
+        etSearch.requestFocus();
+        teleprinter.showKeyboard(etSearch);
+        openFragment(new SearchNewsListFragment(), Constants.SEARCH_FRAGMENT_ID);
     }
 
     public void hideSearch() {
