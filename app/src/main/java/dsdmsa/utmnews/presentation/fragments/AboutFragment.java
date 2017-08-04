@@ -19,7 +19,7 @@ public class AboutFragment extends BaseFragment {
 
     @Override
     public String getName() {
-        return "";
+        return "AboutFragment";
     }
 
 

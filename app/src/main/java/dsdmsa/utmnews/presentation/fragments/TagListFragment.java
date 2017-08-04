@@ -61,7 +61,7 @@ public class TagListFragment extends BaseFragment implements
 
     @Override
     public String getName() {
-        return "Tags";
+        return "TagListFragment";
     }
 
     @Override

@@ -53,7 +53,7 @@ public class HomeFragment extends BaseFragment implements
 
     @Override
     public String getName() {
-        return "";
+        return "HomeFragment";
     }
 
     @Override

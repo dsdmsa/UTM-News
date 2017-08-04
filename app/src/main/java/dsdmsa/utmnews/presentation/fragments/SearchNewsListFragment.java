@@ -54,7 +54,7 @@ public class SearchNewsListFragment extends BaseFragment implements
 
     @Override
     public String getName() {
-        return "Search";
+        return "SearchNewsListFragment";
     }
 
     @Override

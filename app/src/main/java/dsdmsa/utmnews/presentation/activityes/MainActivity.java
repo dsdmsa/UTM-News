@@ -2,6 +2,7 @@ package dsdmsa.utmnews.presentation.activityes;
 
 import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -18,16 +19,14 @@ import com.jakewharton.rxbinding2.widget.RxTextView;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
-
-import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 import dsdmsa.utmnews.App;
 import dsdmsa.utmnews.R;
 import dsdmsa.utmnews.domain.utils.Constants;
-import dsdmsa.utmnews.domain.utils.FragmentNavigation;
 import dsdmsa.utmnews.presentation.fragments.AboutFragment;
 import dsdmsa.utmnews.presentation.fragments.BaseFragment;
 import dsdmsa.utmnews.presentation.fragments.BookmarksFragment;
@@ -38,7 +37,6 @@ import dsdmsa.utmnews.presentation.mvp.MainActivityVP;
 import dsdmsa.utmnews.presentation.presenters.MainActivityPresenter;
 import dsdmsa.utmnews.presentation.views.BottomNavigationViewHelper;
 import es.dmoral.toasty.Toasty;
-import io.reactivex.Completable;
 
 import static dsdmsa.utmnews.domain.utils.Constants.TIME_INTERVAL;
 
@@ -60,9 +58,6 @@ public class MainActivity extends BaseActivity implements
     @BindView(R.id.et_search)
     EditText etSearch;
 
-    @Inject
-    protected FragmentNavigation fragmentNavigation;
-
     @BindView(R.id.btn_search)
     ImageView btnSearch;
 
@@ -82,37 +77,29 @@ public class MainActivity extends BaseActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         teleprinter = new Teleprinter(this);
-
         App.getAppComponent().inject(this);
-        fragmentNavigation.onPause();
-        fragmentNavigation.init(getSupportFragmentManager(), R.id.fragment_container);
-
-        Completable.fromCallable(() -> true)
-                .delay(500, TimeUnit.MILLISECONDS)
-                .subscribe(() -> {
-                    fragmentNavigation.showFragment(R.id.menu_home, new HomeFragment());
-                    navigation.setOnNavigationItemSelectedListener(item -> {
-                        switch (item.getItemId()) {
-                            case R.id.menu_home:
-                                hideSearch();
-                                fragmentNavigation.showFragment(R.id.menu_home, new HomeFragment());
-                                break;
-                            case R.id.menu_tags:
-                                hideSearch();
-                                fragmentNavigation.showFragment(R.id.menu_tags, new TagListFragment());
-                                break;
-                            case R.id.menu_bookmarks:
-                                hideSearch();
-                                fragmentNavigation.showFragment(R.id.menu_bookmarks, new BookmarksFragment());
-                                break;
-                            case R.id.menu_search:
-                                search();
-                                break;
-                        }
-                        setToolbarTitle("");
-                        return true;
-                    });
-                });
+        addFragment(new HomeFragment());
+        navigation.setOnNavigationItemSelectedListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.menu_home:
+                    hideSearch();
+                    addFragment(new HomeFragment());
+                    break;
+                case R.id.menu_tags:
+                    hideSearch();
+                    addFragment(new TagListFragment());
+                    break;
+                case R.id.menu_bookmarks:
+                    hideSearch();
+                    addFragment(new BookmarksFragment());
+                    break;
+                case R.id.menu_search:
+                    search();
+                    break;
+            }
+            setToolbarTitle("");
+            return true;
+        });
 
         BottomNavigationViewHelper.disableShiftMode(navigation);
 
@@ -135,36 +122,29 @@ public class MainActivity extends BaseActivity implements
     @Override
     public void onBackPressed() {
         setToolbarTitle("");
-        if (fragmentNavigation.getSize() == 1) {
-            if (mBackPressed + TIME_INTERVAL < System.currentTimeMillis()) {
-                Toasty.custom(this, getString(R.string.tab_again_exit_info), null,
-                        ContextCompat.getColor(this, R.color.primary_light),
-                        ContextCompat.getColor(this, R.color.primary_dark),
-                        Toast.LENGTH_SHORT, false, true).show();
-                mBackPressed = System.currentTimeMillis();
-                return;
-            }
-            super.onBackPressed();
-        } else {
-            navigation.setSelectedItemId(fragmentNavigation.bakPressed());
+        if (mBackPressed + TIME_INTERVAL < System.currentTimeMillis()) {
+            Toasty.custom(this, getString(R.string.tab_again_exit_info), null,
+                    ContextCompat.getColor(this, R.color.primary_light),
+                    ContextCompat.getColor(this, R.color.primary_dark),
+                    Toast.LENGTH_SHORT, false, true).show();
+            mBackPressed = System.currentTimeMillis();
+            return;
         }
+        super.onBackPressed();
     }
 
     @OnClick(R.id.btn_about)
     public void onViewClicked() {
-        fragmentNavigation.showFragment(Constants.ABOUT_FRAGMENT_ID, new AboutFragment());
+        addFragment(new AboutFragment());
     }
 
-    public void openFragment(BaseFragment fragment, int id) {
-        fragmentNavigation.showFragment(id, fragment);
-    }
 
     private void search() {
         etSearch.setVisibility(View.VISIBLE);
         btnSearch.setVisibility(View.VISIBLE);
         etSearch.requestFocus();
         teleprinter.showKeyboard(etSearch);
-        openFragment(new SearchNewsListFragment(), Constants.SEARCH_FRAGMENT_ID);
+        addFragment(new SearchNewsListFragment());
     }
 
     public void hideSearch() {
@@ -172,7 +152,6 @@ public class MainActivity extends BaseActivity implements
             etSearch.setVisibility(View.GONE);
             btnSearch.setVisibility(View.GONE);
             etSearch.clearFocus();
-            navigation.setSelectedItemId(fragmentNavigation.bakPressed());
         }
     }
 
@@ -189,6 +168,22 @@ public class MainActivity extends BaseActivity implements
     public void setToolbarTitle(String title) {
         tabTitle.setText(title);
     }
+
+    private HashMap<String, BaseFragment> fragmentHashMap = new HashMap<>();
+
+    private void addFragment(BaseFragment fragment) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        for (BaseFragment baseFragment : fragmentHashMap.values()) {
+            fragmentManager.beginTransaction().hide(baseFragment).commit();
+        }
+        if (fragmentHashMap.containsKey(fragment.getName())) {
+            fragmentManager.beginTransaction().show(fragmentHashMap.get(fragment.getName())).commit();
+        } else {
+            fragmentManager.beginTransaction().add(R.id.fragment_container, fragment).commit();
+            fragmentHashMap.put(fragment.getName(), fragment);
+        }
+    }
+
 }
 
 

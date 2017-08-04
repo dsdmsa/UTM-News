@@ -19,7 +19,7 @@ apply plugin: 'io.fabric'
 
 def final DEV = "dsdmsa.utmnews.dev"
 def final PROD = "dsdmsa.utmnews.prod"
-def final VERSION_NAME = "v0.3.${getGitCommitsNumber()}.${buildTime()}"
+def final VERSION_NAME = "v0.4.${getGitCommitsNumber()}.${buildTime()}"
 
 android {
     compileSdkVersion 25
