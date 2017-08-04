@@ -29,4 +29,5 @@ public class Constants {
     public static final int DEBOUNCH_TIMEOUT = 800;
     public static final String URL_DESPRE_UTM = "http://utm.md/despre-utm/";
     public static final String URL_CONTACTE_UTM = "http://utm.md/contacte-utm/";
+    public static final String TAG = "TAG";
 }

@@ -14,7 +14,7 @@ import java.util.List;
 import butterknife.BindView;
 import dsdmsa.utmnews.R;
 import dsdmsa.utmnews.domain.models.Tag;
-import dsdmsa.utmnews.presentation.activityes.MainActivity;
+import dsdmsa.utmnews.presentation.activityes.TagActivity;
 import dsdmsa.utmnews.presentation.mvp.TagContract;
 import dsdmsa.utmnews.presentation.presenters.TagPresenter;
 import dsdmsa.utmnews.presentation.views.adapters.TagAdapter;
@@ -96,6 +96,6 @@ public class TagListFragment extends BaseFragment implements
 
     @Override
     public void onTagClicked(Tag tag) {
-        ((MainActivity) getActivity()).openFragment(TagNewsFragment.newInstance(tag), tag.id);
+        startActivity(TagActivity.getTagIntent(getContext(), tag));
     }
 }

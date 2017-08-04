@@ -44,7 +44,7 @@ public class TagNewsListPresenter extends MvpPresenter<TagListContract.View> imp
     @Override
     public void getCategoryNewses(int page) {
         getViewState().showProgressDialog();
-        interactor.getNews(tag.id, page)
+        interactor.getNews(tag.getId(), page)
         .subscribe(
                 simplePosts -> {
                     getViewState().hideProgressDialog();
@@ -64,7 +64,7 @@ public class TagNewsListPresenter extends MvpPresenter<TagListContract.View> imp
     @Override
     public void refresh() {
         getViewState().showProgressDialog();
-        interactor.getNews(tag.id, 1)
+        interactor.getNews(tag.getId(), 1)
                 .subscribe(
                         simplePosts -> {
                             getViewState().hideProgressDialog();

@@ -37,13 +37,8 @@ public class TagAdapter extends RecyclerView.Adapter<TagAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int pos) {
         final int position = holder.getAdapterPosition();
-        holder.name.setText(tagList.get(position).name);
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                interact.onTagClicked(tagList.get(position));
-            }
-        });
+        holder.name.setText(tagList.get(position).getName());
+        holder.itemView.setOnClickListener(v -> interact.onTagClicked(tagList.get(position)));
     }
 
     @Override

@@ -17,7 +17,6 @@ import dsdmsa.utmnews.R;
 import dsdmsa.utmnews.domain.models.SimplePost;
 import dsdmsa.utmnews.domain.models.Tag;
 import dsdmsa.utmnews.domain.utils.Utils;
-import dsdmsa.utmnews.presentation.activityes.MainActivity;
 import dsdmsa.utmnews.presentation.mvp.TagListContract;
 import dsdmsa.utmnews.presentation.presenters.TagNewsListPresenter;
 import dsdmsa.utmnews.presentation.views.ChromeTab;
@@ -62,7 +61,6 @@ public class TagNewsFragment extends BaseFragment implements
         super.onCreate(savedInstanceState);
         tag = (Tag) getArguments().getParcelable(TAG_ID);
         presenter.setTag(tag);
-
         adapter = new NewsAdapter(this);
         layoutManager = new LinearLayoutManager(getContext());
         endlessRecyclerOnScrollListener = new EndlessRecyclerOnScrollListener(layoutManager) {
@@ -84,7 +82,7 @@ public class TagNewsFragment extends BaseFragment implements
         swipeRefresh.setOnRefreshListener(this);
         setupRecyclerView();
         presenter.refresh();
-        ((MainActivity) getActivity()).setToolbarTitle(tag.name);
+//        ((MainActivity) getActivity()).setToolbarTitle(tag.name);
     }
 
     @Override
@@ -101,7 +99,7 @@ public class TagNewsFragment extends BaseFragment implements
 
     @Override
     public String getName() {
-        return tag.name;
+        return tag.getName();
     }
 
     @Override

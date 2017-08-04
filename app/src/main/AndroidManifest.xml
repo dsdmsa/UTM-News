@@ -46,6 +46,9 @@
         <activity
             android:name=".presentation.activityes.AppInfoActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".presentation.activityes.TagActivity"
+            android:screenOrientation="portrait" />
 
         <meta-data
             android:name="io.fabric.ApiKey"

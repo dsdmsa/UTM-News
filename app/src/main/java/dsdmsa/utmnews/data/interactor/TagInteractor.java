@@ -33,7 +33,7 @@ public class TagInteractor {
                 local.subscribeOn(Schedulers.io()),
                 network.subscribeOn(Schedulers.io())
         ).flatMapIterable(tags -> tags)
-                .distinct(tag -> tag.id)
+                .distinct(tag -> tag.getId())
                 .toList()
                 .toObservable()
                 .observeOn(AndroidSchedulers.mainThread())
