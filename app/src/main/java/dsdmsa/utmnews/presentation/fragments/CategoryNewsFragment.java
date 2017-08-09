@@ -16,13 +16,15 @@ import butterknife.BindView;
 import dsdmsa.utmnews.R;
 import dsdmsa.utmnews.domain.models.Category;
 import dsdmsa.utmnews.domain.models.SimplePost;
-import dsdmsa.utmnews.domain.utils.Constants;
 import dsdmsa.utmnews.domain.utils.Utils;
 import dsdmsa.utmnews.presentation.mvp.CategoryContract;
 import dsdmsa.utmnews.presentation.presenters.CategoryNewsListPresenter;
 import dsdmsa.utmnews.presentation.views.ChromeTab;
 import dsdmsa.utmnews.presentation.views.adapters.EndlessRecyclerOnScrollListener;
 import dsdmsa.utmnews.presentation.views.adapters.NewsAdapter;
+import timber.log.Timber;
+
+import static dsdmsa.utmnews.domain.utils.Constants.CATEGORY_ID;
 
 
 public class CategoryNewsFragment extends BaseFragment implements
@@ -32,6 +34,7 @@ public class CategoryNewsFragment extends BaseFragment implements
 
     @InjectPresenter
     CategoryNewsListPresenter presenter;
+
     @BindView(R.id.recycle_view)
     RecyclerView recycleView;
     @BindView(R.id.swipe_refresh)
@@ -44,13 +47,11 @@ public class CategoryNewsFragment extends BaseFragment implements
     private Category category;
     private EndlessRecyclerOnScrollListener endlessRecyclerOnScrollListener;
 
-    public void setCategory(Category category) {
-        this.category = category;
-    }
 
     public static CategoryNewsFragment newInstance(Category categoryId) {
+        Timber.d(" cat : new" + categoryId.name);
         Bundle args = new Bundle();
-        args.putParcelable(Constants.CATEGORY_ID, categoryId);
+        args.putParcelable(CATEGORY_ID, categoryId);
         CategoryNewsFragment fragment = new CategoryNewsFragment();
         fragment.setArguments(args);
         return fragment;
@@ -59,21 +60,13 @@ public class CategoryNewsFragment extends BaseFragment implements
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        category = (Category) getArguments().getParcelable(Constants.CATEGORY_ID);
+        setRetainInstance(true);
+
+        category = (Category) getArguments().getParcelable(CATEGORY_ID);
+        Timber.d(" cat create: " + category.name);
         presenter.setCategory(category);
-
         adapter = new NewsAdapter(this);
-        layoutManager = new LinearLayoutManager(getContext());
-        endlessRecyclerOnScrollListener = new EndlessRecyclerOnScrollListener(layoutManager) {
-            @Override
-            public void onLoadMore(int currentPage) {
-                presenter.getCategoryNewses(currentPage);
-            }
 
-            @Override
-            public void isScrolling() {
-            }
-        };
     }
 
     @Override
@@ -81,6 +74,7 @@ public class CategoryNewsFragment extends BaseFragment implements
         super.onViewCreated(view, savedInstanceState);
         swipeRefresh.setOnRefreshListener(this);
         setupRecyclerView();
+
         presenter.refresh();
     }
 
@@ -91,8 +85,8 @@ public class CategoryNewsFragment extends BaseFragment implements
 
     @Override
     public String getName() {
-//        return category != null ? category.getName() : "CategoryNewsFragment";
-        return  category.getName();
+        return category != null ? category.getName() : "CategoryNewsFragment";
+//        return category.getName();
     }
 
     @Override
@@ -131,8 +125,23 @@ public class CategoryNewsFragment extends BaseFragment implements
     }
 
     @Override
-    public void setupRecyclerView() {
-        recycleView.setLayoutManager(layoutManager);
+    public void setupRecyclerView(){
+        if (layoutManager == null){
+            layoutManager = new LinearLayoutManager(getContext());
+            recycleView.setLayoutManager(layoutManager);
+        }
+
+        endlessRecyclerOnScrollListener = new EndlessRecyclerOnScrollListener(layoutManager) {
+            @Override
+            public void onLoadMore(int currentPage) {
+                presenter.getCategoryNewses(currentPage);
+            }
+
+            @Override
+            public void isScrolling() {
+            }
+        };
+
         recycleView.setAdapter(adapter);
         recycleView.addOnScrollListener(endlessRecyclerOnScrollListener);
     }

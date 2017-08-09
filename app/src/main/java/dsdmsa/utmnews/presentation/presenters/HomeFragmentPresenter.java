@@ -19,6 +19,7 @@ import dsdmsa.utmnews.presentation.fragments.NewsListFragment;
 import dsdmsa.utmnews.presentation.mvp.HomeContract;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import timber.log.Timber;
 
 
 @InjectViewState
@@ -41,6 +42,8 @@ public class HomeFragmentPresenter extends MvpPresenter<HomeContract.View> imple
         getViewState().showInfoMessage(context.getString(R.string.loaging_categories_info));
         categoryInteractor.getCategories()
                 .flatMapIterable(categories -> categories)
+                .filter(c -> c != null)
+                .doOnNext(c -> Timber.d("cat : "+ c.name))
                 .map(CategoryNewsFragment::newInstance)
                 .toList()
                 .subscribeOn(Schedulers.io())

@@ -33,7 +33,7 @@ public class App extends Application {
             if (LeakCanary.isInAnalyzerProcess(this)) {
                 return;
             }
-//            LeakCanary.install(this);
+            LeakCanary.install(this);
         }
     }
 
@@ -43,4 +43,5 @@ public class App extends Application {
                 .networkModule(new NetworkModule(END_POINT))
                 .build();
     }
+    // TODO: 8/9/17 remove from manifest configuration changes and handle corectly it
 }

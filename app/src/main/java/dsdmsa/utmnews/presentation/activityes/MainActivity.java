@@ -186,7 +186,7 @@ public class MainActivity extends BaseActivity implements
         if (fragmentHashMap.containsKey(fragment.getName())) {
             getSupportFragmentManager().beginTransaction().show(fragmentHashMap.get(fragment.getName())).commit();
         } else {
-            getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, fragment).commit();
+            getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, fragment).commitAllowingStateLoss();
             fragmentHashMap.put(fragment.getName(), fragment);
         }
     }
@@ -201,15 +201,6 @@ public class MainActivity extends BaseActivity implements
         Timber.i(HomeFragment.class.getSimpleName());
 
     }
-
-//    @Override
-//    protected void onPause() {
-//        super.onPause();
-//        getSupportFragmentManager().beginTransaction().remove(fragmentHashMap.get(HomeFragment.class.getSimpleName())).commit();
-//        fragmentHashMap.remove(HomeFragment.class.getSimpleName());
-//        addFragment(new HomeFragment());
-//        Timber.i(HomeFragment.class.getSimpleName());
-//    }
 }
 
 

@@ -28,7 +28,7 @@ public class HomeFragment extends BaseFragment implements
     @BindView(R.id.tab_layout)
     SmartTabLayout tabLayout;
 
-    @InjectPresenter
+        @InjectPresenter
     HomeFragmentPresenter presenter;
 
     @BindView(R.id.swipe_refresh)
@@ -52,7 +52,7 @@ public class HomeFragment extends BaseFragment implements
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        presenter.getCategories();
+        setRetainInstance(true);
     }
 
     @Override
@@ -63,8 +63,8 @@ public class HomeFragment extends BaseFragment implements
         viewPager.setClipToPadding(false);
         viewPager.setPadding(80, 0, 80, 0);
         swipeRefreshLayout.setOnRefreshListener(this);
-        viewPager.requestTransparentRegion(viewPager);
-//        presenter.getCategories();
+        if (pagerAdapter == null)
+            presenter.getCategories();
 
     }
 
@@ -93,9 +93,7 @@ public class HomeFragment extends BaseFragment implements
             pagerAdapter = new CategoryViewPagerAdapter(getActivity().getSupportFragmentManager(), baseFragments);
             viewPager.setAdapter(pagerAdapter);
         }
-
         tabLayout.setViewPager(viewPager);
-
         setTabAlpha(0);
 
         tabLayout.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -114,11 +112,6 @@ public class HomeFragment extends BaseFragment implements
         });
     }
 
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-
-    }
 
     private void setTabAlpha(int position) {
         if (pagerAdapter != null)

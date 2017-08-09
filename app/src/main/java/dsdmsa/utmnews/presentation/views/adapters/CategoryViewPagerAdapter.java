@@ -36,7 +36,7 @@ public class CategoryViewPagerAdapter extends FragmentStatePagerAdapter {
     }
 
     public void clear() {
-        fragments = new ArrayList<>();
+        fragments.clear();
         notifyDataSetChanged();
     }
 

@@ -34,11 +34,12 @@ public class CategoryNewsListPresenter extends MvpPresenter<CategoryContract.Vie
     @Inject
     Context context;
 
-    private Category category;
-
     public CategoryNewsListPresenter() {
         App.getAppComponent().inject(this);
     }
+
+    private Category category;
+
 
     @Override
     public void getCategoryNewses(int page) {
@@ -101,4 +102,5 @@ public class CategoryNewsListPresenter extends MvpPresenter<CategoryContract.Vie
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(msg -> getViewState().showInfoToast(msg));
     }
+
 }
