@@ -1,7 +1,6 @@
 package dsdmsa.utmnews.presentation.fragments;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -18,11 +17,6 @@ import dsdmsa.utmnews.R;
 import dsdmsa.utmnews.presentation.mvp.HomeContract;
 import dsdmsa.utmnews.presentation.presenters.HomeFragmentPresenter;
 import dsdmsa.utmnews.presentation.views.adapters.CategoryViewPagerAdapter;
-import io.reactivex.Single;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Function;
-import io.reactivex.schedulers.Schedulers;
-import timber.log.Timber;
 
 
 public class HomeFragment extends BaseFragment implements
@@ -41,7 +35,6 @@ public class HomeFragment extends BaseFragment implements
     SwipeRefreshLayout swipeRefreshLayout;
 
     private CategoryViewPagerAdapter pagerAdapter;
-
 
     @BindView(R.id.tv_error)
     TextView errorTextView;
@@ -71,6 +64,8 @@ public class HomeFragment extends BaseFragment implements
         viewPager.setPadding(80, 0, 80, 0);
         swipeRefreshLayout.setOnRefreshListener(this);
         viewPager.requestTransparentRegion(viewPager);
+//        presenter.getCategories();
+
     }
 
     @Override
@@ -94,21 +89,14 @@ public class HomeFragment extends BaseFragment implements
             swipeRefreshLayout.setVisibility(View.GONE);
         }
 
-        viewPager.setAdapter(null);
+        if (viewPager.getAdapter() == null) {
+            pagerAdapter = new CategoryViewPagerAdapter(getActivity().getSupportFragmentManager(), baseFragments);
+            viewPager.setAdapter(pagerAdapter);
+        }
 
-        Single.fromCallable(() -> new CategoryViewPagerAdapter(getFragmentManager(), baseFragments))
-                .observeOn(AndroidSchedulers.mainThread())
-                .map(setViewPagerAdapter())
-                .subscribeOn(Schedulers.computation())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(adapter -> {
-                    if (pagerAdapter != null) {
-                        pagerAdapter.clear();
-                    }
-                    pagerAdapter = adapter;
-                    setTabAlpha(0);
-                    Timber.d("added fragments ot pager finished");
-                });
+        tabLayout.setViewPager(viewPager);
+
+        setTabAlpha(0);
 
         tabLayout.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -126,13 +114,10 @@ public class HomeFragment extends BaseFragment implements
         });
     }
 
-    @NonNull
-    private Function<CategoryViewPagerAdapter, CategoryViewPagerAdapter> setViewPagerAdapter() {
-        return categoryViewPagerAdapter -> {
-            viewPager.setAdapter(categoryViewPagerAdapter);
-            tabLayout.setViewPager(viewPager);
-            return categoryViewPagerAdapter;
-        };
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
     }
 
     private void setTabAlpha(int position) {

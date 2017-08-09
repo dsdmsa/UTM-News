@@ -24,18 +24,20 @@ public class CategoryInteractor {
     }
 
     public Observable<List<Category>> getCategories() {
-        Observable<List<Category>> local = Observable.fromCallable(() -> appDb.getCategoryDao().getAllCategories());
-        Observable<List<Category>> network = api.getCategories()
-                .onErrorResumeNext(throwable -> local)
-                .doOnNext(categories -> appDb.getCategoryDao().addCategories(categories));
+//        Observable<List<Category>> local = Observable.fromCallable(() -> appDb.getCategoryDao().getAllCategories());
+         Observable<List<Category>> network = api.getCategories()
+//                .onErrorResumeNext(throwable -> local)
+                .doOnNext(categories -> appDb.getCategoryDao().addCategories(categories))
 
-        return local.mergeWith(network)
+//        return Observable.just( network)
                 .flatMapIterable(categories -> categories)
                 .distinct(category -> category.id)
                 .toList()
                 .toObservable()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io());
+
+        return network;
 
     }
 

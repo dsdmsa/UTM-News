@@ -16,6 +16,7 @@ public class CategoryViewPagerAdapter extends FragmentStatePagerAdapter {
 
     public CategoryViewPagerAdapter(FragmentManager fm, List<BaseFragment> baseFragments) {
         super(fm);
+        fragments.clear();
         fragments.addAll(baseFragments);
     }
 
@@ -37,5 +38,9 @@ public class CategoryViewPagerAdapter extends FragmentStatePagerAdapter {
     public void clear() {
         fragments = new ArrayList<>();
         notifyDataSetChanged();
+    }
+
+    public int getItemPosition(Object object) {
+        return POSITION_NONE;
     }
 }

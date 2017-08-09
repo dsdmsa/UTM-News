@@ -41,14 +41,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="dsdmsa.utmnews.presentation.activityes.MainActivity"
-            android:screenOrientation="portrait" />
+            android:name="dsdmsa.utmnews.presentation.activityes.MainActivity"  />
         <activity
-            android:name=".presentation.activityes.AppInfoActivity"
-            android:screenOrientation="portrait" />
+            android:name=".presentation.activityes.AppInfoActivity"  />
         <activity
-            android:name=".presentation.activityes.TagActivity"
-            android:screenOrientation="portrait" />
+            android:name=".presentation.activityes.TagActivity"  />
 
         <meta-data
             android:name="io.fabric.ApiKey"

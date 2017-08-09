@@ -1,8 +1,8 @@
 package dsdmsa.utmnews.presentation.activityes;
 
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.design.widget.BottomNavigationView;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -37,6 +37,7 @@ import dsdmsa.utmnews.presentation.mvp.MainActivityVP;
 import dsdmsa.utmnews.presentation.presenters.MainActivityPresenter;
 import dsdmsa.utmnews.presentation.views.BottomNavigationViewHelper;
 import es.dmoral.toasty.Toasty;
+import timber.log.Timber;
 
 import static dsdmsa.utmnews.domain.utils.Constants.TIME_INTERVAL;
 
@@ -72,13 +73,11 @@ public class MainActivity extends BaseActivity implements
         return R.layout.activity_main;
     }
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         teleprinter = new Teleprinter(this);
         App.getAppComponent().inject(this);
-        addFragment(new HomeFragment());
         navigation.setOnNavigationItemSelectedListener(item -> {
             switch (item.getItemId()) {
                 case R.id.menu_home:
@@ -101,6 +100,8 @@ public class MainActivity extends BaseActivity implements
             return true;
         });
 
+        navigation.setSelectedItemId(R.id.menu_home);
+
         BottomNavigationViewHelper.disableShiftMode(navigation);
 
         RxTextView.textChanges(etSearch)
@@ -122,6 +123,13 @@ public class MainActivity extends BaseActivity implements
     @Override
     public void onBackPressed() {
         setToolbarTitle("");
+
+        if (navigation.getSelectedItemId() != R.id.menu_home){
+            navigation.setSelectedItemId(R.id.menu_home);
+            addFragment(new HomeFragment());
+            return;
+        }
+
         if (mBackPressed + TIME_INTERVAL < System.currentTimeMillis()) {
             Toasty.custom(this, getString(R.string.tab_again_exit_info), null,
                     ContextCompat.getColor(this, R.color.primary_light),
@@ -137,7 +145,6 @@ public class MainActivity extends BaseActivity implements
     public void onViewClicked() {
         addFragment(new AboutFragment());
     }
-
 
     private void search() {
         etSearch.setVisibility(View.VISIBLE);
@@ -172,18 +179,37 @@ public class MainActivity extends BaseActivity implements
     private HashMap<String, BaseFragment> fragmentHashMap = new HashMap<>();
 
     private void addFragment(BaseFragment fragment) {
-        FragmentManager fragmentManager = getSupportFragmentManager();
+        Timber.i(fragment.getName());
         for (BaseFragment baseFragment : fragmentHashMap.values()) {
-            fragmentManager.beginTransaction().hide(baseFragment).commit();
+            getSupportFragmentManager().beginTransaction().hide(baseFragment).commit();
         }
         if (fragmentHashMap.containsKey(fragment.getName())) {
-            fragmentManager.beginTransaction().show(fragmentHashMap.get(fragment.getName())).commit();
+            getSupportFragmentManager().beginTransaction().show(fragmentHashMap.get(fragment.getName())).commit();
         } else {
-            fragmentManager.beginTransaction().add(R.id.fragment_container, fragment).commit();
+            getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, fragment).commit();
             fragmentHashMap.put(fragment.getName(), fragment);
         }
     }
 
+
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        super.onSaveInstanceState(outState, outPersistentState);
+        getSupportFragmentManager().beginTransaction().remove(fragmentHashMap.get(HomeFragment.class.getSimpleName())).commit();
+        fragmentHashMap.remove(HomeFragment.class.getSimpleName());
+        addFragment(new HomeFragment());
+        Timber.i(HomeFragment.class.getSimpleName());
+
+    }
+
+//    @Override
+//    protected void onPause() {
+//        super.onPause();
+//        getSupportFragmentManager().beginTransaction().remove(fragmentHashMap.get(HomeFragment.class.getSimpleName())).commit();
+//        fragmentHashMap.remove(HomeFragment.class.getSimpleName());
+//        addFragment(new HomeFragment());
+//        Timber.i(HomeFragment.class.getSimpleName());
+//    }
 }
 
 
