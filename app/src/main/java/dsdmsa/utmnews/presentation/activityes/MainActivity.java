@@ -1,7 +1,6 @@
 package dsdmsa.utmnews.presentation.activityes;
 
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
@@ -13,7 +12,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.commit451.teleprinter.Teleprinter;
 import com.jakewharton.rxbinding2.widget.RxTextView;
 
@@ -33,19 +31,13 @@ import dsdmsa.utmnews.presentation.fragments.BookmarksFragment;
 import dsdmsa.utmnews.presentation.fragments.HomeFragment;
 import dsdmsa.utmnews.presentation.fragments.SearchNewsListFragment;
 import dsdmsa.utmnews.presentation.fragments.TagListFragment;
-import dsdmsa.utmnews.presentation.mvp.MainActivityVP;
-import dsdmsa.utmnews.presentation.presenters.MainActivityPresenter;
 import dsdmsa.utmnews.presentation.views.BottomNavigationViewHelper;
 import es.dmoral.toasty.Toasty;
 import timber.log.Timber;
 
 import static dsdmsa.utmnews.domain.utils.Constants.TIME_INTERVAL;
 
-public class MainActivity extends BaseActivity implements
-        MainActivityVP.View {
-
-    @InjectPresenter
-    MainActivityPresenter presenter;
+public class MainActivity extends BaseActivity {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -67,6 +59,7 @@ public class MainActivity extends BaseActivity implements
 
     private long mBackPressed;
     private Teleprinter teleprinter;
+    private HashMap<String, BaseFragment> fragmentHashMap = new HashMap<>();
 
     @Override
     protected int getLayout() {
@@ -76,6 +69,9 @@ public class MainActivity extends BaseActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Timber.e(" XX onCreate");
+
         teleprinter = new Teleprinter(this);
         App.getAppComponent().inject(this);
         navigation.setOnNavigationItemSelectedListener(item -> {
@@ -120,11 +116,12 @@ public class MainActivity extends BaseActivity implements
         });
     }
 
+
     @Override
     public void onBackPressed() {
         setToolbarTitle("");
 
-        if (navigation.getSelectedItemId() != R.id.menu_home){
+        if (navigation.getSelectedItemId() != R.id.menu_home) {
             navigation.setSelectedItemId(R.id.menu_home);
             addFragment(new HomeFragment());
             return;
@@ -176,7 +173,6 @@ public class MainActivity extends BaseActivity implements
         tabTitle.setText(title);
     }
 
-    private HashMap<String, BaseFragment> fragmentHashMap = new HashMap<>();
 
     private void addFragment(BaseFragment fragment) {
         Timber.i(fragment.getName());
@@ -191,16 +187,6 @@ public class MainActivity extends BaseActivity implements
         }
     }
 
-
-    @Override
-    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
-        super.onSaveInstanceState(outState, outPersistentState);
-        getSupportFragmentManager().beginTransaction().remove(fragmentHashMap.get(HomeFragment.class.getSimpleName())).commit();
-        fragmentHashMap.remove(HomeFragment.class.getSimpleName());
-        addFragment(new HomeFragment());
-        Timber.i(HomeFragment.class.getSimpleName());
-
-    }
 }
 
 

@@ -4,7 +4,6 @@ package dsdmsa.utmnews;
 import android.app.Application;
 
 import com.crashlytics.android.Crashlytics;
-import com.squareup.leakcanary.LeakCanary;
 
 import dsdmsa.utmnews.data.di.modules.AppModule;
 import dsdmsa.utmnews.data.di.modules.NetworkModule;
@@ -30,10 +29,10 @@ public class App extends Application {
 
         if (BuildConfig.DEBUG) {
             Timber.plant(new Timber.DebugTree());
-            if (LeakCanary.isInAnalyzerProcess(this)) {
-                return;
-            }
-            LeakCanary.install(this);
+//            if (LeakCanary.isInAnalyzerProcess(this)) {
+//                return;
+//            }
+//            LeakCanary.install(this);
         }
     }
 

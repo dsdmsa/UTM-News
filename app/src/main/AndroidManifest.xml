@@ -42,7 +42,9 @@
         </activity>
         <activity
             android:name="dsdmsa.utmnews.presentation.activityes.MainActivity"
-            android:configChanges="orientation|screenSize|keyboardHidden"/>
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            />
+            <!--android:configChanges="orientation|screenSize|keyboardHidden"-->
         <activity
             android:name=".presentation.activityes.AppInfoActivity"  />
         <activity

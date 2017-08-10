@@ -30,11 +30,13 @@ public class NewsListFragment extends BaseFragment implements
 
     @BindView(R.id.recycle_view)
     RecyclerView recycleView;
+
     @BindView(R.id.swipe_refresh)
     SwipeRefreshLayout swipeRefresh;
 
     @InjectPresenter
     NewsListPresenter presenter;
+
     @BindView(R.id.info_msg)
     TextView infoMsg;
 

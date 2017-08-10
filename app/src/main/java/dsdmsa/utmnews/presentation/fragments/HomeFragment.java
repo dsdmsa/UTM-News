@@ -17,6 +17,7 @@ import dsdmsa.utmnews.R;
 import dsdmsa.utmnews.presentation.mvp.HomeContract;
 import dsdmsa.utmnews.presentation.presenters.HomeFragmentPresenter;
 import dsdmsa.utmnews.presentation.views.adapters.CategoryViewPagerAdapter;
+import timber.log.Timber;
 
 
 public class HomeFragment extends BaseFragment implements
@@ -28,7 +29,7 @@ public class HomeFragment extends BaseFragment implements
     @BindView(R.id.tab_layout)
     SmartTabLayout tabLayout;
 
-        @InjectPresenter
+    @InjectPresenter
     HomeFragmentPresenter presenter;
 
     @BindView(R.id.swipe_refresh)
@@ -50,13 +51,8 @@ public class HomeFragment extends BaseFragment implements
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setRetainInstance(true);
-    }
-
-    @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        Timber.e(" ZZ onViewCreated ");
         super.onViewCreated(view, savedInstanceState);
         viewPager.setOffscreenPageLimit(10);
         viewPager.setPageMargin(20);
@@ -65,7 +61,6 @@ public class HomeFragment extends BaseFragment implements
         swipeRefreshLayout.setOnRefreshListener(this);
         if (pagerAdapter == null)
             presenter.getCategories();
-
     }
 
     @Override
@@ -90,7 +85,7 @@ public class HomeFragment extends BaseFragment implements
         }
 
         if (viewPager.getAdapter() == null) {
-            pagerAdapter = new CategoryViewPagerAdapter(getActivity().getSupportFragmentManager(), baseFragments);
+            pagerAdapter = new CategoryViewPagerAdapter(getChildFragmentManager(), baseFragments);
             viewPager.setAdapter(pagerAdapter);
         }
         tabLayout.setViewPager(viewPager);
@@ -111,7 +106,6 @@ public class HomeFragment extends BaseFragment implements
             }
         });
     }
-
 
     private void setTabAlpha(int position) {
         if (pagerAdapter != null)

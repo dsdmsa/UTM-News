@@ -60,8 +60,6 @@ public class CategoryNewsFragment extends BaseFragment implements
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setRetainInstance(true);
-
         category = (Category) getArguments().getParcelable(CATEGORY_ID);
         Timber.d(" cat create: " + category.name);
         presenter.setCategory(category);
@@ -85,8 +83,8 @@ public class CategoryNewsFragment extends BaseFragment implements
 
     @Override
     public String getName() {
-        return category != null ? category.getName() : "CategoryNewsFragment";
-//        return category.getName();
+//        return category != null ? category.getName() : "CategoryNewsFragment";
+        return category.getName();
     }
 
     @Override

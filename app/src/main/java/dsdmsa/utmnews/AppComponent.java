@@ -14,7 +14,6 @@ import dsdmsa.utmnews.presentation.presenters.BookmarksFragmentPresenter;
 import dsdmsa.utmnews.presentation.presenters.BookmarksPresenter;
 import dsdmsa.utmnews.presentation.presenters.CategoryNewsListPresenter;
 import dsdmsa.utmnews.presentation.presenters.HomeFragmentPresenter;
-import dsdmsa.utmnews.presentation.presenters.MainActivityPresenter;
 import dsdmsa.utmnews.presentation.presenters.NewsListPresenter;
 import dsdmsa.utmnews.presentation.presenters.SearchNewsListPresenter;
 import dsdmsa.utmnews.presentation.presenters.TagNewsListPresenter;
@@ -48,8 +47,6 @@ public interface AppComponent {
     void inject(BookmarksPresenter bookmarksPresenter);
 
     void inject(TagNewsListPresenter tagNewsListPresenter);
-
-    void inject(MainActivityPresenter mainActivityPresenter);
 
     void inject(SearchNewsListPresenter searchNewsListPresenter);
 
