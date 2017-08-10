@@ -17,8 +17,6 @@ import dsdmsa.utmnews.presentation.fragments.BaseFragment;
 import dsdmsa.utmnews.presentation.fragments.CategoryNewsFragment;
 import dsdmsa.utmnews.presentation.fragments.NewsListFragment;
 import dsdmsa.utmnews.presentation.mvp.HomeContract;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
 
@@ -46,8 +44,6 @@ public class HomeFragmentPresenter extends MvpPresenter<HomeContract.View> imple
                 .doOnNext(c -> Timber.d("cat : "+ c.name))
                 .map(CategoryNewsFragment::newInstance)
                 .toList()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         fragments -> {
                             if (!fragments.isEmpty()) {

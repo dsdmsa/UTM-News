@@ -25,19 +25,20 @@ public class TagInteractor {
     }
 
     public Observable<List<Tag>> getTags() {
-        Observable<List<Tag>> local = Observable.fromCallable(() -> appDb.getTagDao().getAllTags());
+
         Observable<List<Tag>> network = api.getTags()
-                .onErrorResumeNext(throwable -> local)
-                .doOnNext(tags -> appDb.getTagDao().addTag(tags));
-        return Observable.merge(
-                local.subscribeOn(Schedulers.io()),
-                network.subscribeOn(Schedulers.io())
-        ).flatMapIterable(tags -> tags)
-                .distinct(tag -> tag.getId())
-                .toList()
-                .toObservable()
-                .observeOn(AndroidSchedulers.mainThread())
+                .doOnNext(tags -> appDb.getTagDao().addTag(tags)).subscribeOn(Schedulers.io());
+
+        Observable<List<Tag>> local = Observable.fromCallable(() -> appDb.getTagDao().getAllTags())
+                .filter(t -> !t.isEmpty())
+                .switchIfEmpty(network)
                 .subscribeOn(Schedulers.io());
+
+        network.subscribeOn(Schedulers.io()).subscribe(t -> {},r -> {});
+
+        return local
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
 }
