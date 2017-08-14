@@ -55,9 +55,9 @@ public class HomeFragment extends BaseFragment implements
         Timber.e(" ZZ onViewCreated ");
         super.onViewCreated(view, savedInstanceState);
         viewPager.setOffscreenPageLimit(10);
-        viewPager.setPageMargin(20);
+        viewPager.setPageMargin(15);
         viewPager.setClipToPadding(false);
-        viewPager.setPadding(80, 0, 80, 0);
+//        viewPager.setPadding(80, 0, 80, 0);
         swipeRefreshLayout.setOnRefreshListener(this);
         if (pagerAdapter == null)
             presenter.getCategories();

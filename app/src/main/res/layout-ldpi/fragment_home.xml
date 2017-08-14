@@ -10,11 +10,11 @@
     <com.ogaclejapan.smarttablayout.SmartTabLayout
         android:id="@+id/tab_layout"
         android:layout_width="wrap_content"
-        android:layout_height="50dp"
+        android:layout_height="26dp"
         android:background="@android:color/transparent"
         app:stl_defaultTabTextColor="@color/primary_dark"
         app:stl_defaultTabTextHorizontalPadding="9dp"
-        app:stl_defaultTabTextSize="182sp"
+        app:stl_defaultTabTextSize="18sp"
         app:stl_distributeEvenly="false"
         app:stl_dividerColor="@android:color/transparent"
         app:stl_indicatorColor="@android:color/transparent"
@@ -27,9 +27,9 @@
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingLeft="56dp"
-        android:paddingRight="56dp"
-        android:layout_marginTop="50dp" />
+        android:paddingLeft="19dp"
+        android:paddingRight="25dp"
+        android:layout_marginTop="26dp" />
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipe_refresh"

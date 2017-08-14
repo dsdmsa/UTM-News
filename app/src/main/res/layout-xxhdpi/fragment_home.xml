@@ -14,7 +14,7 @@
         android:background="@android:color/transparent"
         app:stl_defaultTabTextColor="@color/primary_dark"
         app:stl_defaultTabTextHorizontalPadding="9dp"
-        app:stl_defaultTabTextSize="182sp"
+        app:stl_defaultTabTextSize="32sp"
         app:stl_distributeEvenly="false"
         app:stl_dividerColor="@android:color/transparent"
         app:stl_indicatorColor="@android:color/transparent"
@@ -27,8 +27,8 @@
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingLeft="56dp"
-        android:paddingRight="56dp"
+        android:paddingLeft="31dp"
+        android:paddingRight="31dp"
         android:layout_marginTop="50dp" />
 
     <android.support.v4.widget.SwipeRefreshLayout
