@@ -25,10 +25,21 @@ platform :android do
     gradle(task: "test")
   end
 
+  def change_log_since_last_tag
+    # http://git-scm.com/docs/pretty-formats
+    # <short hash> <commit title>
+    return changelog_from_git_commits(pretty: '%h %s')
+  end
+
   desc "Submit a new Beta Build to Crashlytics Beta"
   lane :beta do
-    gradle(task: "assembleRelease")
-    crashlytics
+    gradle(task: "clean")
+    gradle(task: "assembleDebug")
+    crashlytics(
+      api_token: "ce8540a974ead7046ab349cc7ede1c630f2f6cd9",
+      build_secret: "e6ed9bf9f8b152dddd07b3ecf6f02c6cbe53c5b10792a1e0798e655604204eba",
+      notes: change_log_since_last_tag
+      )
 
     # sh "your_script.sh"
     # You can also use other beta testing services here
