@@ -173,7 +173,6 @@ public class MainActivity extends BaseActivity {
         tabTitle.setText(title);
     }
 
-
     private void addFragment(BaseFragment fragment) {
         Timber.i(fragment.getName());
         for (BaseFragment baseFragment : fragmentHashMap.values()) {

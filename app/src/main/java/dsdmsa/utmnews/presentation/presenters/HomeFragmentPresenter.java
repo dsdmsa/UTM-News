@@ -61,6 +61,7 @@ public class HomeFragmentPresenter extends MvpPresenter<HomeContract.View> imple
                             getViewState().hideProgressDialog();
                         },
                         error -> {
+                            Timber.e(error.getMessage());
                             getViewState().hideProgressDialog();
                             getViewState().showInfoMessage(error.getMessage());
                         }

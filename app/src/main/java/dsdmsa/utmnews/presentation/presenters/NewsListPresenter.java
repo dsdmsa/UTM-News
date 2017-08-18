@@ -43,12 +43,13 @@ public class NewsListPresenter extends MvpPresenter<NewsContract.View> implement
         Timber.d("GET NEWS ON PAGE " + page);
         interactor.getNews(page)
                 .subscribe(simplePosts -> {
-                            getViewState().hideProgressDialog();
                             if (simplePosts != null && simplePosts.isEmpty()) {
                                 getViewState().showInfoMessage(context.getString(R.string.empty_news_list));
+                                getViewState().hideProgressDialog();
                             } else {
                                 getViewState().addNewses(simplePosts);
                                 getViewState().hideInfoMessage();
+                                getViewState().hideProgressDialog();
                             }
                         }, error -> {
                             getViewState().hideProgressDialog();
@@ -61,10 +62,10 @@ public class NewsListPresenter extends MvpPresenter<NewsContract.View> implement
         getViewState().showProgressDialog();
         interactor.getNews(1)
                 .subscribe(simplePosts -> {
-                            getViewState().hideProgressDialog();
                             getViewState().clearList();
                             if (simplePosts != null && simplePosts.isEmpty()) {
                                 getViewState().showInfoMessage(context.getString(R.string.empty_news_list));
+                                getViewState().hideProgressDialog();
                             } else {
                                 getViewState().addNewses(simplePosts);
                                 getViewState().hideInfoMessage();

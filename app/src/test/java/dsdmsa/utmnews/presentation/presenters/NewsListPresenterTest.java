@@ -25,13 +25,15 @@ public class NewsListPresenterTest {
     public static final RxImmediateSchedulerRule schedulers = new RxImmediateSchedulerRule();
 
     private NewsListPresenter newsListPresenter;
+
     @Mock
     private NewsContract$View$$State viewState;
     @Mock
     Context context;
     @Mock
     private List<SimplePost> simplePosts;
-    @Mock private SimplePost simplePost;
+    @Mock
+    private SimplePost simplePost;
 
     @Mock
     App app;
