@@ -7,10 +7,12 @@ import org.junit.ClassRule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import dsdmsa.utmnews.App;
+import dsdmsa.utmnews.R;
 import dsdmsa.utmnews.RxImmediateSchedulerRule;
 import dsdmsa.utmnews.presentation.mvp.HomeContract$View$$State;
 
@@ -28,8 +30,6 @@ public class HomeFragmentPresenterTest {
     HomeContract$View$$State view$$State;
     @Mock
     App app;
-//    @Mock
-//    Context ctx;
     @Mock
     ContextWrapper contextWrapper;
 
@@ -45,8 +45,7 @@ public class HomeFragmentPresenterTest {
 
     @Test
     public void getCategories() throws Exception {
-//        when(ctx.getString(R.string.categories)).thenReturn("Se încarcă categoriile");
-
+        Mockito.when(app.getBaseContext().getString(R.string.loaging_categories_info)).thenReturn("Se încarcă categoriile");
         presenter.getCategories();
         verify(view$$State).showProgressDialog();
         verify(view$$State).showInfoMessage("Se încarcă categoriile");

@@ -22,6 +22,7 @@ public abstract class BaseActivity extends MvpAppCompatActivity implements Lifec
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
         setContentView(getLayout());
         ButterKnife.bind(this);
+        getWindow().setBackgroundDrawable(null);
     }
 
     @Override

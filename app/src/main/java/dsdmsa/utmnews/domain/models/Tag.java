@@ -21,7 +21,6 @@ public class Tag implements Parcelable {
     public Tag() {
     }
 
-
     @Ignore
     protected Tag(Parcel in) {
         id = in.readInt();

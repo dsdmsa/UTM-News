@@ -1,45 +1,19 @@
 package dsdmsa.utmnews.presentation.views;
 
 import android.app.Activity;
-import android.content.ActivityNotFoundException;
-import android.content.Intent;
 import android.net.Uri;
 import android.support.customtabs.CustomTabsIntent;
 import android.support.v4.content.ContextCompat;
 
-import org.chromium.customtabsclient.CustomTabsActivityHelper;
-
 import dsdmsa.utmnews.R;
-import me.zhanghai.android.customtabshelper.CustomTabsHelperFragment;
 
+public class ChromeTab {
 
-public class ChromeTab implements CustomTabsActivityHelper.CustomTabsFallback {
-
-    private CustomTabsIntent customTabsIntent;
-
-    public ChromeTab(Activity context,String url) {
-
-        customTabsIntent = new CustomTabsIntent.Builder()
-                .enableUrlBarHiding()
-                .setToolbarColor(ContextCompat.getColor(context, R.color.primary_dark))
-                .setShowTitle(true)
-                .build();
-
-        CustomTabsHelperFragment.open(
-                context,
-                customTabsIntent,
-                Uri.parse(url),
-                this
-        );
-
-    }
-
-    @Override
-    public void openUri(Activity activity, Uri uri) {
-        try {
-            activity.startActivity(new Intent(Intent.ACTION_VIEW, uri));
-        } catch (ActivityNotFoundException e) {
-            e.printStackTrace();
-        }
+    public ChromeTab(Activity context, String url) {
+        CustomTabsIntent.Builder intentBuilder = new CustomTabsIntent.Builder();
+        intentBuilder.setToolbarColor(ContextCompat.getColor(context, R.color.primary));
+        intentBuilder.setSecondaryToolbarColor(ContextCompat.getColor(context, R.color.primary_dark));
+        CustomTabsIntent customTabsIntent = intentBuilder.build();
+        customTabsIntent.launchUrl(context, Uri.parse(url));
     }
 }

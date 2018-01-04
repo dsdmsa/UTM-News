@@ -9,71 +9,67 @@ public class Post {
 
     @SerializedName("id")
     @Expose
-    public Integer id;
+    private Integer id;
     @SerializedName("date")
     @Expose
-    public String date;
+    private String date;
     @SerializedName("date_gmt")
     @Expose
-    public String dateGmt;
+    private String dateGmt;
     @SerializedName("guid")
     @Expose
-    public Guid guid;
+    private Guid guid;
     @SerializedName("modified")
     @Expose
-    public String modified;
+    private String modified;
     @SerializedName("modified_gmt")
     @Expose
-    public String modifiedGmt;
+    private String modifiedGmt;
     @SerializedName("slug")
     @Expose
-    public String slug;
+    private String slug;
     @SerializedName("status")
     @Expose
-    public String status;
+    private String status;
     @SerializedName("type")
     @Expose
-    public String type;
+    private String type;
     @SerializedName("link")
     @Expose
-    public String link;
+    private String link;
     @SerializedName("title")
     @Expose
-    public Title title;
+    private Title title;
     @SerializedName("content")
     @Expose
-    public Content content;
+    private Content content;
     @SerializedName("excerpt")
     @Expose
-    public Excerpt excerpt;
+    private Excerpt excerpt;
     @SerializedName("author")
     @Expose
-    public Integer author;
+    private Integer author;
     @SerializedName("featured_media")
     @Expose
-    public Integer featuredMedia;
+    private Integer featuredMedia;
     @SerializedName("comment_status")
     @Expose
-    public String commentStatus;
+    private String commentStatus;
     @SerializedName("ping_status")
     @Expose
-    public String pingStatus;
+    private String pingStatus;
     @SerializedName("sticky")
     @Expose
-    public Boolean sticky;
+    private Boolean sticky;
     @SerializedName("template")
     @Expose
-    public String template;
+    private String template;
     @SerializedName("format")
     @Expose
-    public String format;
+    private String format;
     @SerializedName("categories")
     @Expose
-    public List<Integer> categories = null;
-//    @SerializedName("tags")
-//    @Expose
-//    public List<Tag> tags = null;
-
+    private List<Integer> categories = null;
 
     public List<Integer> getCategories() {
         return categories;

@@ -9,7 +9,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 @Entity
-public class Category implements Parcelable{
+public class Category implements Parcelable {
 
     public Category() {
     }
@@ -17,30 +17,33 @@ public class Category implements Parcelable{
     @PrimaryKey
     @SerializedName("id")
     @Expose
-    public int id;
+    private int id;
     @SerializedName("count")
     @Expose
-    public Integer count;
+    private int count;
     @SerializedName("description")
     @Expose
-    public String description;
+    private String description;
     @SerializedName("link")
     @Expose
-    public String link;
+    private String link;
     @SerializedName("name")
     @Expose
-    public String name;
+    private String name;
     @SerializedName("slug")
     @Expose
-    public String slug;
+    private String slug;
     @SerializedName("taxonomy")
     @Expose
-    public String taxonomy;
+    private String taxonomy;
     @SerializedName("parent")
     @Expose
-    public Integer parent;
+    private int parent;
 
     protected Category(Parcel in) {
+        id = in.readInt();
+        count = in.readInt();
+        parent = in.readInt();
         description = in.readString();
         link = in.readString();
         name = in.readString();
@@ -68,11 +71,11 @@ public class Category implements Parcelable{
         this.id = id;
     }
 
-    public Integer getCount() {
+    public int getCount() {
         return count;
     }
 
-    public void setCount(Integer count) {
+    public void setCount(int count) {
         this.count = count;
     }
 
@@ -116,11 +119,11 @@ public class Category implements Parcelable{
         this.taxonomy = taxonomy;
     }
 
-    public Integer getParent() {
+    public int getParent() {
         return parent;
     }
 
-    public void setParent(Integer parent) {
+    public void setParent(int parent) {
         this.parent = parent;
     }
 
@@ -131,6 +134,9 @@ public class Category implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(id);
+        parcel.writeInt(count);
+        parcel.writeInt(parent);
         parcel.writeString(description);
         parcel.writeString(link);
         parcel.writeString(name);

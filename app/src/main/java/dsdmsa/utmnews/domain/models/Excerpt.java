@@ -1,8 +1,8 @@
 package dsdmsa.utmnews.domain.models;
 
-public class Excerpt  {
+public class Excerpt {
 
-private String rendered;
+    private String rendered;
 
     public String getRendered() {
         return rendered;
