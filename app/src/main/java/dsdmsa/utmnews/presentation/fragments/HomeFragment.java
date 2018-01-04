@@ -10,18 +10,20 @@ import android.widget.TextView;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import dsdmsa.utmnews.R;
+import dsdmsa.utmnews.domain.models.Category;
 import dsdmsa.utmnews.presentation.mvp.HomeContract;
 import dsdmsa.utmnews.presentation.presenters.HomeFragmentPresenter;
 import dsdmsa.utmnews.presentation.views.adapters.CategoryViewPagerAdapter;
-import timber.log.Timber;
 
 
 public class HomeFragment extends BaseFragment implements
-        HomeContract.View, SwipeRefreshLayout.OnRefreshListener {
+        HomeContract.View,
+        SwipeRefreshLayout.OnRefreshListener {
 
     @BindView(R.id.view_pager)
     ViewPager viewPager;
@@ -52,45 +54,11 @@ public class HomeFragment extends BaseFragment implements
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        Timber.e(" ZZ onViewCreated ");
         super.onViewCreated(view, savedInstanceState);
         viewPager.setOffscreenPageLimit(10);
         viewPager.setPageMargin(15);
         viewPager.setClipToPadding(false);
-//        viewPager.setPadding(80, 0, 80, 0);
-        swipeRefreshLayout.setOnRefreshListener(this);
-        if (pagerAdapter == null)
-            presenter.getCategories();
-    }
-
-    @Override
-    public void showProgressDialog() {
-        swipeRefreshLayout.setRefreshing(true);
-    }
-
-    @Override
-    public void hideProgressDialog() {
-        getActivity().runOnUiThread(() -> swipeRefreshLayout.setRefreshing(false));
-    }
-
-    @Override
-    public void showInfoMessage(String errorMsg) {
-        errorTextView.setText(errorMsg);
-    }
-
-    @Override
-    public void displayPages(List<BaseFragment> baseFragments) {
-        if (!baseFragments.isEmpty()) {
-            swipeRefreshLayout.setVisibility(View.GONE);
-        }
-
-        if (viewPager.getAdapter() == null) {
-            pagerAdapter = new CategoryViewPagerAdapter(getChildFragmentManager(), baseFragments);
-            viewPager.setAdapter(pagerAdapter);
-        }
-        tabLayout.setViewPager(viewPager);
-        setTabAlpha(0);
-
+        presenter.getCategories();
         tabLayout.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -107,6 +75,49 @@ public class HomeFragment extends BaseFragment implements
         });
     }
 
+    @Override
+    public void showProgressDialog() {
+        swipeRefreshLayout.setRefreshing(true);
+    }
+
+    @Override
+    public void hideProgressDialog() {
+        swipeRefreshLayout.setRefreshing(false);
+    }
+
+    @Override
+    public void showInfoMessage(String errorMsg) {
+        errorTextView.setText(errorMsg);
+    }
+
+    @Override
+    public void onRefresh() {
+        presenter.getCategories();
+    }
+
+    @Override
+    public void updateCategories(List<Category> categories) {
+        List<BaseFragment> fragments = new ArrayList<>();
+        fragments.add(new NewsListFragment());
+        for (Category category : categories) {
+            fragments.add(CategoryNewsFragment.newInstance(category));
+        }
+        pagerAdapter = new CategoryViewPagerAdapter(getChildFragmentManager(), fragments);
+        viewPager.setAdapter(pagerAdapter);
+        tabLayout.setViewPager(viewPager);
+        setTabAlpha(0);
+    }
+
+    @Override
+    public void hideRefreshLaout() {
+        swipeRefreshLayout.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showRefreshLayout() {
+        swipeRefreshLayout.setVisibility(View.VISIBLE);
+    }
+
     private void setTabAlpha(int position) {
         if (pagerAdapter != null)
             for (int i = 0; i < pagerAdapter.getCount(); i++) {
@@ -118,8 +129,4 @@ public class HomeFragment extends BaseFragment implements
             }
     }
 
-    @Override
-    public void onRefresh() {
-        presenter.getCategories();
-    }
 }

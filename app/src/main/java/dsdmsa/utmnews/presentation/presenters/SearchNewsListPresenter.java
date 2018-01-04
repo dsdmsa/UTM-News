@@ -5,19 +5,13 @@ import android.content.Context;
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 
-import java.util.List;
-
 import javax.inject.Inject;
 
 import dsdmsa.utmnews.App;
 import dsdmsa.utmnews.R;
-import dsdmsa.utmnews.data.db.AppDb;
 import dsdmsa.utmnews.data.interactor.SearchNewsInteractor;
 import dsdmsa.utmnews.domain.models.SimplePost;
 import dsdmsa.utmnews.presentation.mvp.SearchNewsContract;
-import io.reactivex.Single;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
 
 
 @InjectViewState
@@ -27,8 +21,8 @@ public class SearchNewsListPresenter extends MvpPresenter<SearchNewsContract.Vie
     @Inject
     SearchNewsInteractor interactor;
 
-    @Inject
-    AppDb appDb;
+//    @Inject
+//    AppDb appDb;
 
     @Inject
     Context context;
@@ -87,18 +81,18 @@ public class SearchNewsListPresenter extends MvpPresenter<SearchNewsContract.Vie
 
     @Override
     public void bookmark(final SimplePost post) {
-        Single.fromCallable(() -> {
-            List<SimplePost> simplePosts = appDb.getPostDao().getAll();
-            if (simplePosts.contains(post)) {
-                appDb.getPostDao().delete(post);
-                return context.getString(R.string.boocmark_removed);
-            } else {
-                appDb.getPostDao().addPost(post);
-                return context.getString(R.string.boocmark_added);
-            }
-        }).subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(msg -> getViewState().showInfoToast(msg));
+//        Single.fromCallable(() -> {
+//            List<SimplePost> simplePosts = appDb.getPostDao().getAll();
+//            if (simplePosts.contains(post)) {
+//                appDb.getPostDao().delete(post);
+//                return context.getString(R.string.boocmark_removed);
+//            } else {
+//                appDb.getPostDao().addPost(post);
+//                return context.getString(R.string.boocmark_added);
+//            }
+//        }).subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(msg -> getViewState().showInfoToast(msg));
     }
 
 }

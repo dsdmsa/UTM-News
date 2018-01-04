@@ -1,9 +1,6 @@
 package dsdmsa.utmnews.presentation.activityes;
 
 
-import android.arch.lifecycle.Lifecycle;
-import android.arch.lifecycle.LifecycleOwner;
-import android.arch.lifecycle.LifecycleRegistry;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatDelegate;
@@ -12,7 +9,7 @@ import com.arellomobile.mvp.MvpAppCompatActivity;
 
 import butterknife.ButterKnife;
 
-public abstract class BaseActivity extends MvpAppCompatActivity implements LifecycleOwner{
+public abstract class BaseActivity extends MvpAppCompatActivity {
 
     protected abstract int getLayout();
 
@@ -24,11 +21,5 @@ public abstract class BaseActivity extends MvpAppCompatActivity implements Lifec
         ButterKnife.bind(this);
         getWindow().setBackgroundDrawable(null);
     }
-
-    @Override
-    public Lifecycle getLifecycle() {
-        return new LifecycleRegistry(this);
-    }
-
 
 }

@@ -69,9 +69,6 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        Timber.e(" XX onCreate");
-
         teleprinter = new Teleprinter(this);
         App.getAppComponent().inject(this);
         navigation.setOnNavigationItemSelectedListener(item -> {
@@ -143,22 +140,6 @@ public class MainActivity extends BaseActivity {
         addFragment(new AboutFragment());
     }
 
-    private void search() {
-        etSearch.setVisibility(View.VISIBLE);
-        btnSearch.setVisibility(View.VISIBLE);
-        etSearch.requestFocus();
-        teleprinter.showKeyboard(etSearch);
-        addFragment(new SearchNewsListFragment());
-    }
-
-    public void hideSearch() {
-        if (etSearch.getVisibility() == View.VISIBLE) {
-            etSearch.setVisibility(View.GONE);
-            btnSearch.setVisibility(View.GONE);
-            etSearch.clearFocus();
-        }
-    }
-
     @OnClick(R.id.btn_search)
     public void onSearchClicked() {
         teleprinter.hideKeyboard();
@@ -169,7 +150,23 @@ public class MainActivity extends BaseActivity {
         teleprinter.showKeyboard(etSearch);
     }
 
-    public void setToolbarTitle(String title) {
+    private void search() {
+        etSearch.setVisibility(View.VISIBLE);
+        btnSearch.setVisibility(View.VISIBLE);
+        etSearch.requestFocus();
+        teleprinter.showKeyboard(etSearch);
+        addFragment(new SearchNewsListFragment());
+    }
+
+    private void hideSearch() {
+        if (etSearch.getVisibility() == View.VISIBLE) {
+            etSearch.setVisibility(View.GONE);
+            btnSearch.setVisibility(View.GONE);
+            etSearch.clearFocus();
+        }
+    }
+
+    private void setToolbarTitle(String title) {
         tabTitle.setText(title);
     }
 

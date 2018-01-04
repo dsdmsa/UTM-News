@@ -22,7 +22,6 @@ import dsdmsa.utmnews.presentation.presenters.CategoryNewsListPresenter;
 import dsdmsa.utmnews.presentation.views.ChromeTab;
 import dsdmsa.utmnews.presentation.views.adapters.EndlessRecyclerOnScrollListener;
 import dsdmsa.utmnews.presentation.views.adapters.NewsAdapter;
-import timber.log.Timber;
 
 import static dsdmsa.utmnews.domain.utils.Constants.CATEGORY_ID;
 
@@ -49,7 +48,6 @@ public class CategoryNewsFragment extends BaseFragment implements
 
 
     public static CategoryNewsFragment newInstance(Category categoryId) {
-        Timber.d(" cat : new" + categoryId.name);
         Bundle args = new Bundle();
         args.putParcelable(CATEGORY_ID, categoryId);
         CategoryNewsFragment fragment = new CategoryNewsFragment();
@@ -61,7 +59,6 @@ public class CategoryNewsFragment extends BaseFragment implements
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         category = (Category) getArguments().getParcelable(CATEGORY_ID);
-        Timber.d(" cat create: " + category.name);
         presenter.setCategory(category);
         adapter = new NewsAdapter(this);
 
@@ -84,7 +81,6 @@ public class CategoryNewsFragment extends BaseFragment implements
     @Override
     public String getName() {
         return category != null ? category.getName() : "";
-//        return category.getName();
     }
 
     @Override
@@ -145,7 +141,7 @@ public class CategoryNewsFragment extends BaseFragment implements
     }
 
     @Override
-    public void clearDatas() {
+    public void clearDates() {
         adapter.clearData();
     }
 

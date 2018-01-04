@@ -36,7 +36,7 @@ public class AppModule {
 
     @Singleton
     @Provides
-    AppDb provideAppDb(Context context){
-        return Room.databaseBuilder(context,AppDb.class, Constants.DATABASE).build();
+    AppDb provideAppDb(Context context) {
+        return Room.databaseBuilder(context, AppDb.class, Constants.DATABASE).build();
     }
 }

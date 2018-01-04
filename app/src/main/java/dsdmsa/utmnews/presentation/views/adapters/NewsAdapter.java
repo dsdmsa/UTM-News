@@ -21,7 +21,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import dsdmsa.utmnews.App;
 import dsdmsa.utmnews.R;
-import dsdmsa.utmnews.data.db.AppDb;
 import dsdmsa.utmnews.domain.models.SimplePost;
 
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> {
@@ -32,14 +31,14 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
     @Inject
     protected Context mContext;
 
-    @Inject
-    protected AppDb appDb;
+//    @Inject
+//    protected AppDb appDb;
 
     public NewsAdapter(Listener listener) {
         App.getAppComponent().inject(this);
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
         this.listener = listener;
-        appDb.getPostDao().getAllPosts().observeForever(this::updateBookmarkIcon);
+//        appDb.getPostDao().getAllPosts().observeForever(this::updateBookmarkIcon);
     }
 
     private void updateBookmarkIcon(List<SimplePost> simplePosts) {

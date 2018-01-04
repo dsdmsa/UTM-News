@@ -16,7 +16,7 @@ public interface CategoryContract {
 
         void setupRecyclerView();
 
-        void clearDatas();
+        void clearDates();
 
         void hideInfoMessage();
     }
