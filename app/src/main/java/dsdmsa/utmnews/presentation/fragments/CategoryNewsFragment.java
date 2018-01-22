@@ -6,6 +6,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -42,6 +43,9 @@ public class CategoryNewsFragment extends BaseFragment implements
 
     @BindView(R.id.info_msg)
     TextView infoMsg;
+
+    @BindView(R.id.progress_bar)
+    ProgressBar progressBar;
 
     private NewsAdapter adapter;
     private LinearLayoutManager layoutManager;
@@ -153,6 +157,16 @@ public class CategoryNewsFragment extends BaseFragment implements
     @Override
     public void onBookmark(SimplePost post) {
         presenter.bookmark(post);
+    }
+
+    @Override
+    public void showBottomLoadingView() {
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideBottomLoadingView() {
+        progressBar.setVisibility(View.GONE);
     }
 
 }

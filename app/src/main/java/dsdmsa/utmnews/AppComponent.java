@@ -10,7 +10,6 @@ import dsdmsa.utmnews.presentation.activityes.MainActivity;
 import dsdmsa.utmnews.presentation.activityes.SplashScreenActivity;
 import dsdmsa.utmnews.presentation.fragments.BookmarksFragment;
 import dsdmsa.utmnews.presentation.fragments.CategoryNewsFragment;
-import dsdmsa.utmnews.presentation.presenters.BookmarksFragmentPresenter;
 import dsdmsa.utmnews.presentation.presenters.BookmarksPresenter;
 import dsdmsa.utmnews.presentation.presenters.CategoryNewsListPresenter;
 import dsdmsa.utmnews.presentation.presenters.HomeFragmentPresenter;

@@ -16,6 +16,10 @@ public interface NewsContract {
 
         void hideInfoMessage();
 
+        void showBottomLoadingView();
+
+        void hideBottomLoadingView();
+
     }
 
     interface Presenter {

@@ -71,13 +71,13 @@ public class CategoryNewsListPresenter extends MvpPresenter<CategoryContract.Vie
 
     @Override
     public void getCategoryNewses(int page, int categoryId) {
-        getViewState().showProgressDialog();
-        categoryInteractor.getCategories(categoryId, page)
+        getViewState().showBottomLoadingView();
+        disposables.add(categoryInteractor.getCategories(categoryId, page)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         simplePosts -> {
-                            getViewState().hideProgressDialog();
+                            getViewState().hideBottomLoadingView();
                             this.simplePosts.addAll(simplePosts);
                             if (this.simplePosts.isEmpty()) {
                                 getViewState().showInfoMessage(context.getString(R.string.empty_news_list));
@@ -89,16 +89,16 @@ public class CategoryNewsListPresenter extends MvpPresenter<CategoryContract.Vie
                         },
                         error -> {
                             Log.e(TAG, error.getMessage());
-                            getViewState().hideProgressDialog();
+                            getViewState().hideBottomLoadingView();
                         }
-                );
+                ));
     }
 
     @Override
     public void refresh(int categoryId) {
         getViewState().showProgressDialog();
         this.simplePosts.clear();
-        categoryInteractor.getCategories(categoryId, 1)
+        disposables.add(categoryInteractor.getCategories(categoryId, 1)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
@@ -107,17 +107,17 @@ public class CategoryNewsListPresenter extends MvpPresenter<CategoryContract.Vie
                             getViewState().clearDates();
                             if (this.simplePosts.isEmpty()) {
                                 getViewState().showInfoMessage(context.getString(R.string.empty_news_list));
-                                getViewState().hideProgressDialog();
                             } else {
                                 getViewState().addNewses(this.simplePosts);
                                 getViewState().hideInfoMessage();
                             }
+                            getViewState().hideProgressDialog();
                         },
                         error -> {
                             Log.e(TAG, error.getMessage());
                             getViewState().hideProgressDialog();
                         }
-                );
+                ));
     }
 
 
@@ -152,4 +152,9 @@ public class CategoryNewsListPresenter extends MvpPresenter<CategoryContract.Vie
                         ));
     }
 
+    @Override
+    public void onDestroy() {
+        disposables.dispose();
+        super.onDestroy();
+    }
 }

@@ -65,7 +65,7 @@ public class NewsListPresenter extends MvpPresenter<NewsContract.View> implement
 
     @Override
     public void getNews(int page) {
-        getViewState().showProgressDialog();
+        getViewState().showBottomLoadingView();
         Timber.d("GET NEWS ON PAGE " + page);
         disposables.add(
                 interactor.getNews(page)
@@ -75,14 +75,13 @@ public class NewsListPresenter extends MvpPresenter<NewsContract.View> implement
                                     this.simplePosts.addAll(simplePosts);
                                     if (this.simplePosts.isEmpty()) {
                                         getViewState().showInfoMessage(context.getString(R.string.empty_news_list));
-                                        getViewState().hideProgressDialog();
                                     } else {
                                         getViewState().addNewses(this.simplePosts);
                                         getViewState().hideInfoMessage();
-                                        getViewState().hideProgressDialog();
                                     }
+                                        getViewState().hideBottomLoadingView();
                                 }, error -> {
-                                    getViewState().hideProgressDialog();
+                                    getViewState().hideBottomLoadingView();
                                     Log.e(TAG, error.getMessage());
                                 }
                         ));
@@ -98,14 +97,14 @@ public class NewsListPresenter extends MvpPresenter<NewsContract.View> implement
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(simplePosts -> {
                                     this.simplePosts.addAll(simplePosts);
-                                    getViewState().clearList();
                                     if (this.simplePosts.isEmpty()) {
                                         getViewState().showInfoMessage(context.getString(R.string.empty_news_list));
-                                        getViewState().hideProgressDialog();
                                     } else {
+                                        getViewState().clearList();
                                         getViewState().addNewses(this.simplePosts);
                                         getViewState().hideInfoMessage();
                                     }
+                                    getViewState().hideProgressDialog();
                                 }, error -> {
                                     getViewState().hideProgressDialog();
                                     Log.e(TAG, error.getMessage());

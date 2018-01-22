@@ -18,6 +18,10 @@ public interface CategoryContract {
         void clearDates();
 
         void hideInfoMessage();
+
+        void showBottomLoadingView();
+
+        void hideBottomLoadingView();
     }
 
     interface Presenter {
