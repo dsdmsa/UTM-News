@@ -13,11 +13,16 @@ import javax.inject.Inject;
 
 import dsdmsa.utmnews.App;
 import dsdmsa.utmnews.R;
+import dsdmsa.utmnews.data.db.AppDb;
 import dsdmsa.utmnews.data.interactor.CategoryNewsInteractor;
+import dsdmsa.utmnews.data.interactor.NewsInteractor;
 import dsdmsa.utmnews.domain.models.SimplePost;
 import dsdmsa.utmnews.presentation.mvp.CategoryContract;
+import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
+import timber.log.Timber;
 
 
 @InjectViewState
@@ -29,16 +34,39 @@ public class CategoryNewsListPresenter extends MvpPresenter<CategoryContract.Vie
     @Inject
     CategoryNewsInteractor categoryInteractor;
 
-//    @Inject
-//    AppDb appDb;
+    @Inject
+    NewsInteractor interactor;
+
+    @Inject
+    AppDb appDb;
 
     @Inject
     Context context;
 
+    private CompositeDisposable disposables = new CompositeDisposable();
     private List<SimplePost> simplePosts = new ArrayList<>();
 
     public CategoryNewsListPresenter() {
         App.getAppComponent().inject(this);
+
+        disposables.add(appDb.getPostDao()
+                .getAllPosts()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        bookmarkedPosts -> {
+                            for (int i = 0; i < simplePosts.size(); i++) {
+                                if (bookmarkedPosts.contains(simplePosts.get(i))) {
+                                    simplePosts.get(i).setBookmarked(true);
+                                } else {
+                                    simplePosts.get(i).setBookmarked(false);
+                                }
+                            }
+                            getViewState().addNewses(this.simplePosts);
+                        }, error -> {
+                            Log.e(TAG, error.getMessage());
+                        }
+                ));
     }
 
     @Override
@@ -53,6 +81,7 @@ public class CategoryNewsListPresenter extends MvpPresenter<CategoryContract.Vie
                             this.simplePosts.addAll(simplePosts);
                             if (this.simplePosts.isEmpty()) {
                                 getViewState().showInfoMessage(context.getString(R.string.empty_news_list));
+                                getViewState().hideProgressDialog();
                             } else {
                                 getViewState().addNewses(this.simplePosts);
                                 getViewState().hideInfoMessage();
@@ -68,17 +97,19 @@ public class CategoryNewsListPresenter extends MvpPresenter<CategoryContract.Vie
     @Override
     public void refresh(int categoryId) {
         getViewState().showProgressDialog();
+        this.simplePosts.clear();
         categoryInteractor.getCategories(categoryId, 1)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         simplePosts -> {
-                            getViewState().hideProgressDialog();
+                            this.simplePosts.addAll(simplePosts);
                             getViewState().clearDates();
-                            if (simplePosts != null && simplePosts.isEmpty()) {
+                            if (this.simplePosts.isEmpty()) {
                                 getViewState().showInfoMessage(context.getString(R.string.empty_news_list));
+                                getViewState().hideProgressDialog();
                             } else {
-                                getViewState().addNewses(simplePosts);
+                                getViewState().addNewses(this.simplePosts);
                                 getViewState().hideInfoMessage();
                             }
                         },
@@ -92,18 +123,33 @@ public class CategoryNewsListPresenter extends MvpPresenter<CategoryContract.Vie
 
     @Override
     public void bookmark(final SimplePost post) {
-//        Single.fromCallable(() -> {
-//            List<SimplePost> simplePosts = appDb.getPostDao().getAll();
-//            if (simplePosts.contains(post)) {
-//                appDb.getPostDao().delete(post);
-//                return context.getString(R.string.boocmark_removed);
-//            } else {
-//                appDb.getPostDao().addPost(post);
-//                return context.getString(R.string.boocmark_added);
-//            }
-//        }).subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(msg -> getViewState().showInfoToast(msg));
+        getViewState().showProgressDialog();
+        Observable<SimplePost> dbActionObservable;
+        if (post.isBookmarked()) {
+            post.setBookmarked(false);
+            dbActionObservable = interactor.removePost(post);
+        } else {
+            post.setBookmarked(true);
+            dbActionObservable = interactor.addPost(post);
+        }
+        disposables.add(
+                dbActionObservable
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(
+                                simplePost -> {
+                                    if (simplePost.isBookmarked()) {
+                                        getViewState().showInfoToast("post added");
+                                    } else {
+                                        getViewState().showInfoToast("post removed");
+                                    }
+                                    getViewState().hideProgressDialog();
+                                },
+                                error -> {
+                                    getViewState().hideProgressDialog();
+                                    Timber.e(TAG, error.getMessage());
+                                }
+                        ));
     }
 
 }
