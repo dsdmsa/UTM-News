@@ -57,7 +57,6 @@ android {
         dev {
             dimension "app"
             applicationId DEV
-            signingConfig signingConfigs.debug
             versionName "dev.$VERSION_NAME"
         }
 
@@ -135,7 +134,7 @@ dependencies {
 }
 
 static def buildTime() {
-    def df = new SimpleDateFormat("yyyyMMdd")
+    def df = new SimpleDateFormat("yyyy.MM.dd")
     df.setTimeZone(TimeZone.getTimeZone("GMT"))
     return df.format(new Date())
 }

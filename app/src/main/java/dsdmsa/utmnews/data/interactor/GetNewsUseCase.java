@@ -8,8 +8,6 @@ import dsdmsa.utmnews.data.utils.PostUtils;
 import dsdmsa.utmnews.domain.models.Post;
 import dsdmsa.utmnews.domain.models.SimplePost;
 import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
 
 
 public class GetNewsUseCase {
@@ -26,9 +24,7 @@ public class GetNewsUseCase {
                 .map(PostUtils::setDate)
                 .onErrorResumeNext(Observable.empty())
                 .toList()
-                .toObservable()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+                .toObservable();
     }
 
 }

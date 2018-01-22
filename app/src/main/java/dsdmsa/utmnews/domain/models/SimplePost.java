@@ -1,9 +1,10 @@
 package dsdmsa.utmnews.domain.models;
 
 
-import android.arch.persistence.room.Embedded;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
+
+import java.util.Objects;
 
 
 @Entity
@@ -13,7 +14,6 @@ public class SimplePost {
     public int id = -1;
     private String date = "";
     private String link = "";
-    @Embedded
     private String title = "";
     private String imageUrl = "";
     private String description = "";
@@ -85,20 +85,23 @@ public class SimplePost {
         this.imageUrl = imageUrl;
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (obj != null) {
-            return id == (((SimplePost) obj).id);
-        } else {
-            return false;
-        }
-    }
-
     public int getCategoryId() {
         return categoryId;
     }
 
     public void setCategoryId(int categoryId) {
         this.categoryId = categoryId;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null)
+            return false;
+        if (getClass() != o.getClass())
+            return false;
+        SimplePost person = (SimplePost) o;
+        return Objects.equals(id, person.getId());
     }
 }

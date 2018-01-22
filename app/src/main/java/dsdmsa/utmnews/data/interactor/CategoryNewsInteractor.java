@@ -13,7 +13,6 @@ import io.reactivex.Observable;
 public class CategoryNewsInteractor {
 
     private UtmApi api;
-
     private GetNewsUseCase getNewsUseCase;
 
     @Inject

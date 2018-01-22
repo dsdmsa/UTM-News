@@ -23,7 +23,7 @@ import dsdmsa.utmnews.presentation.views.ChromeTab;
 import dsdmsa.utmnews.presentation.views.adapters.EndlessRecyclerOnScrollListener;
 import dsdmsa.utmnews.presentation.views.adapters.NewsAdapter;
 
-public class NewsListFragment extends BaseFragment implements
+public class AllNewsFragment extends BaseFragment implements
         SwipeRefreshLayout.OnRefreshListener,
         NewsContract.View,
         NewsAdapter.Listener {
@@ -65,10 +65,6 @@ public class NewsListFragment extends BaseFragment implements
                 presenter.getNews(currentPage);
             }
 
-            @Override
-            public void isScrolling() {
-
-            }
         };
     }
 
@@ -114,17 +110,7 @@ public class NewsListFragment extends BaseFragment implements
     @Override
     public void clearList() {
         adapter.clearData();
-        recycleView.addOnScrollListener(new EndlessRecyclerOnScrollListener(layoutManager) {
-            @Override
-            public void onLoadMore(int page) {
-                presenter.getNews(page);
-            }
-
-            @Override
-            public void isScrolling() {
-
-            }
-        });
+        endlessRecyclerOnScrollListener.resetPages();
     }
 
     @Override

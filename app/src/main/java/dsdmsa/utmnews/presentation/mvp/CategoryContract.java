@@ -4,7 +4,6 @@ import com.arellomobile.mvp.MvpView;
 
 import java.util.List;
 
-import dsdmsa.utmnews.domain.models.Category;
 import dsdmsa.utmnews.domain.models.SimplePost;
 
 
@@ -12,7 +11,7 @@ public interface CategoryContract {
     interface View extends MvpView, LoadingView {
         void addNewses(List<SimplePost> newses);
 
-        void refreshDatas(List<SimplePost> response);
+        void refreshDates(List<SimplePost> response);
 
         void setupRecyclerView();
 
@@ -22,11 +21,9 @@ public interface CategoryContract {
     }
 
     interface Presenter {
-        void getCategoryNewses(int page);
+        void getCategoryNewses(int page, int categoryId);
 
-        void refresh();
-
-        void setCategory(Category category);
+        void refresh(int categoryId);
 
         void bookmark(SimplePost post);
     }

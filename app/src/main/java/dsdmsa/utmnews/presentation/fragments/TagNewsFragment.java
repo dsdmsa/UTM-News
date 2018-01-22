@@ -68,11 +68,6 @@ public class TagNewsFragment extends BaseFragment implements
             public void onLoadMore(int currentPage) {
                 presenter.getCategoryNewses(currentPage);
             }
-
-            @Override
-            public void isScrolling() {
-
-            }
         };
     }
 

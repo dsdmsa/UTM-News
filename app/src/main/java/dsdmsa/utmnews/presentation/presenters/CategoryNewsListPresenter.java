@@ -1,23 +1,30 @@
 package dsdmsa.utmnews.presentation.presenters;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
 import dsdmsa.utmnews.App;
 import dsdmsa.utmnews.R;
 import dsdmsa.utmnews.data.interactor.CategoryNewsInteractor;
-import dsdmsa.utmnews.domain.models.Category;
 import dsdmsa.utmnews.domain.models.SimplePost;
 import dsdmsa.utmnews.presentation.mvp.CategoryContract;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 
 @InjectViewState
 public class CategoryNewsListPresenter extends MvpPresenter<CategoryContract.View> implements
         CategoryContract.Presenter {
+
+    private static final String TAG = CategoryNewsListPresenter.class.getSimpleName();
 
     @Inject
     CategoryNewsInteractor categoryInteractor;
@@ -28,37 +35,42 @@ public class CategoryNewsListPresenter extends MvpPresenter<CategoryContract.Vie
     @Inject
     Context context;
 
+    private List<SimplePost> simplePosts = new ArrayList<>();
+
     public CategoryNewsListPresenter() {
         App.getAppComponent().inject(this);
     }
 
-    private Category category;
-
-
     @Override
-    public void getCategoryNewses(int page) {
+    public void getCategoryNewses(int page, int categoryId) {
         getViewState().showProgressDialog();
-        categoryInteractor.getCategories(category.getId(), page)
+        categoryInteractor.getCategories(categoryId, page)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         simplePosts -> {
                             getViewState().hideProgressDialog();
-                            if (simplePosts != null && simplePosts.isEmpty()) {
+                            this.simplePosts.addAll(simplePosts);
+                            if (this.simplePosts.isEmpty()) {
                                 getViewState().showInfoMessage(context.getString(R.string.empty_news_list));
                             } else {
-                                getViewState().addNewses(simplePosts);
+                                getViewState().addNewses(this.simplePosts);
                                 getViewState().hideInfoMessage();
                             }
                         },
                         error -> {
+                            Log.e(TAG, error.getMessage());
                             getViewState().hideProgressDialog();
                         }
                 );
     }
 
     @Override
-    public void refresh() {
+    public void refresh(int categoryId) {
         getViewState().showProgressDialog();
-        categoryInteractor.getCategories(category.getId(), 1)
+        categoryInteractor.getCategories(categoryId, 1)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         simplePosts -> {
                             getViewState().hideProgressDialog();
@@ -71,15 +83,12 @@ public class CategoryNewsListPresenter extends MvpPresenter<CategoryContract.Vie
                             }
                         },
                         error -> {
+                            Log.e(TAG, error.getMessage());
                             getViewState().hideProgressDialog();
                         }
                 );
     }
 
-    @Override
-    public void setCategory(Category category) {
-        this.category = category;
-    }
 
     @Override
     public void bookmark(final SimplePost post) {

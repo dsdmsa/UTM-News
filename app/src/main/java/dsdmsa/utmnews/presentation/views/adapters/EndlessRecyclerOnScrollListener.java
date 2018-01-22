@@ -8,8 +8,8 @@ public abstract class EndlessRecyclerOnScrollListener extends RecyclerView.OnScr
 
     private int previousTotal = 0; // The total number of items in the dataset after the last load
     private boolean loading = true; // True if we are still waiting for the last set of data to load.
-    private int visibleThreshold = 5; // The minimum amount of items to have below your current scroll position before loading more.
-    int firstVisibleItem, visibleItemCount, totalItemCount;
+    private int visibleThreshold = 2; // The minimum amount of items to have below your current scroll position before loading more.
+    private int firstVisibleItem, visibleItemCount, totalItemCount;
 
     private int currentPage = 1;
 
@@ -22,7 +22,7 @@ public abstract class EndlessRecyclerOnScrollListener extends RecyclerView.OnScr
     @Override
     public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
         super.onScrollStateChanged(recyclerView, newState);
-        if (newState == RecyclerView.SCROLL_STATE_DRAGGING){
+        if (newState == RecyclerView.SCROLL_STATE_DRAGGING) {
             isScrolling();
         }
     }
@@ -54,11 +54,12 @@ public abstract class EndlessRecyclerOnScrollListener extends RecyclerView.OnScr
         }
     }
 
-    public void resetPages(){
+    public void resetPages() {
         currentPage = 1;
     }
 
     public abstract void onLoadMore(int currentPage);
 
-    public abstract void isScrolling();
+    public void isScrolling() {
+    }
 }

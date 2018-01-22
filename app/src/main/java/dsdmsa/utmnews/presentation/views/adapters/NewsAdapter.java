@@ -3,6 +3,7 @@ package dsdmsa.utmnews.presentation.views.adapters;
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatDelegate;
+import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +23,7 @@ import butterknife.ButterKnife;
 import dsdmsa.utmnews.App;
 import dsdmsa.utmnews.R;
 import dsdmsa.utmnews.domain.models.SimplePost;
+import dsdmsa.utmnews.presentation.views.adapters.utils.PostsDiffCallback;
 
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> {
 
@@ -31,26 +33,18 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
     @Inject
     protected Context mContext;
 
-//    @Inject
-//    protected AppDb appDb;
-
     public NewsAdapter(Listener listener) {
         App.getAppComponent().inject(this);
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
         this.listener = listener;
-//        appDb.getPostDao().getAllPosts().observeForever(this::updateBookmarkIcon);
-    }
-
-    private void updateBookmarkIcon(List<SimplePost> simplePosts) {
-        for (int i = 0; i < newsList.size(); i++) {
-            newsList.get(i).setBookmarked(simplePosts.contains( newsList.get(i)));
-        }
-        notifyDataSetChanged();
     }
 
     public void addNewses(List<SimplePost> orderDTOs) {
-        newsList.addAll(orderDTOs);
-        notifyItemRangeInserted(newsList.size() - 1, orderDTOs.size() - 1);
+        final PostsDiffCallback diffCallback = new PostsDiffCallback(this.newsList, orderDTOs);
+        final DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(diffCallback);
+        this.newsList.clear();
+        this.newsList.addAll(orderDTOs);
+        diffResult.dispatchUpdatesTo(this);
     }
 
     @Override

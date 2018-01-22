@@ -98,7 +98,7 @@ public class HomeFragment extends BaseFragment implements
     @Override
     public void updateCategories(List<Category> categories) {
         List<BaseFragment> fragments = new ArrayList<>();
-        fragments.add(new NewsListFragment());
+        fragments.add(new AllNewsFragment());
         for (Category category : categories) {
             fragments.add(CategoryNewsFragment.newInstance(category));
         }

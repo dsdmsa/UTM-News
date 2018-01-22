@@ -36,8 +36,10 @@ public class CategoryNewsFragment extends BaseFragment implements
 
     @BindView(R.id.recycle_view)
     RecyclerView recycleView;
+
     @BindView(R.id.swipe_refresh)
     SwipeRefreshLayout swipeRefresh;
+
     @BindView(R.id.info_msg)
     TextView infoMsg;
 
@@ -45,7 +47,6 @@ public class CategoryNewsFragment extends BaseFragment implements
     private LinearLayoutManager layoutManager;
     private Category category;
     private EndlessRecyclerOnScrollListener endlessRecyclerOnScrollListener;
-
 
     public static CategoryNewsFragment newInstance(Category categoryId) {
         Bundle args = new Bundle();
@@ -58,10 +59,14 @@ public class CategoryNewsFragment extends BaseFragment implements
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        category = (Category) getArguments().getParcelable(CATEGORY_ID);
-        presenter.setCategory(category);
-        adapter = new NewsAdapter(this);
-
+        category = getArguments().getParcelable(CATEGORY_ID);
+        layoutManager = new LinearLayoutManager(getContext());
+        endlessRecyclerOnScrollListener = new EndlessRecyclerOnScrollListener(layoutManager) {
+            @Override
+            public void onLoadMore(int currentPage) {
+                presenter.getCategoryNewses(currentPage, category.getId());
+            }
+        };
     }
 
     @Override
@@ -69,8 +74,7 @@ public class CategoryNewsFragment extends BaseFragment implements
         super.onViewCreated(view, savedInstanceState);
         swipeRefresh.setOnRefreshListener(this);
         setupRecyclerView();
-
-        presenter.refresh();
+        presenter.refresh(category.getId());
     }
 
     @Override
@@ -86,7 +90,7 @@ public class CategoryNewsFragment extends BaseFragment implements
     @Override
     public void onRefresh() {
         endlessRecyclerOnScrollListener.resetPages();
-        presenter.refresh();
+        presenter.refresh(category.getId());
     }
 
     @Override
@@ -113,29 +117,15 @@ public class CategoryNewsFragment extends BaseFragment implements
     }
 
     @Override
-    public void refreshDatas(List<SimplePost> response) {
+    public void refreshDates(List<SimplePost> response) {
         adapter.clearData();
         adapter.addNewses(response);
     }
 
     @Override
-    public void setupRecyclerView(){
-        if (layoutManager == null){
-            layoutManager = new LinearLayoutManager(getContext());
-            recycleView.setLayoutManager(layoutManager);
-        }
-
-        endlessRecyclerOnScrollListener = new EndlessRecyclerOnScrollListener(layoutManager) {
-            @Override
-            public void onLoadMore(int currentPage) {
-                presenter.getCategoryNewses(currentPage);
-            }
-
-            @Override
-            public void isScrolling() {
-            }
-        };
-
+    public void setupRecyclerView() {
+        recycleView.setLayoutManager(layoutManager);
+        adapter = new NewsAdapter(this);
         recycleView.setAdapter(adapter);
         recycleView.addOnScrollListener(endlessRecyclerOnScrollListener);
     }

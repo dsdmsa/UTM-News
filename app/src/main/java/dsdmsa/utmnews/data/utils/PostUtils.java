@@ -4,6 +4,8 @@ package dsdmsa.utmnews.data.utils;
 import java.text.DateFormatSymbols;
 import java.util.regex.Pattern;
 
+import dsdmsa.utmnews.App;
+import dsdmsa.utmnews.data.db.AppDb;
 import dsdmsa.utmnews.domain.models.Post;
 import dsdmsa.utmnews.domain.models.SimplePost;
 
@@ -29,14 +31,14 @@ public class PostUtils {
     }
 
     public static SimplePost setCategory(SimplePost post) {
-//        AppDb appDb = App.getAppComponent().getAppDb();
-//        post.setCategory(appDb.getCategoryDao().getCategory(post.getCategoryId()).getName());
+        AppDb appDb = App.getAppComponent().getAppDb();
+        post.setCategory(appDb.getCategoryDao().getCategory(post.getCategoryId()).getName());
         return post;
     }
 
     public static SimplePost setBookmarked(SimplePost post) {
-//        AppDb appDb = App.getAppComponent().getAppDb();
-//        post.setBookmarked(appDb.getPostDao().getPostById(post.getId()) != null);
+        AppDb appDb = App.getAppComponent().getAppDb();
+        post.setBookmarked(appDb.getPostDao().getPostById(post.getId()) != null);
         return post;
     }
 
