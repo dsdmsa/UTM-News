@@ -1,6 +1,7 @@
 package dsdmsa.utmnews.presentation.presenters;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
@@ -8,31 +9,42 @@ import com.arellomobile.mvp.MvpPresenter;
 import javax.inject.Inject;
 
 import dsdmsa.utmnews.App;
+import dsdmsa.utmnews.data.db.AppDb;
+import dsdmsa.utmnews.data.interactor.NewsInteractor;
 import dsdmsa.utmnews.domain.models.SimplePost;
 import dsdmsa.utmnews.presentation.mvp.BookmarsContract;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.schedulers.Schedulers;
 
 
 @InjectViewState
 public class BookmarksPresenter extends MvpPresenter<BookmarsContract.View> implements
         BookmarsContract.Presenter {
 
-//    @Inject
-//    AppDb appDb;
+    private static final String TAG = BookmarksPresenter.class.getSimpleName();
+
+    @Inject
+    AppDb appDb;
+
+    @Inject
+    NewsInteractor newsInteractor;
 
     @Inject
     Context context;
 
+    private CompositeDisposable disposables = new CompositeDisposable();
+
     public BookmarksPresenter() {
         App.getAppComponent().inject(this);
-//        appDb.getPostDao().getAllPosts().observeForever(simplePosts -> {
-//            getViewState().clearList();
-//            if (simplePosts != null && simplePosts.isEmpty()) {
-//                getViewState().showInfoMessage(context.getString(R.string.empty_bokmark_list));
-//            } else {
-//                getViewState().addNewses(simplePosts);
-//                getViewState().hideInfoMessage();
-//            }
-//        });
+        disposables.add(appDb.getPostDao()
+                .getAllPosts()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        bookmarkedPosts -> getViewState().addNewses(bookmarkedPosts),
+                        error -> Log.e(TAG, error.getMessage())
+                ));
     }
 
     @Override
@@ -42,18 +54,18 @@ public class BookmarksPresenter extends MvpPresenter<BookmarsContract.View> impl
 
     @Override
     public void bookmark(final SimplePost post) {
-//        Single.fromCallable(() -> {
-//            List<SimplePost> simplePosts = appDb.getPostDao().getAll();
-//            if (simplePosts.contains(post)) {
-//                appDb.getPostDao().delete(post);
-//                return context.getString(R.string.boocmark_removed);
-//            } else {
-//                appDb.getPostDao().addPost(post);
-//                return context.getString(R.string.boocmark_added);
-//            }
-//        }).subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(msg -> getViewState().showInfoToast(msg));
+        disposables.add(newsInteractor.removePost(post)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        removedPost -> {
+                        }, error -> Log.e(TAG, error.getMessage())
+                ));
     }
 
+    @Override
+    public void onDestroy() {
+        disposables.dispose();
+        super.onDestroy();
+    }
 }

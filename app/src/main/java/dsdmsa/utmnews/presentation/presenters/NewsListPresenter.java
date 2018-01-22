@@ -13,6 +13,7 @@ import javax.inject.Inject;
 
 import dsdmsa.utmnews.App;
 import dsdmsa.utmnews.R;
+import dsdmsa.utmnews.data.db.AppDb;
 import dsdmsa.utmnews.data.interactor.NewsInteractor;
 import dsdmsa.utmnews.domain.models.SimplePost;
 import dsdmsa.utmnews.presentation.mvp.NewsContract;
@@ -34,12 +35,32 @@ public class NewsListPresenter extends MvpPresenter<NewsContract.View> implement
     @Inject
     Context context;
 
+    @Inject
+    AppDb appDb;
+
     private CompositeDisposable disposables = new CompositeDisposable();
     private List<SimplePost> simplePosts = new ArrayList<>();
-    private List<SimplePost> bookmarkedPostas = new ArrayList<>();
 
     public NewsListPresenter() {
         App.getAppComponent().inject(this);
+        disposables.add(appDb.getPostDao()
+                .getAllPosts()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        bookmarkedPosts -> {
+                            for (int i = 0; i < simplePosts.size(); i++) {
+                                if (bookmarkedPosts.contains(simplePosts.get(i))) {
+                                    simplePosts.get(i).setBookmarked(true);
+                                } else {
+                                    simplePosts.get(i).setBookmarked(false);
+                                }
+                            }
+                            getViewState().addNewses(this.simplePosts);
+                        }, error -> {
+                            Log.e(TAG, error.getMessage());
+                        }
+                ));
     }
 
     @Override
@@ -48,14 +69,6 @@ public class NewsListPresenter extends MvpPresenter<NewsContract.View> implement
         Timber.d("GET NEWS ON PAGE " + page);
         disposables.add(
                 interactor.getNews(page)
-                        .flatMapIterable(l -> l)
-                        .map(post -> {
-                            if (bookmarkedPostas.contains(post)) {
-                                post.setBookmarked(true);
-                            }
-                            return post;
-                        })
-                        .toList()
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(simplePosts -> {
@@ -81,14 +94,6 @@ public class NewsListPresenter extends MvpPresenter<NewsContract.View> implement
         this.simplePosts.clear();
         disposables.add(
                 interactor.getNews(1)
-                        .flatMapIterable(l -> l)
-                        .map(post -> {
-                            if (bookmarkedPostas.contains(post)) {
-                                post.setBookmarked(true);
-                            }
-                            return post;
-                        })
-                        .toList()
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(simplePosts -> {
@@ -111,20 +116,14 @@ public class NewsListPresenter extends MvpPresenter<NewsContract.View> implement
     @Override
     public void savePost(final SimplePost post) {
         getViewState().showProgressDialog();
-
         Observable<SimplePost> dbActionObservable;
-
         if (post.isBookmarked()) {
+            post.setBookmarked(false);
             dbActionObservable = interactor.removePost(post);
-            this.bookmarkedPostas.add(post);
         } else {
+            post.setBookmarked(true);
             dbActionObservable = interactor.addPost(post);
-            this.bookmarkedPostas.remove(post);
         }
-        int index = this.simplePosts.indexOf(post);
-        this.simplePosts.get(index).setBookmarked(!post.isBookmarked());
-        getViewState().addNewses(this.simplePosts);
-
         disposables.add(
                 dbActionObservable
                         .subscribeOn(Schedulers.io())
@@ -140,7 +139,7 @@ public class NewsListPresenter extends MvpPresenter<NewsContract.View> implement
                                 },
                                 error -> {
                                     getViewState().hideProgressDialog();
-                                    Log.e(TAG, error.getMessage());
+                                    Timber.e(TAG, error.getMessage());
                                 }
                         ));
     }
