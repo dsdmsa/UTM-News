@@ -7,6 +7,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -26,7 +27,6 @@ import dsdmsa.utmnews.presentation.presenters.SearchNewsListPresenter;
 import dsdmsa.utmnews.presentation.views.ChromeTab;
 import dsdmsa.utmnews.presentation.views.adapters.EndlessRecyclerOnScrollListener;
 import dsdmsa.utmnews.presentation.views.adapters.NewsAdapter;
-import timber.log.Timber;
 
 public class SearchNewsListFragment extends BaseFragment implements
         SwipeRefreshLayout.OnRefreshListener,
@@ -35,17 +35,24 @@ public class SearchNewsListFragment extends BaseFragment implements
 
     @BindView(R.id.recycle_view)
     RecyclerView recycleView;
+
     @BindView(R.id.swipe_refresh)
     SwipeRefreshLayout swipeRefresh;
 
-    @InjectPresenter
-    SearchNewsListPresenter presenter;
     @BindView(R.id.info_msg)
     TextView infoMsg;
+
+    @BindView(R.id.progress_bar)
+    ProgressBar progressBar;
+
+    @InjectPresenter
+    SearchNewsListPresenter presenter;
 
     private NewsAdapter adapter;
     private LinearLayoutManager layoutManager;
     private EndlessRecyclerOnScrollListener endlessRecyclerOnScrollListener;
+
+    private String searchTerm = "";
 
     @Override
     protected int getLayout() {
@@ -65,7 +72,7 @@ public class SearchNewsListFragment extends BaseFragment implements
         endlessRecyclerOnScrollListener = new EndlessRecyclerOnScrollListener(layoutManager) {
             @Override
             public void onLoadMore(int currentPage) {
-                presenter.getNews(currentPage);
+                presenter.getNews(currentPage, searchTerm);
             }
 
             @Override
@@ -87,7 +94,7 @@ public class SearchNewsListFragment extends BaseFragment implements
     @Override
     public void onRefresh() {
         endlessRecyclerOnScrollListener.resetPages();
-        presenter.refreshNewses();
+        presenter.refreshNewses(searchTerm);
     }
 
     @Override
@@ -140,9 +147,8 @@ public class SearchNewsListFragment extends BaseFragment implements
 
     @Subscribe
     public void search(String key) {
-        Timber.d("recieved " + key);
-        presenter.setSearchKey(key);
-        presenter.refreshNewses();
+        searchTerm = key;
+        presenter.refreshNewses(key);
     }
 
     @Override
@@ -155,6 +161,16 @@ public class SearchNewsListFragment extends BaseFragment implements
     public void onPause() {
         super.onPause();
         EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    public void showBottomLoadingView() {
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideBottomLoadingView() {
+        progressBar.setVisibility(View.GONE);
     }
 
 }

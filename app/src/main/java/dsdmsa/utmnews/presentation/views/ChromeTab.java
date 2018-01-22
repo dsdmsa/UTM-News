@@ -7,7 +7,7 @@ import android.support.v4.content.ContextCompat;
 
 import dsdmsa.utmnews.R;
 
-public class ChromeTab {
+public class  ChromeTab {
 
     public ChromeTab(Activity context, String url) {
         CustomTabsIntent.Builder intentBuilder = new CustomTabsIntent.Builder();

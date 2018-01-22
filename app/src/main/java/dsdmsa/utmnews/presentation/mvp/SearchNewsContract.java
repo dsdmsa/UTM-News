@@ -16,15 +16,16 @@ public interface SearchNewsContract {
 
         void hideInfoMessage();
 
+        void showBottomLoadingView();
+
+        void hideBottomLoadingView();
     }
 
     interface Presenter {
 
-        void setSearchKey(String key);
+        void getNews(int page, String searchTerm);
 
-        void getNews(int page);
-
-        void refreshNewses();
+        void refreshNewses(String searchTerm);
 
         void bookmark(SimplePost post);
     }

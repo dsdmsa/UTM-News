@@ -5,95 +5,150 @@ import android.content.Context;
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.inject.Inject;
 
 import dsdmsa.utmnews.App;
 import dsdmsa.utmnews.R;
+import dsdmsa.utmnews.data.db.AppDb;
+import dsdmsa.utmnews.data.interactor.NewsInteractor;
 import dsdmsa.utmnews.data.interactor.TagsNewsInteractor;
 import dsdmsa.utmnews.domain.models.SimplePost;
-import dsdmsa.utmnews.domain.models.Tag;
 import dsdmsa.utmnews.presentation.mvp.TagListContract;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.schedulers.Schedulers;
+import timber.log.Timber;
 
 
 @InjectViewState
 public class TagNewsListPresenter extends MvpPresenter<TagListContract.View> implements
-        TagListContract.Presenter{
+        TagListContract.Presenter {
 
     @Inject
     TagsNewsInteractor interactor;
 
-//    @Inject
-//    AppDb appDb;
+    @Inject
+    NewsInteractor newsInteractor;
+
+    @Inject
+    AppDb appDb;
 
     @Inject
     Context context;
 
-    private Tag tag;
+    private CompositeDisposable disposables = new CompositeDisposable();
+    private List<SimplePost> simplePosts = new ArrayList<>();
 
     public TagNewsListPresenter() {
         App.getAppComponent().inject(this);
         getViewState().hideInfoMessage();
+
+        disposables.add(appDb.getPostDao()
+                .getAllPosts()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        bookmarkedPosts -> {
+                            for (int i = 0; i < simplePosts.size(); i++) {
+                                if (bookmarkedPosts.contains(simplePosts.get(i))) {
+                                    simplePosts.get(i).setBookmarked(true);
+                                } else {
+                                    simplePosts.get(i).setBookmarked(false);
+                                }
+                            }
+                            getViewState().addNewses(this.simplePosts);
+                        }, error -> {
+                            Timber.e(error.getMessage());
+                        }
+                ));
     }
 
-    @Override
-    public void getCategoryNewses(int page) {
-        getViewState().showProgressDialog();
-        interactor.getNews(tag.getId(), page)
-        .subscribe(
-                simplePosts -> {
-                    getViewState().hideProgressDialog();
-                    getViewState().hideInfoMessage();
-                    if (simplePosts != null && simplePosts.isEmpty()) {
-                        getViewState().showInfoMessage(context.getString(R.string.empty_news_list));
-                    } else {
-                        getViewState().addNewses(simplePosts);
-                        getViewState().hideInfoMessage();
-                    }
-                },error -> {
-                    getViewState().hideProgressDialog();
-                }
-        );
-    }
+
 
     @Override
-    public void refresh() {
-        getViewState().showProgressDialog();
-        interactor.getNews(tag.getId(), 1)
+    public void getCategoryNewses(int page, int tagId) {
+        getViewState().showBottomLoadingView();
+        disposables.add(interactor.getNews(tagId, page)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         simplePosts -> {
-                            getViewState().hideProgressDialog();
-                            getViewState().hideInfoMessage();
-                            getViewState().clear();
-                            if (simplePosts != null && simplePosts.isEmpty()) {
+                            getViewState().hideBottomLoadingView();
+                            this.simplePosts.addAll(simplePosts);
+                            if (this.simplePosts.isEmpty()) {
                                 getViewState().showInfoMessage(context.getString(R.string.empty_news_list));
+                                getViewState().hideProgressDialog();
                             } else {
-                                getViewState().addNewses(simplePosts);
+                                getViewState().addNewses(this.simplePosts);
                                 getViewState().hideInfoMessage();
                             }
-                        },error -> {
-                            getViewState().hideProgressDialog();
+                        },
+                        error -> {
+                            Timber.e(error.getMessage());
+                            getViewState().hideBottomLoadingView();
                         }
-                );
+                ));
     }
 
     @Override
-    public void setTag(Tag tag) {
-        this.tag = tag;
+    public void refresh(int tagId) {
+        getViewState().showProgressDialog();
+        this.simplePosts.clear();
+        disposables.add(interactor.getNews(tagId, 1)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        simplePosts -> {
+                            this.simplePosts.addAll(simplePosts);
+                            getViewState().clear();
+                            if (this.simplePosts.isEmpty()) {
+                                getViewState().showInfoMessage(context.getString(R.string.empty_news_list));
+                            } else {
+                                getViewState().addNewses(this.simplePosts);
+                                getViewState().hideInfoMessage();
+                            }
+                            getViewState().hideProgressDialog();
+                        },
+                        error -> {
+                            Timber.e(error.getMessage());
+                            getViewState().hideProgressDialog();
+                        }
+                ));
     }
 
     @Override
     public void bookmark(final SimplePost post) {
-//        Single.fromCallable(() -> {
-//            List<SimplePost> simplePosts = appDb.getPostDao().getAll();
-//            if (simplePosts.contains(post)) {
-//                appDb.getPostDao().delete(post);
-//                return context.getString(R.string.boocmark_removed);
-//            } else {
-//                appDb.getPostDao().addPost(post);
-//                return context.getString(R.string.boocmark_added);
-//            }
-//        }).subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(msg -> getViewState().showInfoToast(msg));
+        getViewState().showProgressDialog();
+        Observable<SimplePost> dbActionObservable;
+        if (post.isBookmarked()) {
+            post.setBookmarked(false);
+            dbActionObservable = newsInteractor.removePost(post);
+        } else {
+            post.setBookmarked(true);
+            dbActionObservable = newsInteractor.addPost(post);
+        }
+        disposables.add(
+                dbActionObservable
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(
+                                simplePost -> {
+                                    getViewState().hideProgressDialog();
+                                },
+                                error -> {
+                                    getViewState().hideProgressDialog();
+                                    Timber.e(error.getMessage());
+                                }
+                        ));
+    }
+
+    @Override
+    public void onDestroy() {
+        disposables.dispose();
+        super.onDestroy();
     }
 }

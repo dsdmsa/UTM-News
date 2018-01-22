@@ -138,11 +138,6 @@ public class CategoryNewsListPresenter extends MvpPresenter<CategoryContract.Vie
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(
                                 simplePost -> {
-                                    if (simplePost.isBookmarked()) {
-                                        getViewState().showInfoToast("post added");
-                                    } else {
-                                        getViewState().showInfoToast("post removed");
-                                    }
                                     getViewState().hideProgressDialog();
                                 },
                                 error -> {

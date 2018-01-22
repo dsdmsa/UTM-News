@@ -6,6 +6,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -30,14 +31,21 @@ public class TagNewsFragment extends BaseFragment implements
         NewsAdapter.Listener {
 
     public static final String TAG_ID = "TAG_ID";
+
     @InjectPresenter
     TagNewsListPresenter presenter;
+
     @BindView(R.id.recycle_view)
     RecyclerView recycleView;
+
     @BindView(R.id.swipe_refresh)
     SwipeRefreshLayout swipeRefresh;
+
     @BindView(R.id.info_msg)
     TextView infoMsg;
+
+    @BindView(R.id.progress_bar)
+    ProgressBar progressBar;
 
     private NewsAdapter adapter;
     private LinearLayoutManager layoutManager;
@@ -60,13 +68,12 @@ public class TagNewsFragment extends BaseFragment implements
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         tag = (Tag) getArguments().getParcelable(TAG_ID);
-        presenter.setTag(tag);
         adapter = new NewsAdapter(this);
         layoutManager = new LinearLayoutManager(getContext());
         endlessRecyclerOnScrollListener = new EndlessRecyclerOnScrollListener(layoutManager) {
             @Override
             public void onLoadMore(int currentPage) {
-                presenter.getCategoryNewses(currentPage);
+                presenter.getCategoryNewses(currentPage, tag.getId());
             }
         };
     }
@@ -76,14 +83,13 @@ public class TagNewsFragment extends BaseFragment implements
         super.onViewCreated(view, savedInstanceState);
         swipeRefresh.setOnRefreshListener(this);
         setupRecyclerView();
-        presenter.refresh();
+        presenter.refresh(tag.getId());
 //        ((MainActivity) getActivity()).setToolbarTitle(tag.name);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        presenter.setTag(tag);
         hideInfoMessage();
     }
 
@@ -99,7 +105,7 @@ public class TagNewsFragment extends BaseFragment implements
 
     @Override
     public void onRefresh() {
-        presenter.refresh();
+        presenter.refresh(tag.getId());
         endlessRecyclerOnScrollListener.resetPages();
     }
 
@@ -163,6 +169,16 @@ public class TagNewsFragment extends BaseFragment implements
     @Override
     public void onBookmark(SimplePost post) {
         presenter.bookmark(post);
+    }
+
+    @Override
+    public void showBottomLoadingView() {
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideBottomLoadingView() {
+        progressBar.setVisibility(View.GONE);
     }
 
 }

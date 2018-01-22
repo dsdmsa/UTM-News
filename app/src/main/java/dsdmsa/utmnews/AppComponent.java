@@ -31,8 +31,6 @@ public interface AppComponent {
 
     void inject(TagPresenter __);
 
-    void inject(BookmarksFragmentPresenter __);
-
     void inject(BookmarksFragment __);
 
     void inject(CategoryNewsFragment __);

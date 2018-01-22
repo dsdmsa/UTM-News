@@ -20,14 +20,15 @@ public interface TagListContract {
 
         void hideInfoMessage();
 
+        void showBottomLoadingView();
+
+        void hideBottomLoadingView();
     }
 
     interface Presenter {
-        void getCategoryNewses(int page);
+        void getCategoryNewses(int page, int tagId);
 
-        void refresh();
-
-        void setTag(Tag tag);
+        void refresh(int tagId);
 
         void bookmark(SimplePost post);
     }
