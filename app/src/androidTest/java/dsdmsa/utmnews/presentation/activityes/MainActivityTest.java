@@ -21,8 +21,6 @@ public class MainActivityTest {
     @Rule
     public ActivityTestRule<MainActivity> activityTestRule = new ActivityTestRule<MainActivity>(MainActivity.class);
 
-
-
     @Test
     public void onSearchClicked() throws Exception {
 

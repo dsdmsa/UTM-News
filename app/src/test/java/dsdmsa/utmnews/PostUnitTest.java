@@ -16,12 +16,6 @@ public class PostUnitTest {
         assertEquals(4, 2 + 2);
     }
 
-
-//    boolean hasPathWithGivenSum(Tree<Integer> t, int s) {
-//
-//
-//    }
-
     int getSum(Tree<Integer> n) {
         if (n.left != null)
             return  n.value + getSum(n.left);

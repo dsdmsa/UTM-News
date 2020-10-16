@@ -23,7 +23,6 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
-
 @RunWith(JUnit4.class)
 public class JUnit4StyleTests {
 
@@ -42,8 +41,6 @@ public class JUnit4StyleTests {
     @Test
     public void testTakeScreenshot() {
         Screengrab.screenshot("mainScreen");
-
-//        onView(withId(R.id.recycle_view)).perform(RecyclerViewActions.actionOnItemAtPosition(0,MyViewAction.clickChildViewWithId(R.id.iv_bookmark)));
 
         onView(withId(R.id.btn_about)).perform(click());
         onView(withId(R.id.btn_about)).perform(click());
